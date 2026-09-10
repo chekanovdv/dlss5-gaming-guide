@@ -640,10 +640,20 @@ a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{
 </div>
 <div class="game-results" hidden="" id="gameResults" role="listbox"></div>
 </div><div class="meta"><span class="badge"><strong>Игр:</strong> 27</span>
-<span class="badge"><strong>Обновлено:</strong> 09.09.2026</span>
+<span class="badge"><strong>Обновлено:</strong> 10.09.2026</span>
 <span class="badge"><strong>Режим:</strong> Story / Single Player</span>
 </div>
-<details class="autopilot-details" id="autopilot-note"><summary>DLSS5 Autopilot — когда он нужен?</summary><div class="autopilot-details-body">Не требуется поверх уже настроенной игры и сам по себе не повышает FPS. Используйте его как автоматический установщик/диагностический маршрутизатор для новых игр; ручные game-specific профили этого справочника остаются предпочтительными для уже настроенных конфигураций.</div></details></header><nav aria-label="Навигация внутри выбранной игры" class="context-bar" id="contextBar">
+<details class="autopilot-details" id="autopilot-note"><summary>DLSS5 Autopilot — когда он нужен?</summary><div class="autopilot-details-body">
+<p><strong>Актуально: DLSS5 Autopilot v1.8.0 (10.09.2026).</strong> Это установщик и диагностический маршрутизатор для новых/проблемных игр; для уже настроенных игр сохраняйте game-specific профиль из этого справочника.</p>
+<ul>
+<li><strong>Aim for FPS:</strong> для OptiScaler-route и Feeder 64-bit D3D11 Autopilot теперь использует измеренные логи и предлагает рабочую область/Model Resolution под целевой FPS. Два замера на разных масштабах позволяют оценить модель <code>frame_ms = base + k × r²</code>.</li>
+<li><strong>Crash diagnostics:</strong> если игра закрывается до появления ReShade/OptiScaler log, Autopilot читает Windows Application Error и учитывает faulting module; запись Windows имеет приоритет над «здоровым» последним логом.</li>
+<li><strong>Driver preflight:</strong> минимальная версия для Neural Rendering — <code>616.56</code>. В отчётах Autopilot драйвер <code>616.64</code> встречается как частая причина проблем, поэтому при необъяснимом crash стоит сравнить поведение на другом актуальном драйвере/официальном hotfix, а не сразу менять маршрут мода.</li>
+<li><strong>Runtimes:</strong> DLSS Super Resolution и Frame Generation Autopilot теперь получает из официального NVIDIA-репозитория SDK по release tag. Ray Reconstruction можно подменять только если игра уже поставляет RR и выбранный route поддерживает замену; launcher verification/anti-cheat могут вернуть или заблокировать изменённый DLL.</li>
+<li><strong>32-bit DXVK/Vulkan:</strong> v1.8.0 исправляет конфликт регистрации 32/64-bit ReShade Vulkan layer, важный для старых 32-bit DX9→DXVK игр.</li>
+</ul>
+<p><a href="https://github.com/Kizzuwatnaa/DLSS5-Autopilot/releases/tag/v1.8.0" target="_blank">DLSS5 Autopilot v1.8.0 — changelog</a></p>
+</div></details></header><nav aria-label="Навигация внутри выбранной игры" class="context-bar" id="contextBar">
 <div class="context-game">
 <span class="context-label">Выбрано</span>
 <strong id="contextGameName">Red Dead Redemption 2</strong>
@@ -664,7 +674,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{
 <div class="callout warn">
 <strong>Важно</strong>
           Не используйте эту конфигурацию в Red Dead Online. Для тестирования модов запускайте Story Mode.
-        </div><div class="status-strip"><span class="status-pill ok">Проверено: 09.09.2026</span></div>
+        </div><div class="status-strip"><span class="status-pill ok">Проверено: 10.09.2026</span></div>
 </div>
 <div class="card">
 <div class="summary-grid">
@@ -834,7 +844,7 @@ Frame Generation   OFF</pre>
 <div class="callout warn">
 <strong>Ключевая настройка</strong>
           Для этой игры рекомендуется отключить DXGI spoofing в <code>OptiScaler.ini</code>.
-        </div><div class="status-strip"><span class="status-pill ok">Проверено: 09.09.2026</span></div>
+        </div><div class="status-strip"><span class="status-pill ok">Проверено: 10.09.2026</span></div>
 </div>
 <div class="card">
 <div class="summary-grid">
@@ -1009,7 +1019,7 @@ Native DLSS Frame Gen    ON</pre>
 <div class="callout warn">
 <strong>Не смешивать загрузчики</strong>
         Если ранее устанавливался D18 / мод №57, полностью удалите его файлы перед установкой RE_DLSS5_Load_Mod. Одновременно использовать D18 и RE_DLSS5_Load_Mod не следует.
-      </div><div class="status-strip"><span class="status-pill ok">Проверено: 09.09.2026</span></div>
+      </div><div class="status-strip"><span class="status-pill ok">Проверено: 10.09.2026</span></div>
 </div>
 <div class="card">
 <div class="summary-grid">
@@ -1019,7 +1029,7 @@ Native DLSS Frame Gen    ON</pre>
 <div class="metric"><div class="label">FG</div><div class="value">Через DLSS5 Loader</div></div>
 </div>
 </div>
-</div><div class="section recommended-profile" id="onimusha-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix"><tr><th>Параметр</th><th>Рекомендация</th></tr><tr><td>Разрешение</td><td>3840×2160</td></tr><tr><td>API / Loader</td><td>RE Engine + RE_DLSS5_Load_Mod</td></tr><tr><td>Upscaler / режим</td><td>NVIDIA DLSS — Quality; Balanced при нехватке FPS</td></tr><tr><td>DLSS5 Neural Rendering</td><td>ON</td></tr><tr><td>NR Scale</td><td>1.00; затем 0.9–0.8 при необходимости</td></tr><tr><td>Ray Tracing / RR</td><td>RT High/Max по производительности</td></tr><tr><td>Frame Generation</td><td>В игре OFF; включать через DLSS5 Loader</td></tr><tr><td>Reflex</td><td>ON, если доступен и стабилен</td></tr><tr><td>V-Sync / VRR</td><td>V-Sync OFF при G-SYNC/VRR</td></tr><tr><td>Ключевой параметр</td><td>Inputs/Motion = Native; Intensity ≈0.70; Local Structure ≈1.20</td></tr></table><p class="small">Профиль ориентирован на качество изображения в 4K. Если базовая частота кадров недостаточна, сначала снижайте NR Scale, затем — режим DLSS.</p></div></div>
+</div><div class="section recommended-profile" id="onimusha-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix"><tr><th>Параметр</th><th>Рекомендация</th></tr><tr><td>Разрешение</td><td>3840×2160</td></tr><tr><td>API / Loader</td><td>RE Engine + RE_DLSS5_Load_Mod</td></tr><tr><td>Upscaler / режим</td><td>NVIDIA DLSS — Quality; Balanced при нехватке FPS</td></tr><tr><td>DLSS5 Neural Rendering</td><td>ON</td></tr><tr><td>NR Scale</td><td>1.00; затем 0.9–0.8 при необходимости</td></tr><tr><td>Ray Tracing / RR</td><td>RT High/Max по производительности</td></tr><tr><td>Frame Generation</td><td>В игре OFF на первом запуске; после проверки NR — один FG-механизм за раз</td></tr><tr><td>Reflex</td><td>ON, если доступен и стабилен</td></tr><tr><td>V-Sync / VRR</td><td>V-Sync OFF при G-SYNC/VRR</td></tr><tr><td>Ключевой параметр</td><td>Inputs/Motion = Native; Intensity ≈0.70; Local Structure ≈1.20; <code>nrSelfLayers=1.00</code>, <code>nrTrueLayers=1</code> как базовая точка</td></tr></table><p class="small">Профиль ориентирован на качество изображения в 4K. Если базовая частота кадров недостаточна, сначала снижайте NR Scale, затем — режим DLSS.</p></div></div>
 <div class="section step-section" id="onimusha-install">
 <div class="section-title"><div class="step-num">1</div><h3>Подготовить чистую папку игры</h3></div>
 <div class="section-body">
@@ -1059,14 +1069,11 @@ Native DLSS Frame Gen    ON</pre>
 <div class="section step-section">
 <div class="section-title"><div class="step-num">4</div><h3>Установить RE_DLSS5_Load_Mod</h3></div>
 <div class="section-body">
-<p>Страница мода:</p>
-<p><a href="https://www.nexusmods.com/onimushawayofthesword/mods/32" rel="noopener" target="_blank">RE_DLSS5_Load_Mod — Nexus Mods №32</a></p>
-<p>Используйте рабочую актуальную сборку мода; если у вас уже стабильно работает версия <strong>0.59</strong>, оставьте её. При повторном скачивании сверяйте текущий <strong>Main File</strong> на Nexus.</p>
-<p>Распакуйте содержимое архива непосредственно рядом с <code>OnimushaWotS.exe</code>.</p>
-<div class="callout danger">
-<strong>Важно</strong>
-        Не переносите в эту конфигурацию D18-patched <code>nvngx_dlssnr.dll</code>. Используйте runtime, совместимый с RE_DLSS5_Load_Mod/RTX 50, либо комплект мода.
-      </div>
+<p>Используйте текущую сборку <strong>RE_DLSS5_Load_Mod v0.63</strong> от 09.09.2026:</p>
+<p><a href="https://github.com/LCPD15/RE_DLSS5_Load_Mod/releases/tag/v0.63" target="_blank">RE_DLSS5_Load_Mod v0.63 — GitHub Release</a></p>
+<p>Распакуйте содержимое архива рядом с <code>OnimushaWotS.exe</code>. В v0.63 добавлены альтернативные proxy-DLL для случаев конфликта имён с другими модами: <code>winmm.dll</code>, <code>winhttp.dll</code>, <code>dinput8.dll</code>, <code>dxgi.dll</code>, <code>d3d11.dll</code>, <code>dsound.dll</code>, <code>xinput1_3.dll</code>, <code>xinput1_4.dll</code>, <code>xinput9_1_0.dll</code>. Не меняйте proxy без необходимости: выбирайте альтернативу только если стандартное имя конфликтует с REFramework/ReShade/другим loader.</p>
+<div class="callout warn"><strong>Важно</strong>Не переносите в эту конфигурацию D18-patched <code>nvngx_dlssnr.dll</code>. Используйте runtime, совместимый с RE_DLSS5_Load_Mod/RTX 50, либо комплект текущей сборки.</div>
+<div class="callout ok"><strong>Новые NR Layers из v0.62+</strong><code>nrSelfLayers</code> усиливает разницу NR без дополнительных вызовов модели (1.00–3.00), а <code>nrTrueLayers</code> выполняет последовательные NR-проходы (1–5) и заметно увеличивает GPU/VRAM. Для RTX 5080 начните с <code>1.00 / 1</code>; повышайте только после стабильного A/B-теста.</div>
 </div>
 </div>
 <div class="section step-section">
@@ -1107,22 +1114,22 @@ Local Structure      1.20
 Skin Strength        0.50
 Auto Mask            ON
 UI Correction        ON
-NR Render Scale      1.00</pre>
+NR Render Scale      1.00
+NR Self Layers        1.00
+NR True Layers        1</pre>
 <p>Если производительность недостаточна, первым делом уменьшайте <code>NR Render Scale</code> до 0.9–0.8, а не сразу переходите на агрессивный DLSS SR.</p>
 </div>
 </div>
 <div class="section step-section" id="onimusha-fg">
 <div class="section-title"><div class="step-num">8</div><h3>Frame Generation: включать через DLSS5 Loader</h3></div>
 <div class="section-body">
-<p>На вашей конфигурации визуальный эффект DLSS5 пропадал при включении интерполяции в самой игре. Поэтому используйте:</p>
-<pre>Frame Generation в Onimusha     OFF
-Smooth Motion / driver FG        OFF
-Frame Generation в DLSS5 Loader ON</pre>
-<p>Начните с минимального доступного множителя FG и затем повышайте его только после проверки качества.</p>
-<div class="callout ok">
-<strong>Проверка</strong>
-        После включения FG снова сравните <code>F8 ON/OFF</code> и <strong>Debug View → Diff</strong>. Если Diff сохраняется, Neural Rendering продолжает участвовать в финальном кадре.
-      </div>
+<p>Первый запуск выполняйте с <strong>Frame Generation OFF</strong>, чтобы отдельно проверить Neural Rendering. В актуальной ветке RE_DLSS5_Load_Mod предыдущие ограничения совместимости с FG были переработаны, но game-specific сочетание всё равно нужно тестировать после каждого обновления игры/loader.</p>
+<pre>Frame Generation в Onimusha    OFF на базовом тесте
+Smooth Motion / driver FG      OFF
+NR Self Layers                 1.00
+NR True Layers                 1</pre>
+<p>После стабильного F8 ON/OFF и <code>Debug View → Diff</code> включите <strong>только один</strong> FG-механизм. Если при штатной интерполяции снова пропадает Diff/эффект NR, вернитесь к FG через DLSS5 Loader либо оставьте FG выключенным.</p>
+<div class="callout"><strong>Проверка</strong>После включения FG снова сравните F8 ON/OFF и <code>Debug View → Diff</code>. Изменение должно сохраняться, а frametime — оставаться стабильным.</div>
 </div>
 </div>
 <div class="section step-section" id="onimusha-diag">
@@ -1144,7 +1151,7 @@ Frame Generation в DLSS5 Loader ON</pre>
 <li><a href="https://www.nexusmods.com/onimushawayofthesword/mods/32" target="_blank">RE_DLSS5_Load_Mod</a></li>
 <li><a href="https://www.nexusmods.com/onimushawayofthesword/mods/54" target="_blank">REFramework для Onimusha</a></li>
 <li><a href="https://reshade.me/" target="_blank">ReShade</a></li>
-</ul>
+<li><a href="https://github.com/LCPD15/RE_DLSS5_Load_Mod/releases/tag/v0.63" target="_blank">RE_DLSS5_Load_Mod v0.63 — GitHub</a></li></ul>
 </div>
 </section><section class="tab-panel" id="crimson">
 <div class="game-head">
@@ -1154,7 +1161,7 @@ Frame Generation в DLSS5 Loader ON</pre>
 <div class="callout warn">
 <strong>Не устанавливать OptiPatcher</strong>
         В актуальной таблице поддержки OptiPatcher для Crimson Desert отмечен как временно отключённый. Для этой игры достаточно самого OptiScaler_DLSSNR.
-      </div><div class="status-strip"><span class="status-pill ok">Проверено: 09.09.2026</span></div>
+      </div><div class="status-strip"><span class="status-pill ok">Проверено: 10.09.2026</span></div>
 </div>
 <div class="card">
 <div class="summary-grid">
@@ -1323,7 +1330,7 @@ Ultimate ASI Loader → version.dll</pre>
 <span class="status-pill ok">OptiScaler: подтверждён</span>
 <span class="status-pill ok">DLSS inputs: работают</span>
 <span class="status-pill warn">BattlEye: OFF</span>
-<span class="status-pill ok">Проверено: 09.09.2026</span></div>
+<span class="status-pill ok">Проверено: 10.09.2026</span></div>
 </div>
 <div class="card">
 <div class="summary-grid">
@@ -1389,7 +1396,7 @@ Native DLSSG       ON</pre>
 <div class="card">
 <h2>The Witcher 3: Wild Hunt</h2>
 <p>Используйте только <strong>DirectX 12</strong>. OptiScaler устанавливается не в корень игры, а в <code>The Witcher 3\bin\x64_dx12</code>.</p>
-<div class="callout warn"><strong>DLSS input может мерцать</strong>Если появляются flicker/shimmer, переключите игровой upscaler на XeSS — этот workaround указан в актуальной compatibility entry.</div><div class="status-strip"><span class="status-pill ok">Проверено: 09.09.2026</span></div>
+<div class="callout warn"><strong>DLSS input может мерцать</strong>Если появляются flicker/shimmer, переключите игровой upscaler на XeSS — этот workaround указан в актуальной compatibility entry.</div><div class="callout danger"><strong>29.09.2026 — The Witcher 3 Remastered</strong>CD PROJEKT RED выпускает бесплатный Remastered с изменениями графики, производительности и gameplay. Этот профиль проверен для текущей pre-Remastered версии. После обновления 29 сентября заново проверьте <code>bin\x64_dx12</code>, DLL-hook, DLSS/XeSS input, NR и FG до применения старых workaround.</div><div class="status-strip"><span class="status-pill ok">Проверено: 10.09.2026</span></div>
 </div>
 <div class="card"><div class="summary-grid">
 <div class="metric"><div class="label">API</div><div class="value good">DX12</div></div>
@@ -1397,7 +1404,7 @@ Native DLSSG       ON</pre>
 <div class="metric"><div class="label">Input</div><div class="value">DLSS / XeSS</div></div>
 <div class="metric"><div class="label">FG fallback</div><div class="value">OptiFG</div></div>
 </div></div>
-</div><div class="section recommended-profile" id="witcher3-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix"><tr><th>Параметр</th><th>Рекомендация</th></tr><tr><td>Разрешение</td><td>3840×2160</td></tr><tr><td>API</td><td>DirectX 12</td></tr><tr><td>Upscaler / режим</td><td>DLSS Quality; XeSS Quality при shimmer</td></tr><tr><td>DLSS5 Neural Rendering</td><td>ON</td></tr><tr><td>NR Scale</td><td>80–100%; начать со 100%</td></tr><tr><td>Ray Tracing</td><td>RT Ultra / RT Ultra+ по запасу FPS</td></tr><tr><td>Frame Generation</td><td>Сначала штатный FG; OptiFG — резерв</td></tr><tr><td>Reflex</td><td>ON при FG</td></tr><tr><td>V-Sync / VRR</td><td>V-Sync OFF при VRR</td></tr><tr><td>Ключевой параметр</td><td>Установка в bin\x64_dx12; при OptiFG HUDfix ON, Limit 1</td></tr></table><p class="small">Профиль ориентирован на качество изображения в 4K. Если базовая частота кадров недостаточна, сначала снижайте NR Scale, затем — режим DLSS.</p></div></div>
+</div><div class="section recommended-profile" id="witcher3-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix"><tr><th>Параметр</th><th>Рекомендация</th></tr><tr><td>Разрешение</td><td>3840×2160</td></tr><tr><td>API</td><td>DirectX 12</td></tr><tr><td>Upscaler / режим</td><td>DLSS Quality; XeSS Quality при shimmer</td></tr><tr><td>DLSS5 Neural Rendering</td><td>ON</td></tr><tr><td>NR Scale</td><td>80–100%; начать со 100%</td></tr><tr><td>Ray Tracing</td><td>RT Ultra / RT Ultra+ по запасу FPS</td></tr><tr><td>Frame Generation</td><td>Сначала штатный FG; OptiFG — резерв</td></tr><tr><td>Reflex</td><td>ON при FG</td></tr><tr><td>V-Sync / VRR</td><td>V-Sync OFF при VRR</td></tr><tr><td>Ключевой параметр</td><td>До 29.09: установка в <code>bin\x64_dx12</code>; при OptiFG HUDfix ON, Limit 1. После Remastered — revalidate route</td></tr></table><p class="small">Профиль ориентирован на качество изображения в 4K. Если базовая частота кадров недостаточна, сначала снижайте NR Scale, затем — режим DLSS.</p></div></div>
 <div class="section step-section" id="witcher3-install"><div class="section-title"><div class="step-num">1</div><h3>Запустить DX12-версию</h3></div>
 <div class="section-body">
 <p>В лаунчере выберите DirectX 12. Рабочая папка:</p>
@@ -1438,13 +1445,13 @@ Gamma/Brightness → Default</pre>
 <ul>
 <li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li>
 <li><a href="https://github.com/optiscaler/OptiScaler/wiki/The-Witcher-3-Wild-Hunt" target="_blank">OptiScaler — The Witcher 3</a></li>
-</ul>
+<li><a href="https://www.thewitcher.com/gb/en/news/52017/announcing-the-witcher-3-wild-hunt-remastered" target="_blank">CD PROJEKT RED — The Witcher 3 Remastered (29.09.2026)</a></li></ul>
 </div>
 </section><section class="tab-panel" id="starfield">
 <div class="game-head">
 <div class="card">
 <h2>Starfield</h2>
-<p>Рабочая схема: <strong>DLSS input → OptiScaler_DLSSNR → DLSS5 NR</strong>. FSR3 inputs для OptiScaler в Starfield использовать не следует — они отмечены как приводящие к crash.</p><div class="status-strip"><span class="status-pill ok">Проверено: 09.09.2026</span></div>
+<p>Рабочая схема: <strong>DLSS input → OptiScaler_DLSSNR → DLSS5 NR</strong>. FSR3 inputs для OptiScaler в Starfield использовать не следует — они отмечены как приводящие к crash.</p><div class="status-strip"><span class="status-pill ok">Проверено: 10.09.2026</span></div>
 </div>
 <div class="card"><div class="summary-grid">
 <div class="metric"><div class="label">Injection</div><div class="value good">dxgi.dll</div></div>
@@ -1491,7 +1498,7 @@ Set Velocity as ValidNow  ON</pre>
 <div class="game-head">
 <div class="card">
 <h2>The Last of Us Part I</h2>
-<p>OptiScaler подтверждён с <strong>DLSS и FSR 3.1 inputs</strong>. Для корректной Frame Generation-маски нужно отключить полноэкранные эффекты низкого здоровья.</p><div class="status-strip"><span class="status-pill ok">Проверено: 09.09.2026</span></div>
+<p>OptiScaler подтверждён с <strong>DLSS и FSR 3.1 inputs</strong>. Для корректной Frame Generation-маски нужно отключить полноэкранные эффекты низкого здоровья.</p><div class="status-strip"><span class="status-pill ok">Проверено: 10.09.2026</span></div>
 </div>
 <div class="card"><div class="summary-grid">
 <div class="metric"><div class="label">API</div><div class="value good">DX12</div></div>
@@ -1544,7 +1551,7 @@ NR Scale          100%</pre>
 <div class="game-head">
 <div class="card">
 <h2>The Last of Us Part II Remastered</h2>
-<p>OptiScaler подтверждён с DLSS, FSR 3.1 и XeSS. Для корректного распознавания UI установите <strong>Brightness = 0</strong> в игре.</p><div class="status-strip"><span class="status-pill ok">Проверено: 09.09.2026</span></div>
+<p>OptiScaler подтверждён с DLSS, FSR 3.1 и XeSS. Для корректного распознавания UI установите <strong>Brightness = 0</strong> в игре.</p><div class="status-strip"><span class="status-pill ok">Проверено: 10.09.2026</span></div>
 </div>
 <div class="card"><div class="summary-grid">
 <div class="metric"><div class="label">EXE</div><div class="value">tlou-ii.exe</div></div>
@@ -1585,7 +1592,7 @@ NR Scale          100%</pre>
 <div class="game-head">
 <div class="card">
 <h2>DEATH STRANDING 2: ON THE BEACH</h2>
-<p>OptiScaler подтверждён с DLSS, FSR 3.1 и XeSS. Если DLSS input даёт заметный shimmer, актуальная рекомендация — перейти на <strong>XeSS</strong> или FSR input.</p><div class="status-strip"><span class="status-pill ok">Проверено: 09.09.2026</span></div>
+<p>OptiScaler подтверждён с DLSS, FSR 3.1 и XeSS. Если DLSS input даёт заметный shimmer, актуальная рекомендация — перейти на <strong>XeSS</strong> или FSR input.</p><div class="status-strip"><span class="status-pill ok">Проверено: 10.09.2026</span></div>
 </div>
 <div class="card"><div class="summary-grid">
 <div class="metric"><div class="label">EXE</div><div class="value">DS2.exe</div></div>
@@ -1629,7 +1636,7 @@ NR Scale          100%</pre>
 <div class="game-head">
 <div class="card">
 <h2>Cyberpunk 2077</h2>
-<p>На RTX 5080 это один из наиболее удобных вариантов: игра уже имеет DLSS, DLSS Ray Reconstruction и DLSS Frame Generation. OptiScaler_DLSSNR добавляется поверх современной Streamline-цепочки.</p><div class="status-strip"><span class="status-pill ok">Проверено: 09.09.2026</span></div>
+<p>На RTX 5080 это один из наиболее удобных вариантов: игра уже имеет DLSS, DLSS Ray Reconstruction и DLSS Frame Generation. OptiScaler_DLSSNR добавляется поверх современной Streamline-цепочки.</p><div class="status-strip"><span class="status-pill ok">Проверено: 10.09.2026</span></div>
 </div>
 <div class="card"><div class="summary-grid">
 <div class="metric"><div class="label">Папка</div><div class="value">bin\x64</div></div>
@@ -1690,19 +1697,19 @@ Native DLSSG       ON</pre>
 <div class="game-head">
 <div class="card">
 <h2>Batman: Arkham Knight</h2>
-<p>У игры нет собственного DLSS, поэтому обычному OptiScaler_DLSSNR не к чему подключать Neural Rendering. Здесь нужен <strong>DLSS5-Feeder + ReShade</strong>, который создаёт синтетический DLAA/DLSS contract.</p>
-<div class="callout danger"><strong>Экспериментальный путь</strong>На 08.09.2026 существует открытый отчёт о том, что DLSS5-Feeder в Arkham Knight может перестать выдавать NR через несколько тысяч кадров из-за D3D12 device removal. Используйте этот профиль как экспериментальный.</div><div class="status-strip"><span class="status-pill ok">Проверено: 09.09.2026</span></div>
+<p>У игры нет собственного DLSS, поэтому обычному OptiScaler_DLSSNR не к чему подключать Neural Rendering. Здесь нужен <strong>DLSS5-Feeder v0.15.1 + ReShade</strong>, который создаёт синтетический DLAA/DLSS contract.</p>
+<div class="callout danger"><strong>Экспериментальный путь</strong>На 08.09.2026 существует открытый отчёт о том, что DLSS5-Feeder v0.15.1 в Arkham Knight может перестать выдавать NR через несколько тысяч кадров из-за D3D12 device removal. Используйте этот профиль как экспериментальный.</div><div class="status-strip"><span class="status-pill ok">Проверено: 10.09.2026</span></div>
 </div>
 <div class="card"><div class="summary-grid">
 <div class="metric"><div class="label">API</div><div class="value good">D3D11</div></div>
-<div class="metric"><div class="label">Метод</div><div class="value">DLSS5-Feeder</div></div>
+<div class="metric"><div class="label">Метод</div><div class="value">DLSS5-Feeder v0.15.1</div></div>
 <div class="metric"><div class="label">ReShade</div><div class="value">6.8+ Add-on</div></div>
 <div class="metric"><div class="label">FG</div><div class="value">OFF</div></div>
 </div></div>
-</div><div class="section recommended-profile" id="batman-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix"><tr><th>Параметр</th><th>Рекомендация</th></tr><tr><td>Разрешение</td><td>3840×2160</td></tr><tr><td>API</td><td>Direct3D 11</td></tr><tr><td>Upscaler / режим</td><td>Нативный рендер; DLSS5-Feeder создаёт DLAA/DLSS contract</td></tr><tr><td>DLSS5 Neural Rendering</td><td>ON через DLSS5-Feeder</td></tr><tr><td>NR Scale</td><td>100% на этапе теста; затем снижать при доступности настройки</td></tr><tr><td>Ray Tracing / RR</td><td>Не применяется</td></tr><tr><td>Frame Generation</td><td>OFF</td></tr><tr><td>Reflex</td><td>Не требуется</td></tr><tr><td>V-Sync / VRR</td><td>По предпочтению; VRR предпочтителен</td></tr><tr><td>Ключевой параметр</td><td>ReShade Full Add-on + motion-vector provider; OptiScaler и Smooth Motion OFF</td></tr></table><p class="small">Профиль ориентирован на качество изображения в 4K. Если базовая частота кадров недостаточна, сначала снижайте NR Scale, затем — режим DLSS.</p></div></div>
+</div><div class="section recommended-profile" id="batman-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix"><tr><th>Параметр</th><th>Рекомендация</th></tr><tr><td>Разрешение</td><td>3840×2160</td></tr><tr><td>API</td><td>Direct3D 11</td></tr><tr><td>Upscaler / режим</td><td>Нативный рендер; DLSS5-Feeder v0.15.1 создаёт DLAA/DLSS contract</td></tr><tr><td>DLSS5 Neural Rendering</td><td>ON через DLSS5-Feeder v0.15.1</td></tr><tr><td>NR Scale</td><td>100% на этапе теста; затем снижать при доступности настройки</td></tr><tr><td>Ray Tracing / RR</td><td>Не применяется</td></tr><tr><td>Frame Generation</td><td>OFF</td></tr><tr><td>Reflex</td><td>Не требуется</td></tr><tr><td>V-Sync / VRR</td><td>По предпочтению; VRR предпочтителен</td></tr><tr><td>Ключевой параметр</td><td>ReShade Full Add-on + motion-vector provider; OptiScaler и Smooth Motion OFF</td></tr></table><p class="small">Профиль ориентирован на качество изображения в 4K. Если базовая частота кадров недостаточна, сначала снижайте NR Scale, затем — режим DLSS.</p></div></div>
 <div class="section step-section" id="batman-install"><div class="section-title"><div class="step-num">1</div><h3>Не устанавливать OptiScaler</h3></div>
 <div class="section-body">
-<p>DLSS5-Feeder прямо предупреждает о несовместимости с OptiScaler и NVIDIA Smooth Motion.</p>
+<p>DLSS5-Feeder v0.15.1 прямо предупреждает о несовместимости с OptiScaler и NVIDIA Smooth Motion.</p>
 <pre>OptiScaler       OFF
 Smooth Motion    OFF
 MSAA / SSAA      OFF</pre>
@@ -1715,8 +1722,8 @@ MSAA / SSAA      OFF</pre>
 Enable loading of add-ons / Full Add-on Support</pre>
 <p>ReShade должен создать <code>dxgi.dll</code> рядом с EXE.</p>
 </div></div>
-<div class="section step-section"><div class="section-title"><div class="step-num">3</div><h3>Установить DLSS5-Feeder</h3></div>
-<div class="section-body">
+<div class="section step-section"><div class="section-title"><div class="step-num">3</div><h3>Установить DLSS5-Feeder v0.15.1</h3></div>
+<div class="section-body"><p><strong>Используйте DLSS5-Feeder v0.15.1.</strong> Рекомендуемый upstream способ — <code>tools\Install-DLSS5Feeder.ps1</code>.</p>
 <p><a href="https://github.com/jlrouzies-fr/DLSS5-Feeder/releases" target="_blank">DLSS5-Feeder — Releases</a></p>
 <p>Для 64-bit D3D11:</p>
 <pre>dlss5-feed.addon64 → рядом с EXE
@@ -1757,16 +1764,10 @@ evaluation succeeded</pre>
 </div></div>
 <span class="anchor-target" id="batman-diag"></span><div class="section step-section" id="batman-fg"><div class="section-title"><div class="step-num">7</div><h3>Если NR перестаёт работать спустя несколько минут</h3></div>
 <div class="section-body">
-<p>Проверьте <code>dlss5-feed.log</code> на:</p>
-<pre>D3D12 device removed
-0x887A0006</pre>
-<p>Такое поведение уже воспроизводилось в Batman: Arkham Knight на Feeder 0.13.1 beta. Если проблема возникает:</p>
-<ul>
-<li>попробуйте актуальную исправленную beta, если она новее;</li>
-<li>либо откатитесь на последний стабильный release;</li>
-<li>отключите любые сторонние overlay/injector, кроме ReShade/Feeder;</li>
-<li>оставьте Smooth Motion и OptiScaler выключенными.</li>
-</ul>
+<p>Если NR перестаёт работать спустя несколько минут, сначала убедитесь, что установлен <strong>Feeder v0.15.1</strong>, затем проверьте <code>dlss5-feed.log</code> и Windows Application Error.</p>
+<pre>D3D12 device removed 0x887A0006</pre>
+<ul><li>оставьте Smooth Motion и OptiScaler выключенными;</li><li>уберите сторонние overlays/injectors, кроме ReShade/Feeder;</li><li>если crash происходит до записи лога, используйте диагностику DLSS5 Autopilot v1.8.0 по Windows Application Error.</li></ul>
+<div class="callout ok"><strong>HDR10 bridge в Feeder 0.15.1</strong>Если конкретная конфигурация реально выводит <strong>HDR10 PQ BT.2020</strong> в 10-bit swapchain, оставьте <code>hdr_bridge=-1</code> (auto). Базовый <code>hdr_paper_white=203</code> нит; в <code>dlss5-feed.log</code> ищите <code>HDR10 bridge ON</code>. Для SDR bridge не активируется; путь относится к 64-bit D3D11.</div>
 </div></div>
 <div class="card source-list" id="batman-sources" style="margin-top:18px">
 <h3>Ссылки</h3><ul>
@@ -1774,7 +1775,7 @@ evaluation succeeded</pre>
 <li><a href="https://github.com/jlrouzies-fr/DLSS5-Feeder/releases" target="_blank">DLSS5-Feeder — Releases</a></li>
 <li><a href="https://github.com/jlrouzies-fr/DLSS5-Feeder/issues/57" target="_blank">Arkham Knight — текущий issue по остановке NR</a></li>
 <li><a href="https://reshade.me/" target="_blank">ReShade</a></li>
-</ul></div>
+<li><a href="https://github.com/jlrouzies-fr/DLSS5-Feeder/releases/tag/v0.15.1" target="_blank">DLSS5-Feeder v0.15.1</a></li></ul></div>
 </section><section class="tab-panel" id="hogwarts">
 <div class="game-head">
 <div class="card">
@@ -1788,7 +1789,7 @@ evaluation succeeded</pre>
 <span class="status-pill ok">OptiScaler: подтверждён</span>
 <span class="status-pill ok">DLSS / FSR3.1 / XeSS</span>
 <span class="status-pill ok">DLSSG via Streamline</span>
-<span class="status-pill ok">Проверено: 09.09.2026</span></div>
+<span class="status-pill ok">Проверено: 10.09.2026</span></div>
 </div>
 <div class="card">
 <div class="summary-grid">
@@ -1921,7 +1922,7 @@ V-Sync               OFF при VRR/G-SYNC</pre>
 <span class="status-pill ok">OptiScaler: подтверждён</span>
 <span class="status-pill ok">DLSS / FSR3.1</span>
 <span class="status-pill ok">OptiPatcher: DLSS + FG</span>
-<span class="status-pill ok">Проверено: 09.09.2026</span></div>
+<span class="status-pill ok">Проверено: 10.09.2026</span></div>
 </div>
 <div class="card">
 <div class="summary-grid">
@@ -2047,9 +2048,9 @@ Smooth Motion        OFF</pre>
 </ul>
 </div>
 </section><section class="tab-panel" id="007firstlight">
-<div class="game-head"><div class="card"><h2>007: First Light</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR</strong>.</p><div class="callout warn"><strong>Recommended</strong>При crash/порче изображения включите RestoreComputeSignature=true. FSR3.1 input не использовать.</div><div class="status-strip"><span class="status-pill ok">Recommended</span><span class="status-pill ok">Проверено: 09.09.2026</span></div></div>
+<div class="game-head"><div class="card"><h2>007: First Light</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR</strong>.</p><div class="callout warn"><strong>Recommended</strong>При crash/порче изображения включите RestoreComputeSignature=true. FSR3.1 input не использовать.</div><div class="callout ok"><strong>15.09.2026 — Path Tracing + DLSS 4.5 Ray Reconstruction</strong>NVIDIA подтверждает обновление на 15 сентября. Текущий профиль (10.09) относится к версии до PT/RR. После патча заново проверьте цепочку в порядке: NR без FG → Ray Reconstruction → Dynamic MFG; не переносите старые выводы о совместимости на новый renderer без A/B.</div><div class="status-strip"><span class="status-pill ok">Recommended</span><span class="status-pill ok">Проверено: 10.09.2026</span></div></div>
 <div class="card"><div class="summary-grid"><div class="metric"><div class="label">Injection</div><div class="value good">dxgi.dll</div></div><div class="metric"><div class="label">Input</div><div class="value">DLSS</div></div><div class="metric"><div class="label">NR</div><div class="value">OptiScaler_DLSSNR</div></div><div class="metric"><div class="label">FG</div><div class="value">Native DLSSG</div></div></div></div></div>
-<div class="section recommended-profile" id="007firstlight-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix"><tr><th>Параметр</th><th>Рекомендация</th></tr><tr><td>Разрешение</td><td>3840×2160</td></tr><tr><td>Маршрут</td><td>OptiScaler_DLSSNR</td></tr><tr><td>Input</td><td>DLSS</td></tr><tr><td>DLSS5 Neural Rendering</td><td>ON</td></tr><tr><td>NR Scale</td><td>85–100%</td></tr><tr><td>Frame Generation</td><td>Native DLSSG</td></tr><tr><td>Ключевой параметр</td><td>Sharpness Override по вкусу; RestoreComputeSignature=true</td></tr></table><p class="small">Сначала проверяйте Neural Rendering без Frame Generation; затем включайте только один FG-механизм.</p></div></div>
+<div class="section recommended-profile" id="007firstlight-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix"><tr><th>Параметр</th><th>Рекомендация</th></tr><tr><td>Разрешение</td><td>3840×2160</td></tr><tr><td>Маршрут</td><td>OptiScaler_DLSSNR</td></tr><tr><td>Input</td><td>DLSS</td></tr><tr><td>DLSS5 Neural Rendering</td><td>ON</td></tr><tr><td>NR Scale</td><td>85–100%</td></tr><tr><td>Ray Tracing / RR</td><td>Path Tracing + DLSS 4.5 Ray Reconstruction — с обновления 15.09.2026; до этой даты не применяется</td></tr><tr><td>Frame Generation</td><td>Dynamic MFG / native DLSSG после стабильного NR; после 15.09 тестировать уже после RR</td></tr><tr><td>Ключевой параметр</td><td>Sharpness Override по вкусу; RestoreComputeSignature=true</td></tr></table><p class="small">Сначала проверяйте Neural Rendering без Frame Generation; затем включайте только один FG-механизм.</p></div></div>
 <div class="section step-section" id="007firstlight-install"><div class="section-title"><div class="step-num">1</div><h3>Установка</h3></div><div class="section-body"><p>Распакуйте OptiScaler_DLSSNR рядом с основным EXE и запустите:</p><pre>setup_windows.bat
 → dxgi.dll
 → Nvidia</pre><p>Добавьте оригинальный RTX 50 <code>nvngx_dlssnr.dll</code>. </p></div></div>
@@ -2059,9 +2060,9 @@ Insert → OptiScaler
 Neural Rendering ON
 NR Scale 100%</pre></div></div>
 <div class="section step-section" id="007firstlight-fg"><div class="section-title"><div class="step-num">3</div><h3>Frame Generation</h3></div><div class="section-body"><p>Native DLSSG. Включайте только после стабильной работы NR; Smooth Motion оставьте OFF, если используется другой FG.</p></div></div>
-<div class="section step-section" id="007firstlight-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>При crash/порче изображения включите RestoreComputeSignature=true. FSR3.1 input не использовать.</p></div></div>
-<div class="card source-list" id="007firstlight-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiScaler/wiki/007-First-Light" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li></ul></div></section><section class="tab-panel" id="beast">
-<div class="game-head"><div class="card"><h2>Beast of Reincarnation</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR + OptiPatcher</strong>.</p><div class="callout warn"><strong>Recommended</strong>FSR3 input может приводить к crash; для RTX 5080 используйте DLSS.</div><div class="status-strip"><span class="status-pill ok">Recommended</span><span class="status-pill ok">Проверено: 09.09.2026</span></div></div>
+<div class="section step-section" id="007firstlight-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>При crash/порче изображения включите RestoreComputeSignature=true. FSR3.1 input не использовать.</p><p><strong>После патча 15.09:</strong> сначала FG OFF и RR OFF → проверить NR; затем RR ON → A/B; только последним включить Dynamic MFG.</p></div></div>
+<div class="card source-list" id="007firstlight-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiScaler/wiki/007-First-Light" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li><li><a href="https://www.nvidia.com/en-sg/geforce/news/wardogs-aniimo-007-first-light-path-tracing-geforce-game-ready-driver/" target="_blank">NVIDIA — Path Tracing update 15.09.2026</a></li></ul></div></section><section class="tab-panel" id="beast">
+<div class="game-head"><div class="card"><h2>Beast of Reincarnation</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR + OptiPatcher</strong>.</p><div class="callout warn"><strong>Recommended</strong>FSR3 input может приводить к crash; для RTX 5080 используйте DLSS.</div><div class="status-strip"><span class="status-pill ok">Recommended</span><span class="status-pill ok">Проверено: 10.09.2026</span></div></div>
 <div class="card"><div class="summary-grid"><div class="metric"><div class="label">Injection</div><div class="value good">dxgi.dll</div></div><div class="metric"><div class="label">Input</div><div class="value">DLSS</div></div><div class="metric"><div class="label">NR</div><div class="value">OptiScaler_DLSSNR + OptiPatcher</div></div><div class="metric"><div class="label">FG</div><div class="value">После проверки NR</div></div></div></div></div>
 <div class="section recommended-profile" id="beast-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix"><tr><th>Параметр</th><th>Рекомендация</th></tr><tr><td>Разрешение</td><td>3840×2160</td></tr><tr><td>Маршрут</td><td>OptiScaler_DLSSNR + OptiPatcher</td></tr><tr><td>Input</td><td>DLSS</td></tr><tr><td>DLSS5 Neural Rendering</td><td>ON</td></tr><tr><td>NR Scale</td><td>85–100%</td></tr><tr><td>Frame Generation</td><td>После проверки NR</td></tr><tr><td>Ключевой параметр</td><td>FSR3 input OFF</td></tr></table><p class="small">Сначала проверяйте Neural Rendering без Frame Generation; затем включайте только один FG-механизм.</p></div></div>
 <div class="section step-section" id="beast-install"><div class="section-title"><div class="step-num">1</div><h3>Установка</h3></div><div class="section-body"><p>Распакуйте OptiScaler_DLSSNR рядом с основным EXE и запустите:</p><pre>setup_windows.bat
@@ -2075,7 +2076,7 @@ NR Scale 100%</pre></div></div>
 <div class="section step-section" id="beast-fg"><div class="section-title"><div class="step-num">3</div><h3>Frame Generation</h3></div><div class="section-body"><p>После проверки NR. Включайте только после стабильной работы NR; Smooth Motion оставьте OFF, если используется другой FG.</p></div></div>
 <div class="section step-section" id="beast-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>FSR3 input может приводить к crash; для RTX 5080 используйте DLSS.</p></div></div>
 <div class="card source-list" id="beast-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiScaler/wiki/Compatibility-List" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li></ul></div></section><section class="tab-panel" id="indiana">
-<div class="game-head"><div class="card"><h2>Indiana Jones and the Great Circle</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR</strong>.</p><div class="callout warn"><strong>Recommended</strong>При проблемах с FG/overlay временно закройте RTSS/MSI Afterburner.</div><div class="status-strip"><span class="status-pill ok">Recommended</span><span class="status-pill ok">Проверено: 09.09.2026</span></div></div>
+<div class="game-head"><div class="card"><h2>Indiana Jones and the Great Circle</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR</strong>.</p><div class="callout warn"><strong>Recommended</strong>При проблемах с FG/overlay временно закройте RTSS/MSI Afterburner.</div><div class="status-strip"><span class="status-pill ok">Recommended</span><span class="status-pill ok">Проверено: 10.09.2026</span></div></div>
 <div class="card"><div class="summary-grid"><div class="metric"><div class="label">Injection</div><div class="value good">dxgi.dll / winmm.dll</div></div><div class="metric"><div class="label">Input</div><div class="value">DLSS</div></div><div class="metric"><div class="label">NR</div><div class="value">OptiScaler_DLSSNR</div></div><div class="metric"><div class="label">FG</div><div class="value">Native FG</div></div></div></div></div>
 <div class="section recommended-profile" id="indiana-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix"><tr><th>Параметр</th><th>Рекомендация</th></tr><tr><td>Разрешение</td><td>3840×2160</td></tr><tr><td>Маршрут</td><td>OptiScaler_DLSSNR</td></tr><tr><td>Input</td><td>DLSS</td></tr><tr><td>DLSS5 Neural Rendering</td><td>ON</td></tr><tr><td>NR Scale</td><td>80–100%</td></tr><tr><td>Frame Generation</td><td>Native FG</td></tr><tr><td>Ключевой параметр</td><td>Full RT / Path Tracing по запасу FPS</td></tr></table><p class="small">Сначала проверяйте Neural Rendering без Frame Generation; затем включайте только один FG-механизм.</p></div></div>
 <div class="section step-section" id="indiana-install"><div class="section-title"><div class="step-num">1</div><h3>Установка</h3></div><div class="section-body"><p>Распакуйте OptiScaler_DLSSNR рядом с основным EXE и запустите:</p><pre>setup_windows.bat
@@ -2089,7 +2090,7 @@ NR Scale 100%</pre></div></div>
 <div class="section step-section" id="indiana-fg"><div class="section-title"><div class="step-num">3</div><h3>Frame Generation</h3></div><div class="section-body"><p>Native FG. Включайте только после стабильной работы NR; Smooth Motion оставьте OFF, если используется другой FG.</p></div></div>
 <div class="section step-section" id="indiana-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>При проблемах с FG/overlay временно закройте RTSS/MSI Afterburner.</p></div></div>
 <div class="card source-list" id="indiana-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiScaler/wiki/Indiana-Jones-and-the-Great-Circle" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li></ul></div></section><section class="tab-panel" id="avatar">
-<div class="game-head"><div class="card"><h2>Avatar: Frontiers of Pandora</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR</strong>.</p><div class="callout warn"><strong>Recommended</strong>Обязательно Dxgi=false: spoofing может снижать FPS и ломать освещение/RT в интерьерах.</div><div class="status-strip"><span class="status-pill ok">Recommended</span><span class="status-pill ok">Проверено: 09.09.2026</span></div></div>
+<div class="game-head"><div class="card"><h2>Avatar: Frontiers of Pandora</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR</strong>.</p><div class="callout warn"><strong>Recommended</strong>Обязательно Dxgi=false: spoofing может снижать FPS и ломать освещение/RT в интерьерах.</div><div class="status-strip"><span class="status-pill ok">Recommended</span><span class="status-pill ok">Проверено: 10.09.2026</span></div></div>
 <div class="card"><div class="summary-grid"><div class="metric"><div class="label">Injection</div><div class="value good">dxgi.dll</div></div><div class="metric"><div class="label">Input</div><div class="value">DLSS</div></div><div class="metric"><div class="label">NR</div><div class="value">OptiScaler_DLSSNR</div></div><div class="metric"><div class="label">FG</div><div class="value">Native DLSSG</div></div></div></div></div>
 <div class="section recommended-profile" id="avatar-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix"><tr><th>Параметр</th><th>Рекомендация</th></tr><tr><td>Разрешение</td><td>3840×2160</td></tr><tr><td>Маршрут</td><td>OptiScaler_DLSSNR</td></tr><tr><td>Input</td><td>DLSS</td></tr><tr><td>DLSS5 Neural Rendering</td><td>ON</td></tr><tr><td>NR Scale</td><td>85–100%</td></tr><tr><td>Frame Generation</td><td>Native DLSSG</td></tr><tr><td>Ключевой параметр</td><td>[Spoofing] Dxgi=false</td></tr></table><p class="small">Сначала проверяйте Neural Rendering без Frame Generation; затем включайте только один FG-механизм.</p></div></div>
 <div class="section step-section" id="avatar-install"><div class="section-title"><div class="step-num">1</div><h3>Установка</h3></div><div class="section-body"><p>Распакуйте OptiScaler_DLSSNR рядом с основным EXE и запустите:</p><pre>setup_windows.bat
@@ -2103,7 +2104,7 @@ NR Scale 100%</pre></div></div>
 <div class="section step-section" id="avatar-fg"><div class="section-title"><div class="step-num">3</div><h3>Frame Generation</h3></div><div class="section-body"><p>Native DLSSG. Включайте только после стабильной работы NR; Smooth Motion оставьте OFF, если используется другой FG.</p></div></div>
 <div class="section step-section" id="avatar-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>Обязательно Dxgi=false: spoofing может снижать FPS и ломать освещение/RT в интерьерах.</p></div></div>
 <div class="card source-list" id="avatar-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiScaler/wiki/Avatar-Frontiers-of-Pandora" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li></ul></div></section><section class="tab-panel" id="mafiaold">
-<div class="game-head"><div class="card"><h2>Mafia: The Old Country</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR + OptiPatcher</strong>.</p><div class="callout warn"><strong>Recommended</strong>При flicker попробуйте Non-Linear Color/sRGB Input.</div><div class="status-strip"><span class="status-pill ok">Recommended</span><span class="status-pill ok">Проверено: 09.09.2026</span></div></div>
+<div class="game-head"><div class="card"><h2>Mafia: The Old Country</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR + OptiPatcher</strong>.</p><div class="callout warn"><strong>Recommended</strong>При flicker попробуйте Non-Linear Color/sRGB Input.</div><div class="status-strip"><span class="status-pill ok">Recommended</span><span class="status-pill ok">Проверено: 10.09.2026</span></div></div>
 <div class="card"><div class="summary-grid"><div class="metric"><div class="label">Injection</div><div class="value good">dxgi.dll</div></div><div class="metric"><div class="label">Input</div><div class="value">DLSS</div></div><div class="metric"><div class="label">NR</div><div class="value">OptiScaler_DLSSNR + OptiPatcher</div></div><div class="metric"><div class="label">FG</div><div class="value">Native DLSSG</div></div></div></div></div>
 <div class="section recommended-profile" id="mafiaold-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix"><tr><th>Параметр</th><th>Рекомендация</th></tr><tr><td>Разрешение</td><td>3840×2160</td></tr><tr><td>Маршрут</td><td>OptiScaler_DLSSNR + OptiPatcher</td></tr><tr><td>Input</td><td>DLSS</td></tr><tr><td>DLSS5 Neural Rendering</td><td>ON</td></tr><tr><td>NR Scale</td><td>85–100%</td></tr><tr><td>Frame Generation</td><td>Native DLSSG</td></tr><tr><td>Ключевой параметр</td><td>Non-Linear Color/sRGB при flicker</td></tr></table><p class="small">Сначала проверяйте Neural Rendering без Frame Generation; затем включайте только один FG-механизм.</p></div></div>
 <div class="section step-section" id="mafiaold-install"><div class="section-title"><div class="step-num">1</div><h3>Установка</h3></div><div class="section-body"><p>Распакуйте OptiScaler_DLSSNR рядом с основным EXE и запустите:</p><pre>setup_windows.bat
@@ -2117,20 +2118,29 @@ NR Scale 100%</pre></div></div>
 <div class="section step-section" id="mafiaold-fg"><div class="section-title"><div class="step-num">3</div><h3>Frame Generation</h3></div><div class="section-body"><p>Native DLSSG. Включайте только после стабильной работы NR; Smooth Motion оставьте OFF, если используется другой FG.</p></div></div>
 <div class="section step-section" id="mafiaold-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>При flicker попробуйте Non-Linear Color/sRGB Input.</p></div></div>
 <div class="card source-list" id="mafiaold-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiScaler/wiki/Compatibility-List" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li></ul></div></section><section class="tab-panel" id="mafiade">
-<div class="game-head"><div class="card"><h2>Mafia: Definitive Edition</h2><p>Рекомендуемый маршрут: <strong>DLSS5-Feeder + ReShade</strong>.</p><div class="callout danger"><strong>Experimental</strong>DX11-игра без штатного DLSS. Feeder и OptiScaler/Smooth Motion одновременно не использовать.</div><div class="status-strip"><span class="status-pill exp">Experimental</span><span class="status-pill ok">Проверено: 09.09.2026</span></div></div>
-<div class="card"><div class="summary-grid"><div class="metric"><div class="label">Injection</div><div class="value good">ReShade dxgi.dll</div></div><div class="metric"><div class="label">Input</div><div class="value">Synthetic DLAA contract</div></div><div class="metric"><div class="label">NR</div><div class="value">DLSS5-Feeder + ReShade</div></div><div class="metric"><div class="label">FG</div><div class="value">OFF</div></div></div></div></div>
-<div class="section recommended-profile" id="mafiade-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix"><tr><th>Параметр</th><th>Рекомендация</th></tr><tr><td>Разрешение</td><td>3840×2160</td></tr><tr><td>Маршрут</td><td>DLSS5-Feeder + ReShade</td></tr><tr><td>Input</td><td>Synthetic DLAA contract</td></tr><tr><td>DLSS5 Neural Rendering</td><td>ON</td></tr><tr><td>NR Scale</td><td>100% на старте</td></tr><tr><td>Frame Generation</td><td>OFF</td></tr><tr><td>Ключевой параметр</td><td>LaunchPad MV → DLSS5 Feed → NR</td></tr></table><p class="small">Сначала проверяйте Neural Rendering без Frame Generation; затем включайте только один FG-механизм.</p></div></div>
-<div class="section step-section" id="mafiade-install"><div class="section-title"><div class="step-num">1</div><h3>Установка</h3></div><div class="section-body"><p>Установите ReShade Full Add-on Support, затем:</p><pre>dlss5-feed.addon64 → рядом с EXE
+<div class="game-head"><div class="card"><h2>Mafia: Definitive Edition</h2><p>Рекомендуемый маршрут: <strong>DLSS5-Feeder v0.15.1 + ReShade</strong>.</p><div class="callout danger"><strong>Experimental</strong>DX11-игра без штатного DLSS. Feeder и OptiScaler/Smooth Motion одновременно не использовать.</div><div class="status-strip"><span class="status-pill exp">Experimental</span><span class="status-pill ok">Проверено: 10.09.2026</span></div></div>
+<div class="card"><div class="summary-grid"><div class="metric"><div class="label">Injection</div><div class="value good">ReShade dxgi.dll</div></div><div class="metric"><div class="label">Input</div><div class="value">Synthetic DLAA contract</div></div><div class="metric"><div class="label">NR</div><div class="value">DLSS5-Feeder v0.15.1 + ReShade</div></div><div class="metric"><div class="label">FG</div><div class="value">OFF</div></div></div></div></div>
+<div class="section recommended-profile" id="mafiade-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix"><tr><th>Параметр</th><th>Рекомендация</th></tr><tr><td>Разрешение</td><td>3840×2160</td></tr><tr><td>Маршрут</td><td>DLSS5-Feeder v0.15.1 + ReShade</td></tr><tr><td>Input</td><td>Synthetic DLAA contract</td></tr><tr><td>DLSS5 Neural Rendering</td><td>ON</td></tr><tr><td>NR Scale</td><td>100% на старте</td></tr><tr><td>Frame Generation</td><td>OFF</td></tr><tr><td>Ключевой параметр</td><td>LaunchPad MV → DLSS5 Feed → NR</td></tr></table><p class="small">Сначала проверяйте Neural Rendering без Frame Generation; затем включайте только один FG-механизм.</p></div></div>
+<div class="section step-section" id="mafiade-install"><div class="section-title"><div class="step-num">1</div><h3>Установка</h3></div><div class="section-body">
+<p><strong>Рекомендуемый способ — one-command installer из DLSS5-Feeder v0.15.1:</strong></p>
+<pre>tools\Install-DLSS5Feeder.ps1</pre>
+<p>Он ставит/обновляет ReShade, Feeder, motion-vector provider и необходимые runtimes с резервным копированием существующих файлов. При ручной установке для 64-bit D3D11:</p>
+<pre>dlss5-feed.addon64 → рядом с EXE
 DLSS5_Feed.fx → reshade-shaders\Shaders\
-MartysMods_LAUNCHPAD.fx → motion-vector provider</pre><p>Добавьте <code>renodx-dlss5.addon64</code>, <code>nvngx_dlssnr.dll</code> и <code>nvngx_dlss.dll</code>.</p></div></div>
+MartysMods_LAUNCHPAD.fx → motion-vector provider
+renodx-dlss5.addon64
+nvngx_dlssnr.dll
+nvngx_dlss.dll</pre>
+<p><a href="https://github.com/jlrouzies-fr/DLSS5-Feeder/releases/tag/v0.15.1" target="_blank">DLSS5-Feeder v0.15.1</a></p>
+</div></div>
 <div class="section step-section"><div class="section-title"><div class="step-num">2</div><h3>Первый запуск DLSS5</h3></div><div class="section-body"><pre>MSAA / SSAA OFF
 Motion Vector Provider ON
 DLSS5 Feed ON
 Neural Rendering ON</pre></div></div>
 <div class="section step-section" id="mafiade-fg"><div class="section-title"><div class="step-num">3</div><h3>Frame Generation</h3></div><div class="section-body"><p>OFF. Включайте только после стабильной работы NR; Smooth Motion оставьте OFF, если используется другой FG.</p></div></div>
-<div class="section step-section" id="mafiade-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>Проверяйте <code>dlss5-feed.log</code> на <code>feature ready</code> и <code>frame N delivered</code>. Порядок эффектов: motion vectors → DLSS5 Feed.</p></div></div>
-<div class="card source-list" id="mafiade-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/jlrouzies-fr/DLSS5-Feeder" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li></ul></div></section><section class="tab-panel" id="bloodlines2">
-<div class="game-head"><div class="card"><h2>Vampire: The Masquerade - Bloodlines 2</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR + OptiPatcher</strong>.</p><div class="callout warn"><strong>Recommended</strong>Сначала добейтесь стабильного NR с FG OFF; затем включайте FG.</div><div class="status-strip"><span class="status-pill ok">Recommended</span><span class="status-pill ok">Проверено: 09.09.2026</span></div></div>
+<div class="section step-section" id="mafiade-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>Проверяйте <code>dlss5-feed.log</code> на <code>feature ready</code> и <code>frame N delivered</code>. Порядок эффектов: motion vectors → DLSS5 Feed.</p><div class="callout ok"><strong>HDR10 bridge в Feeder 0.15.1</strong>Если конкретная конфигурация реально выводит <strong>HDR10 PQ BT.2020</strong> в 10-bit swapchain, оставьте <code>hdr_bridge=-1</code> (auto). Feeder преобразует PQ → linear FP16 → PQ, чтобы DLSS-NR видел корректный HDR. Базовый <code>hdr_paper_white=203</code> нит. В <code>dlss5-feed.log</code> ищите <code>HDR10 bridge ON</code>. Для SDR этот путь не включается; функция относится к 64-bit D3D11.</div></div></div>
+<div class="card source-list" id="mafiade-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/jlrouzies-fr/DLSS5-Feeder" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li><li><a href="https://github.com/jlrouzies-fr/DLSS5-Feeder/releases/tag/v0.15.1" target="_blank">DLSS5-Feeder v0.15.1</a></li></ul></div></section><section class="tab-panel" id="bloodlines2">
+<div class="game-head"><div class="card"><h2>Vampire: The Masquerade - Bloodlines 2</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR + OptiPatcher</strong>.</p><div class="callout warn"><strong>Recommended</strong>Сначала добейтесь стабильного NR с FG OFF; затем включайте FG.</div><div class="status-strip"><span class="status-pill ok">Recommended</span><span class="status-pill ok">Проверено: 10.09.2026</span></div></div>
 <div class="card"><div class="summary-grid"><div class="metric"><div class="label">Injection</div><div class="value good">dxgi.dll</div></div><div class="metric"><div class="label">Input</div><div class="value">DLSS</div></div><div class="metric"><div class="label">NR</div><div class="value">OptiScaler_DLSSNR + OptiPatcher</div></div><div class="metric"><div class="label">FG</div><div class="value">Native DLSSG если стабилен</div></div></div></div></div>
 <div class="section recommended-profile" id="bloodlines2-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix"><tr><th>Параметр</th><th>Рекомендация</th></tr><tr><td>Разрешение</td><td>3840×2160</td></tr><tr><td>Маршрут</td><td>OptiScaler_DLSSNR + OptiPatcher</td></tr><tr><td>Input</td><td>DLSS</td></tr><tr><td>DLSS5 Neural Rendering</td><td>ON</td></tr><tr><td>NR Scale</td><td>85–100%</td></tr><tr><td>Frame Generation</td><td>Native DLSSG если стабилен</td></tr><tr><td>Ключевой параметр</td><td>FG тестировать после NR</td></tr></table><p class="small">Сначала проверяйте Neural Rendering без Frame Generation; затем включайте только один FG-механизм.</p></div></div>
 <div class="section step-section" id="bloodlines2-install"><div class="section-title"><div class="step-num">1</div><h3>Установка</h3></div><div class="section-body"><p>Распакуйте OptiScaler_DLSSNR рядом с основным EXE и запустите:</p><pre>setup_windows.bat
@@ -2144,7 +2154,7 @@ NR Scale 100%</pre></div></div>
 <div class="section step-section" id="bloodlines2-fg"><div class="section-title"><div class="step-num">3</div><h3>Frame Generation</h3></div><div class="section-body"><p>Native DLSSG если стабилен. Включайте только после стабильной работы NR; Smooth Motion оставьте OFF, если используется другой FG.</p></div></div>
 <div class="section step-section" id="bloodlines2-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>Сначала добейтесь стабильного NR с FG OFF; затем включайте FG.</p></div></div>
 <div class="card source-list" id="bloodlines2-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiScaler/wiki/Compatibility-List" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li></ul></div></section><section class="tab-panel" id="ronin">
-<div class="game-head"><div class="card"><h2>Rise of the Ronin</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR</strong>.</p><div class="callout warn"><strong>Supported with workaround</strong>FSR inputs не работают. Если overlay OptiScaler не появляется, compatibility guide отмечает workaround через Nukem-мод.</div><div class="status-strip"><span class="status-pill warn">Supported with workaround</span><span class="status-pill ok">Проверено: 09.09.2026</span></div></div>
+<div class="game-head"><div class="card"><h2>Rise of the Ronin</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR</strong>.</p><div class="callout warn"><strong>Supported with workaround</strong>FSR inputs не работают. Если overlay OptiScaler не появляется, compatibility guide отмечает workaround через Nukem-мод.</div><div class="status-strip"><span class="status-pill warn">Supported with workaround</span><span class="status-pill ok">Проверено: 10.09.2026</span></div></div>
 <div class="card"><div class="summary-grid"><div class="metric"><div class="label">Injection</div><div class="value good">dxgi.dll</div></div><div class="metric"><div class="label">Input</div><div class="value">DLSS</div></div><div class="metric"><div class="label">NR</div><div class="value">OptiScaler_DLSSNR</div></div><div class="metric"><div class="label">FG</div><div class="value">После проверки NR</div></div></div></div></div>
 <div class="section recommended-profile" id="ronin-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix"><tr><th>Параметр</th><th>Рекомендация</th></tr><tr><td>Разрешение</td><td>3840×2160</td></tr><tr><td>Маршрут</td><td>OptiScaler_DLSSNR</td></tr><tr><td>Input</td><td>DLSS</td></tr><tr><td>DLSS5 Neural Rendering</td><td>ON</td></tr><tr><td>NR Scale</td><td>85–100%</td></tr><tr><td>Frame Generation</td><td>После проверки NR</td></tr><tr><td>Ключевой параметр</td><td>DLSS only; FSR input OFF</td></tr></table><p class="small">Сначала проверяйте Neural Rendering без Frame Generation; затем включайте только один FG-механизм.</p></div></div>
 <div class="section step-section" id="ronin-install"><div class="section-title"><div class="step-num">1</div><h3>Установка</h3></div><div class="section-body"><p>Распакуйте OptiScaler_DLSSNR рядом с основным EXE и запустите:</p><pre>setup_windows.bat
@@ -2158,20 +2168,29 @@ NR Scale 100%</pre></div></div>
 <div class="section step-section" id="ronin-fg"><div class="section-title"><div class="step-num">3</div><h3>Frame Generation</h3></div><div class="section-body"><p>После проверки NR. Включайте только после стабильной работы NR; Smooth Motion оставьте OFF, если используется другой FG.</p></div></div>
 <div class="section step-section" id="ronin-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>FSR inputs не работают. Если overlay OptiScaler не появляется, compatibility guide отмечает workaround через Nukem-мод.</p></div></div>
 <div class="card source-list" id="ronin-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiScaler/wiki/Rise-of-the-Ronin" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li></ul></div></section><section class="tab-panel" id="nier">
-<div class="game-head"><div class="card"><h2>NieR:Automata</h2><p>Рекомендуемый маршрут: <strong>DLSS5-Feeder + ReShade</strong>.</p><div class="callout danger"><strong>Experimental</strong>64-bit D3D11 без штатного DLSS. Feeder несовместим с OptiScaler и Smooth Motion.</div><div class="status-strip"><span class="status-pill exp">Experimental</span><span class="status-pill ok">Проверено: 09.09.2026</span></div></div>
-<div class="card"><div class="summary-grid"><div class="metric"><div class="label">Injection</div><div class="value good">ReShade dxgi.dll</div></div><div class="metric"><div class="label">Input</div><div class="value">Synthetic DLAA contract</div></div><div class="metric"><div class="label">NR</div><div class="value">DLSS5-Feeder + ReShade</div></div><div class="metric"><div class="label">FG</div><div class="value">OFF</div></div></div></div></div>
-<div class="section recommended-profile" id="nier-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix"><tr><th>Параметр</th><th>Рекомендация</th></tr><tr><td>Разрешение</td><td>3840×2160</td></tr><tr><td>Маршрут</td><td>DLSS5-Feeder + ReShade</td></tr><tr><td>Input</td><td>Synthetic DLAA contract</td></tr><tr><td>DLSS5 Neural Rendering</td><td>ON</td></tr><tr><td>NR Scale</td><td>100% на старте</td></tr><tr><td>Frame Generation</td><td>OFF</td></tr><tr><td>Ключевой параметр</td><td>MSAA/SSAA OFF; LaunchPad MV обязателен</td></tr></table><p class="small">Сначала проверяйте Neural Rendering без Frame Generation; затем включайте только один FG-механизм.</p></div></div>
-<div class="section step-section" id="nier-install"><div class="section-title"><div class="step-num">1</div><h3>Установка</h3></div><div class="section-body"><p>Установите ReShade Full Add-on Support, затем:</p><pre>dlss5-feed.addon64 → рядом с EXE
+<div class="game-head"><div class="card"><h2>NieR:Automata</h2><p>Рекомендуемый маршрут: <strong>DLSS5-Feeder v0.15.1 + ReShade</strong>.</p><div class="callout danger"><strong>Experimental</strong>64-bit D3D11 без штатного DLSS. Feeder несовместим с OptiScaler и Smooth Motion.</div><div class="status-strip"><span class="status-pill exp">Experimental</span><span class="status-pill ok">Проверено: 10.09.2026</span></div></div>
+<div class="card"><div class="summary-grid"><div class="metric"><div class="label">Injection</div><div class="value good">ReShade dxgi.dll</div></div><div class="metric"><div class="label">Input</div><div class="value">Synthetic DLAA contract</div></div><div class="metric"><div class="label">NR</div><div class="value">DLSS5-Feeder v0.15.1 + ReShade</div></div><div class="metric"><div class="label">FG</div><div class="value">OFF</div></div></div></div></div>
+<div class="section recommended-profile" id="nier-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix"><tr><th>Параметр</th><th>Рекомендация</th></tr><tr><td>Разрешение</td><td>3840×2160</td></tr><tr><td>Маршрут</td><td>DLSS5-Feeder v0.15.1 + ReShade</td></tr><tr><td>Input</td><td>Synthetic DLAA contract</td></tr><tr><td>DLSS5 Neural Rendering</td><td>ON</td></tr><tr><td>NR Scale</td><td>100% на старте</td></tr><tr><td>Frame Generation</td><td>OFF</td></tr><tr><td>Ключевой параметр</td><td>MSAA/SSAA OFF; LaunchPad MV обязателен</td></tr></table><p class="small">Сначала проверяйте Neural Rendering без Frame Generation; затем включайте только один FG-механизм.</p></div></div>
+<div class="section step-section" id="nier-install"><div class="section-title"><div class="step-num">1</div><h3>Установка</h3></div><div class="section-body">
+<p><strong>Рекомендуемый способ — one-command installer из DLSS5-Feeder v0.15.1:</strong></p>
+<pre>tools\Install-DLSS5Feeder.ps1</pre>
+<p>Он ставит/обновляет ReShade, Feeder, motion-vector provider и необходимые runtimes с резервным копированием существующих файлов. При ручной установке для 64-bit D3D11:</p>
+<pre>dlss5-feed.addon64 → рядом с EXE
 DLSS5_Feed.fx → reshade-shaders\Shaders\
-MartysMods_LAUNCHPAD.fx → motion-vector provider</pre><p>Добавьте <code>renodx-dlss5.addon64</code>, <code>nvngx_dlssnr.dll</code> и <code>nvngx_dlss.dll</code>.</p></div></div>
+MartysMods_LAUNCHPAD.fx → motion-vector provider
+renodx-dlss5.addon64
+nvngx_dlssnr.dll
+nvngx_dlss.dll</pre>
+<p><a href="https://github.com/jlrouzies-fr/DLSS5-Feeder/releases/tag/v0.15.1" target="_blank">DLSS5-Feeder v0.15.1</a></p>
+</div></div>
 <div class="section step-section"><div class="section-title"><div class="step-num">2</div><h3>Первый запуск DLSS5</h3></div><div class="section-body"><pre>MSAA / SSAA OFF
 Motion Vector Provider ON
 DLSS5 Feed ON
 Neural Rendering ON</pre></div></div>
 <div class="section step-section" id="nier-fg"><div class="section-title"><div class="step-num">3</div><h3>Frame Generation</h3></div><div class="section-body"><p>OFF. Включайте только после стабильной работы NR; Smooth Motion оставьте OFF, если используется другой FG.</p></div></div>
-<div class="section step-section" id="nier-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>Проверяйте <code>dlss5-feed.log</code> на <code>feature ready</code> и <code>frame N delivered</code>. Порядок эффектов: motion vectors → DLSS5 Feed.</p></div></div>
-<div class="card source-list" id="nier-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/jlrouzies-fr/DLSS5-Feeder" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li></ul></div></section><section class="tab-panel" id="stalker2">
-<div class="game-head"><div class="card"><h2>S.T.A.L.K.E.R. 2: Heart of Chornobyl</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR + OptiPatcher</strong>.</p><div class="callout warn"><strong>Recommended</strong>FSR3.1 upscaling input показывает худшее качество; для RTX 5080 используйте DLSS.</div><div class="status-strip"><span class="status-pill ok">Recommended</span><span class="status-pill ok">Проверено: 09.09.2026</span></div></div>
+<div class="section step-section" id="nier-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>Проверяйте <code>dlss5-feed.log</code> на <code>feature ready</code> и <code>frame N delivered</code>. Порядок эффектов: motion vectors → DLSS5 Feed.</p><div class="callout ok"><strong>HDR10 bridge в Feeder 0.15.1</strong>Если конкретная конфигурация реально выводит <strong>HDR10 PQ BT.2020</strong> в 10-bit swapchain, оставьте <code>hdr_bridge=-1</code> (auto). Feeder преобразует PQ → linear FP16 → PQ, чтобы DLSS-NR видел корректный HDR. Базовый <code>hdr_paper_white=203</code> нит. В <code>dlss5-feed.log</code> ищите <code>HDR10 bridge ON</code>. Для SDR этот путь не включается; функция относится к 64-bit D3D11.</div></div></div>
+<div class="card source-list" id="nier-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/jlrouzies-fr/DLSS5-Feeder" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li><li><a href="https://github.com/jlrouzies-fr/DLSS5-Feeder/releases/tag/v0.15.1" target="_blank">DLSS5-Feeder v0.15.1</a></li></ul></div></section><section class="tab-panel" id="stalker2">
+<div class="game-head"><div class="card"><h2>S.T.A.L.K.E.R. 2: Heart of Chornobyl</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR + OptiPatcher</strong>.</p><div class="callout warn"><strong>Recommended</strong>FSR3.1 upscaling input показывает худшее качество; для RTX 5080 используйте DLSS.</div><div class="status-strip"><span class="status-pill ok">Recommended</span><span class="status-pill ok">Проверено: 10.09.2026</span></div></div>
 <div class="card"><div class="summary-grid"><div class="metric"><div class="label">Injection</div><div class="value good">dxgi.dll / winmm.dll</div></div><div class="metric"><div class="label">Input</div><div class="value">DLSS</div></div><div class="metric"><div class="label">NR</div><div class="value">OptiScaler_DLSSNR + OptiPatcher</div></div><div class="metric"><div class="label">FG</div><div class="value">Native DLSSG / XeFG</div></div></div></div></div>
 <div class="section recommended-profile" id="stalker2-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix"><tr><th>Параметр</th><th>Рекомендация</th></tr><tr><td>Разрешение</td><td>3840×2160</td></tr><tr><td>Маршрут</td><td>OptiScaler_DLSSNR + OptiPatcher</td></tr><tr><td>Input</td><td>DLSS</td></tr><tr><td>DLSS5 Neural Rendering</td><td>ON</td></tr><tr><td>NR Scale</td><td>80–100%</td></tr><tr><td>Frame Generation</td><td>Native DLSSG / XeFG</td></tr><tr><td>Ключевой параметр</td><td>Reflex ON; FSR3.1 input не рекомендуется</td></tr></table><p class="small">Сначала проверяйте Neural Rendering без Frame Generation; затем включайте только один FG-механизм.</p></div></div>
 <div class="section step-section" id="stalker2-install"><div class="section-title"><div class="step-num">1</div><h3>Установка</h3></div><div class="section-body"><p>Распакуйте OptiScaler_DLSSNR рядом с основным EXE и запустите:</p><pre>setup_windows.bat
@@ -2185,7 +2204,7 @@ NR Scale 100%</pre></div></div>
 <div class="section step-section" id="stalker2-fg"><div class="section-title"><div class="step-num">3</div><h3>Frame Generation</h3></div><div class="section-body"><p>Native DLSSG / XeFG. Включайте только после стабильной работы NR; Smooth Motion оставьте OFF, если используется другой FG.</p></div></div>
 <div class="section step-section" id="stalker2-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>FSR3.1 upscaling input показывает худшее качество; для RTX 5080 используйте DLSS.</p></div></div>
 <div class="card source-list" id="stalker2-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiScaler/wiki/S.T.A.L.K.E.R.-2-Heart-of-Chornobyl" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li></ul></div></section><section class="tab-panel" id="splitfiction">
-<div class="game-head"><div class="card"><h2>Split Fiction</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR</strong>.</p><div class="callout warn"><strong>Supported route</strong>В compatibility list подтверждён FSR3 input; отдельный DLSS input не подтверждён.</div><div class="status-strip"><span class="status-pill warn">Supported route</span><span class="status-pill ok">Проверено: 09.09.2026</span></div></div>
+<div class="game-head"><div class="card"><h2>Split Fiction</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR</strong>.</p><div class="callout warn"><strong>Supported route</strong>В compatibility list подтверждён FSR3 input; отдельный DLSS input не подтверждён.</div><div class="status-strip"><span class="status-pill warn">Supported route</span><span class="status-pill ok">Проверено: 10.09.2026</span></div></div>
 <div class="card"><div class="summary-grid"><div class="metric"><div class="label">Injection</div><div class="value good">dxgi.dll</div></div><div class="metric"><div class="label">Input</div><div class="value">FSR3</div></div><div class="metric"><div class="label">NR</div><div class="value">OptiScaler_DLSSNR</div></div><div class="metric"><div class="label">FG</div><div class="value">FSR3 FG после NR</div></div></div></div></div>
 <div class="section recommended-profile" id="splitfiction-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix"><tr><th>Параметр</th><th>Рекомендация</th></tr><tr><td>Разрешение</td><td>3840×2160</td></tr><tr><td>Маршрут</td><td>OptiScaler_DLSSNR</td></tr><tr><td>Input</td><td>FSR3</td></tr><tr><td>DLSS5 Neural Rendering</td><td>ON</td></tr><tr><td>NR Scale</td><td>85–100%</td></tr><tr><td>Frame Generation</td><td>FSR3 FG после NR</td></tr><tr><td>Ключевой параметр</td><td>A/B-проверка обязательна; Smooth Motion OFF</td></tr></table><p class="small">Сначала проверяйте Neural Rendering без Frame Generation; затем включайте только один FG-механизм.</p></div></div>
 <div class="section step-section" id="splitfiction-install"><div class="section-title"><div class="step-num">1</div><h3>Установка</h3></div><div class="section-body"><p>Распакуйте OptiScaler_DLSSNR рядом с основным EXE и запустите:</p><pre>setup_windows.bat
@@ -2199,7 +2218,7 @@ NR Scale 100%</pre></div></div>
 <div class="section step-section" id="splitfiction-fg"><div class="section-title"><div class="step-num">3</div><h3>Frame Generation</h3></div><div class="section-body"><p>FSR3 FG после NR. Включайте только после стабильной работы NR; Smooth Motion оставьте OFF, если используется другой FG.</p></div></div>
 <div class="section step-section" id="splitfiction-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>В compatibility list подтверждён FSR3 input; отдельный DLSS input не подтверждён.</p></div></div>
 <div class="card source-list" id="splitfiction-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiScaler/wiki/Compatibility-List" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li></ul></div></section><section class="tab-panel" id="resonance">
-<div class="game-head"><div class="card"><h2>Resonance: A Plague Tale Legacy</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR + optional OptiPatcher</strong>.</p><div class="callout warn"><strong>Recommended / recent support</strong>OptiPatcher support добавлен недавно; при проблемах сначала проверьте чистый OptiScaler route.</div><div class="status-strip"><span class="status-pill ok">Recommended / recent support</span><span class="status-pill ok">Проверено: 09.09.2026</span></div></div>
+<div class="game-head"><div class="card"><h2>Resonance: A Plague Tale Legacy</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR + optional OptiPatcher</strong>.</p><div class="callout warn"><strong>Recommended / recent support</strong>OptiPatcher support добавлен недавно; при проблемах сначала проверьте чистый OptiScaler route.</div><div class="status-strip"><span class="status-pill ok">Recommended / recent support</span><span class="status-pill ok">Проверено: 10.09.2026</span></div></div>
 <div class="card"><div class="summary-grid"><div class="metric"><div class="label">Injection</div><div class="value good">dxgi.dll</div></div><div class="metric"><div class="label">Input</div><div class="value">DLSS 4/4.5</div></div><div class="metric"><div class="label">NR</div><div class="value">OptiScaler_DLSSNR + optional OptiPatcher</div></div><div class="metric"><div class="label">FG</div><div class="value">Native DLSS FG/MFG</div></div></div></div></div>
 <div class="section recommended-profile" id="resonance-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix"><tr><th>Параметр</th><th>Рекомендация</th></tr><tr><td>Разрешение</td><td>3840×2160</td></tr><tr><td>Маршрут</td><td>OptiScaler_DLSSNR + optional OptiPatcher</td></tr><tr><td>Input</td><td>DLSS 4/4.5</td></tr><tr><td>DLSS5 Neural Rendering</td><td>ON</td></tr><tr><td>NR Scale</td><td>80–100%</td></tr><tr><td>Frame Generation</td><td>Native DLSS FG/MFG</td></tr><tr><td>Ключевой параметр</td><td>DLSS Quality; Preset M при необходимости</td></tr></table><p class="small">Сначала проверяйте Neural Rendering без Frame Generation; затем включайте только один FG-механизм.</p></div></div>
 <div class="section step-section" id="resonance-install"><div class="section-title"><div class="step-num">1</div><h3>Установка</h3></div><div class="section-body"><p>Распакуйте OptiScaler_DLSSNR рядом с основным EXE и запустите:</p><pre>setup_windows.bat
@@ -2213,7 +2232,7 @@ NR Scale 100%</pre></div></div>
 <div class="section step-section" id="resonance-fg"><div class="section-title"><div class="step-num">3</div><h3>Frame Generation</h3></div><div class="section-body"><p>Native DLSS FG/MFG. Включайте только после стабильной работы NR; Smooth Motion оставьте OFF, если используется другой FG.</p></div></div>
 <div class="section step-section" id="resonance-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>OptiPatcher support добавлен недавно; при проблемах сначала проверьте чистый OptiScaler route.</p></div></div>
 <div class="card source-list" id="resonance-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiPatcher/releases" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li></ul></div></section><section class="tab-panel" id="yakuza3">
-<div class="game-head"><div class="card"><h2>Yakuza Kiwami 3 &amp; Dark Ties</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR trial / Autopilot</strong>.</p><div class="callout danger"><strong>Experimental</strong>PC-версия имеет DLSS 4/FSR3/XeSS2, но отдельной протестированной записи OptiScaler пока нет.</div><div class="status-strip"><span class="status-pill exp">Experimental</span><span class="status-pill ok">Проверено: 09.09.2026</span></div></div>
+<div class="game-head"><div class="card"><h2>Yakuza Kiwami 3 &amp; Dark Ties</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR trial / Autopilot</strong>.</p><div class="callout danger"><strong>Experimental</strong>PC-версия имеет DLSS 4/FSR3/XeSS2, но отдельной протестированной записи OptiScaler пока нет.</div><div class="status-strip"><span class="status-pill exp">Experimental</span><span class="status-pill ok">Проверено: 10.09.2026</span></div></div>
 <div class="card"><div class="summary-grid"><div class="metric"><div class="label">Injection</div><div class="value good">dxgi.dll (trial)</div></div><div class="metric"><div class="label">Input</div><div class="value">DLSS 4</div></div><div class="metric"><div class="label">NR</div><div class="value">OptiScaler_DLSSNR trial / Autopilot</div></div><div class="metric"><div class="label">FG</div><div class="value">NVIDIA MFG после NR</div></div></div></div></div>
 <div class="section recommended-profile" id="yakuza3-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix"><tr><th>Параметр</th><th>Рекомендация</th></tr><tr><td>Разрешение</td><td>3840×2160</td></tr><tr><td>Маршрут</td><td>OptiScaler_DLSSNR trial / Autopilot</td></tr><tr><td>Input</td><td>DLSS 4</td></tr><tr><td>DLSS5 Neural Rendering</td><td>ON</td></tr><tr><td>NR Scale</td><td>85–100%</td></tr><tr><td>Frame Generation</td><td>NVIDIA MFG после NR</td></tr><tr><td>Ключевой параметр</td><td>При неудачном hook использовать DLSS5 Autopilot route detection</td></tr></table><p class="small">Сначала проверяйте Neural Rendering без Frame Generation; затем включайте только один FG-механизм.</p></div></div>
 <div class="section step-section" id="yakuza3-install"><div class="section-title"><div class="step-num">1</div><h3>Установка</h3></div><div class="section-body"><p>Распакуйте OptiScaler_DLSSNR рядом с основным EXE и запустите:</p><pre>setup_windows.bat
@@ -2226,7 +2245,7 @@ Neural Rendering ON
 NR Scale 100%</pre></div></div>
 <div class="section step-section" id="yakuza3-fg"><div class="section-title"><div class="step-num">3</div><h3>Frame Generation</h3></div><div class="section-body"><p>NVIDIA MFG после NR. Включайте только после стабильной работы NR; Smooth Motion оставьте OFF, если используется другой FG.</p></div></div>
 <div class="section step-section" id="yakuza3-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>PC-версия имеет DLSS 4/FSR3/XeSS2, но отдельной протестированной записи OptiScaler пока нет.</p></div></div>
-<div class="card source-list" id="yakuza3-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/Kizzuwatnaa/DLSS5-Autopilot" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li></ul></div></section><footer class="footer"><strong>Интерфейс v7:</strong> production-справочник содержит 27 игровых профилей с маршрутами DLSS5, таблицами RTX 5080 / 4K, FG и диагностикой.</footer>
+<div class="card source-list" id="yakuza3-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/Kizzuwatnaa/DLSS5-Autopilot" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li></ul></div></section><footer class="footer"><strong>Интерфейс v8:</strong> 27 игровых профилей; актуализированы DLSS5 Autopilot 1.8.0, DLSS5-Feeder 0.15.1 и RE_DLSS5_Load_Mod 0.63; добавлены предупреждения о 007 Path Tracing/RR (15.09) и The Witcher 3 Remastered (29.09). Проверено: 10.09.2026.</footer>
 </div>
 <script>
 const allGames = [
