@@ -1,4 +1,4 @@
-# v8 production promotion trigger
+# v8 idempotent cleanup trigger
 name: Apply DLSS5 v8
 
 on:
@@ -42,7 +42,7 @@ jobs:
           git config user.email 'actions@users.noreply.github.com'
           git add index.html
           git diff --cached --quiet && exit 0
-          git commit -m 'Update DLSS5 guide to v8'
+          git commit -m 'Clean duplicate v8 notes'
           git push origin main
 
       - name: Trigger production deploy explicitly
