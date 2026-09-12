@@ -1,0 +1,28 @@
+name: Export DLSS5 Guide v10
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/export-guide-v10.yml
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Validate production v10
+        run: |
+          test -s index.html
+          grep -q 'Интерфейс v10' index.html
+      - name: Upload production HTML
+        uses: actions/upload-artifact@v4
+        with:
+          name: dlss5-guide-v10-production
+          path: index.html
+          if-no-files-found: error
