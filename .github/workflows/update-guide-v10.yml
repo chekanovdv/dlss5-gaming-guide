@@ -1,0 +1,37 @@
+name: Update DLSS5 Guide v10
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/update-guide-v10.yml
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Patch production guide
+        run: python3 tools/update_20260912_v10.py
+
+      - name: Validate v10
+        run: |
+          test -s index.html
+          grep -q 'Интерфейс v10' index.html
+          grep -q 'Shared compatibility feed (12.09.2026, 20:27 UTC)' index.html
+          grep -q 'OptiPatcher rolling 11.09.2026+' index.html
+          test "$(grep -o 'section class="tab-panel' index.html | wc -l)" -eq 27
+
+      - name: Commit index.html
+        run: |
+          git config user.name 'DLSS5 Guide Automation'
+          git config user.email 'deploy@gaming.ramsu.ru'
+          git add index.html
+          git commit -m 'Update DLSS5 guide v10 compatibility data'
+          git push origin main
