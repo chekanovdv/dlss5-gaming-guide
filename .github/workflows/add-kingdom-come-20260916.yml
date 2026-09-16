@@ -1,0 +1,47 @@
+name: Add Kingdom Come profiles 2026-09-16
+
+on:
+  push:
+    branches: [main]
+    paths: [.github/workflows/add-kingdom-come-20260916.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: guide-profile-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout current main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Apply guarded profile update
+        run: |
+          python .github/add_kingdom_come_20260916.py
+          echo '1fab6e7fd1e179b6a99c21b1528721c13b392bc2554b178598f01d499679e562  index.html' | sha256sum --check
+      - name: Commit updated production guide
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git commit -m 'Add Kingdom Come I and II: 29 profiles, guide v12'
+          git push origin HEAD:main
+          git rev-parse HEAD
+      - name: Explicitly dispatch Deploy DLSS5 Guide
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --ref main --repo "$GITHUB_REPOSITORY"
+      - name: Save validated HTML artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dlss5-guide-v12
+          path: index.html
+          retention-days: 7
