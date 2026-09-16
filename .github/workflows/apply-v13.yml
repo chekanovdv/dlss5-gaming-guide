@@ -18,14 +18,23 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: main
-      - name: Apply v13 update
-        run: python tools/update_dlss5_v13.py
+      - name: Fix updater validation and apply v13
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('tools/update_dlss5_v13.py')
+          s=p.read_text()
+          s=s.replace("assert text.count('<section class=\"tab-panel\" id=')==29", "assert text.count('<section class=\"tab-panel\" id=') + text.count('<section class=\"tab-panel active\" id=') == 29")
+          p.write_text(s)
+          PY
+          python tools/update_dlss5_v13.py
       - name: Validate production file
         run: |
           test -s index.html
           grep -q 'DLSS5 Autopilot v1.9.0' index.html
           grep -q '1.16.0-beta.3' index.html
           grep -q 'Интерфейс v13' index.html
+          grep -q '99 отчётов' index.html
       - name: Commit production update
         run: |
           git config user.name 'github-actions[bot]'
