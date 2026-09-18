@@ -1,0 +1,103 @@
+name: Update DLSS5 Guide v14
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/update-v14.yml
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build v14 index
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          def sub(pattern, replacement, count=0, flags=0):
+              global s
+              s2, n = re.subn(pattern, replacement, s, count=count, flags=flags)
+              if n == 0:
+                  raise SystemExit(f'pattern not found: {pattern[:100]}')
+              s = s2
+              return n
+
+          s = s.replace('17.09.2026', '18.09.2026')
+
+          sub(r'<p><strong>Актуально: DLSS5 Autopilot v1\.9\.0 \(15\.09\.2026\)\.</strong>.*?</p>',
+              '<p><strong>Актуально: DLSS5 Autopilot v2.0.1 (17.09.2026).</strong> Это установщик, диагностический маршрутизатор и инструмент измерения стоимости Neural Rendering; в ветке 2.0 добавлены watcher запущенных игр, автоматическая пост-сессионная диагностика и предложение следующего маршрута по фактическим логам.</p>', 1)
+          sub(r'<li><strong>Route policy 1\.9\.0:</strong>.*?</li>',
+              '<li><strong>Route policy 2.0.1:</strong> правило первого маршрута сохраняется: для игр <strong>без собственного DLSS</strong> на драйверах <code>616.64+</code> и 64-bit D3D11/D3D12 обычно предпочтителен <strong>standalone-dlssnr</strong>, если он доступен; <code>feeder</code> остаётся fallback. В 2.0.1 последующие попытки AUTOPILOT упорядочиваются по shared-results конкретной игры: маршрут, который уже стабильно работал у большего числа пользователей, поднимается выше альтернатив, но <strong>не заменяет rule-based первый выбор</strong>. Для игр, которым для рабочего пути нужен DXVK, Autopilot больше не переключает их вслепую на standalone, обходящий DXVK.</li>', 1)
+          sub(r'<li><strong>AUTOPILOT в 1\.9\.0:</strong>.*?</li>',
+              '<li><strong>AUTOPILOT / watcher в 2.0.x:</strong> цикл «установить → запустить → проверить реально загруженные DLL → при неудаче перейти к следующему маршруту» дополнен постоянным watcher: после закрытия установленной игры Autopilot сам читает DLL/логи, выдаёт verdict и при признаках несовместимого hook/feed/model предлагает <strong>try &lt;route&gt;</strong>. Shared-results используются для порядка fallback-маршрутов; anti-cheat и launcher EXE по-прежнему не запускаются автоматически.</li>', 1)
+          sub(r'<li><strong>NR Scale / work area:</strong>.*?</li>',
+              '<li><strong>NR Scale / work area:</strong> для <code>optiscaler</code> Model Resolution остаётся главным регулятором; для Feeder 64-bit D3D11 — work area. Autopilot 2.0.x сохраняет измеряемую настройку из 1.9.0 и теперь показывает shared measurements на странице игры, когда данных достаточно. Если по конкретной игре накоплено несколько успешных измеренных результатов, используйте их как стартовую точку; единичный benchmark не превращайте в универсальную рекомендацию.</li>', 1)
+          sub(r'<li><strong>DLSS5-Feeder:</strong>.*?</li>',
+              '<li><strong>DLSS5-Feeder:</strong> стабильная рекомендация остаётся <strong>0.15.1</strong>. Актуальный troubleshooting build — <strong>1.16.0-beta.4</strong> (16–17.09.2026): поверх beta.3 добавлено исправление для <strong>32-bit игр в exclusive fullscreen</strong>, где окно 64-bit host могло вызывать freeze/black screen. Новый <code>host_window=2</code> принудительно запускает helper без окна; в таком режиме внутриигровая DLSS5-панель недоступна, для панели используйте borderless. Для 64-bit профилей справочника новая delta beta.4 сама по себе не является причиной менять stable 0.15.1.</li>', 1)
+          sub(r'<li><strong>Shared compatibility feed:</strong>.*?</li>',
+              '<li><strong>Shared compatibility feed:</strong> база сгенерирована <strong>18.09.2026 17:45 UTC</strong> и содержит <strong>135 отчётов</strong>. Для профилей справочника: 007 First Light — <code>optiscaler</code> <strong>1 success / 0 fail</strong>; Cyberpunk 2077 — <code>optiscaler</code> <strong>2 / 2</strong> и <code>neural-upstream</code> <strong>1 / 0</strong>; The Last of Us Part II Remastered — <code>neural-upstream</code> <strong>1 / 0</strong>; Starfield — <code>neural-upstream</code> <strong>0 / 1</strong>; Onimusha — <code>native</code> <strong>0 / 1</strong> и <code>optiscaler</code> <strong>0 / 1</strong>; RDR2 — <code>optiscaler</code> <strong>0 / 1</strong>. Это данные маршрутов Autopilot, а не доказательство совместимости конкретного NR-fork + RR/FG.</li>', 1)
+
+          s = s.replace('https://github.com/Kizzuwatnaa/DLSS5-Autopilot/releases/tag/v1.9.0', 'https://github.com/Kizzuwatnaa/DLSS5-Autopilot/releases/tag/v2.0.1')
+          s = s.replace('DLSS5 Autopilot v1.9.0 — changelog', 'DLSS5 Autopilot v2.0.1 — changelog')
+          s = s.replace('https://github.com/jlrouzies-fr/DLSS5-Feeder/releases/tag/v1.16.0-beta.3', 'https://github.com/jlrouzies-fr/DLSS5-Feeder/releases/tag/v1.16.0-beta.4')
+          s = s.replace('DLSS5-Feeder 1.16.0-beta.3 — troubleshooting build', 'DLSS5-Feeder 1.16.0-beta.4 — troubleshooting build')
+
+          sub(r'<div class="callout warn"><strong>Autopilot / driver 616\.92</strong>.*?</div>',
+              '<div class="callout warn"><strong>Autopilot / driver 616.92</strong>В feed от 18.09 для Onimusha накоплено два неуспешных отчёта на 616.92: <code>native</code> <strong>0/1</strong> и <code>optiscaler</code> <strong>0/1</strong>. Это не доказывает несовместимость RE-специфичного маршрута: для этого профиля по-прежнему предпочтителен <strong>REFramework + RE_DLSS5_Load_Mod</strong>, а Autopilot/OptiScaler используйте как отдельный диагностический эксперимент.</div>', 1)
+
+          sub(r'<div class="callout ok"><strong>Patch 2\.02\.00.*?</div>',
+              '<div class="callout ok"><strong>Patch 2.03.00 — Streamline 2.14.1 и новый RR Transformer</strong>Официальный патч от <strong>18.09.2026</strong> обновил NVIDIA Streamline SDK до <strong>2.14.1</strong> и применил последнюю Transformer-модель к DLSS Ray Reconstruction. Перед модификацией зафиксируйте baseline на штатном RR; затем проверяйте <strong>NR при FG OFF → RR ON → FG последним</strong>. Патч 2.03.00 не является автоматическим подтверждением совместимости OptiScaler_DLSSNR + RR/FG.</div>', 1)
+          s = s.replace('<tr><td>Ray Reconstruction</td><td>ON при RT, если изображение стабильно</td></tr>', '<tr><td>Ray Reconstruction</td><td>Native RR / Streamline 2.14.1; сначала baseline, затем A/B с NR</td></tr>', 1)
+          s = s.replace('<li><a href="https://crimsondesert.pearlabyss.com/ru-RU/News/Notice/Detail?_boardNo=130" target="_blank">Crimson Desert — patch 2.02.00 (DLSS Frame Generation startup crash fix)</a></li>', '<li><a href="https://crimsondesert.pearlabyss.com/ru-ru/News/Notice/Detail?_boardNo=131" target="_blank">Crimson Desert — patch 2.03.00 (Streamline 2.14.1 / DLSS Ray Reconstruction Transformer)</a></li>', 1)
+
+          sub(r'<div class="callout warn"><strong>Autopilot shared results — 16\.09 / 99 reports</strong>.*?</div>',
+              '<div class="callout warn"><strong>Autopilot shared results — 18.09 / 135 reports</strong>Для Cyberpunk 2077 feed теперь показывает <code>optiscaler</code> <strong>2 success / 2 fail</strong> и <code>neural-upstream</code> <strong>1 success / 0 fail</strong>; на драйвере 616.92 добавились два успешных отчёта. Выборка всё ещё мала: это аргумент для A/B, а не основание автоматически менять основной ручной профиль OptiScaler_DLSSNR. FG держите OFF во время первичной настройки NR.</div>', 1)
+
+          marker = '<p>OptiScaler подтверждён с DLSS, FSR 3.1 и XeSS. Для корректного распознавания UI установите <strong>Brightness = 0</strong> в игре.</p><div class="status-strip">'
+          replacement = '<p>OptiScaler подтверждён с DLSS, FSR 3.1 и XeSS. Для корректного распознавания UI установите <strong>Brightness = 0</strong> в игре.</p><div class="callout ok"><strong>Autopilot shared result — neural-upstream</strong>В feed от 18.09 появился <strong>1 success / 0 fail</strong> для <code>neural-upstream</code> на драйвере 616.92. Это полезная A/B-альтернатива основному OptiScaler_DLSSNR-профилю, но единичный отчёт не является подтверждением универсальной совместимости NR+FG.</div><div class="status-strip">'
+          if marker not in s: raise SystemExit('TLOU2 marker missing')
+          s = s.replace(marker, replacement, 1)
+          s = s.replace('В актуальном feed (16.09, 99 отчётов) для 007 First Light остаётся <strong>1 success / 0 fail</strong>', 'В актуальном feed (18.09, 135 отчётов) для 007 First Light остаётся <strong>1 success / 0 fail</strong>', 1)
+
+          sub(r'<div class="callout ok"><strong>Game update v1\.0\.11.*?</div>',
+              '<div class="callout ok"><strong>Game update v1.0.12 — DLSS / Frame Generation для RTX 40/50</strong>Патч от <strong>17.09.2026</strong> улучшил PC-настройки DLSS/FG: варианты Frame Generation теперь подстраиваются под обнаруженную серию GPU (<strong>RTX 40 / RTX 50</strong>), а при <strong>DLSS-Dynamic + дисплей 120 Hz+</strong> можно задать целевой FPS. На RTX 5080 заново проверьте игровые FG-варианты после обновления; для диагностики NR сначала оставьте <strong>FG OFF</strong>. Эти изменения игры не являются отдельным подтверждением NR-fork.</div>', 1)
+          s = s.replace('<tr><td>Frame Generation</td><td>Native DLSSG после проверки NR; coupled с DLSS начиная с update 1.0.9</td></tr>', '<tr><td>Frame Generation</td><td>Native DLSSG после проверки NR; v1.0.12 адаптирует варианты под RTX 50</td></tr>', 1)
+          s = s.replace('<tr><td>Ключевой параметр</td><td>DLSS input; при проблемах с текущим патчем — OptiPatcher rolling 11.09.2026+</td></tr>', '<tr><td>Ключевой параметр</td><td>DLSS input; DLSS-Dynamic на 120 Hz+ допускает target FPS; OptiPatcher rolling 11.09.2026+</td></tr>', 1)
+          s = s.replace('<li><a href="https://steamdb.info/patchnotes/25130977/" target="_blank">Beast of Reincarnation v1.0.11 — patch notes mirror</a></li>', '<li><a href="https://steamdb.info/patchnotes/25337386/" target="_blank">Beast of Reincarnation v1.0.12 — PC patch notes</a></li>', 1)
+
+          s = s.replace('DLSS5 Autopilot 1.9.0 → standalone-dlssnr', 'DLSS5 Autopilot 2.0.1 → standalone-dlssnr')
+          s = s.replace('<strong>Autopilot 1.9.0 / Driver 616.64+ — route policy сохраняется</strong>', '<strong>Autopilot 2.0.1 / Driver 616.64+ — первый маршрут сохраняется</strong>')
+          sub(r'<div class="callout ok"><strong>DLSS5-Feeder 1\.16\.0-beta\.3 — 16\.09\.2026</strong>.*?</div>',
+              '<div class="callout ok"><strong>DLSS5-Feeder 1.16.0-beta.4 — latest prerelease</strong>Beta.4 включает beta.3 и добавляет исправление для <strong>32-bit exclusive-fullscreen</strong>; новая delta не относится напрямую к этому 64-bit профилю. Для ручного стабильного fallback сохраняйте <strong>0.15.1</strong>; beta.4 используйте только для диагностического ретеста и сохраняйте логи.</div>', 3)
+
+          sub(r'<footer class="footer">.*?</footer>',
+              '<footer class="footer"><strong>Интерфейс v14:</strong> 29 игровых профилей, комплексная проверка 18.09.2026. DLSS5 Autopilot обновлён до <strong>2.0.1</strong>: первый rule-based маршрут сохраняется, watcher автоматически диагностирует завершённые сессии, а последующие AUTOPILOT-попытки упорядочиваются с учётом shared-results; отдельно учтено исключение для игр, которым нужен DXVK. Shared compatibility feed — <strong>135 отчётов</strong> (18.09 17:45 UTC); обновлены Cyberpunk 2077, Onimusha и The Last of Us Part II Remastered. DLSS5-Feeder: stable <strong>0.15.1</strong>, troubleshooting <strong>1.16.0-beta.4</strong> с fix для 32-bit exclusive fullscreen и <code>host_window=2</code>. Для Crimson Desert учтён patch <strong>2.03.00</strong> с NVIDIA Streamline <strong>2.14.1</strong> и новой Transformer-моделью DLSS Ray Reconstruction; для Beast of Reincarnation — <strong>v1.0.12</strong> с GPU-aware FG для RTX 40/50 и target FPS для DLSS-Dynamic на 120 Hz+. Без новых stable-релизов, требующих смены остальных маршрутов: OptiScaler_DLSSNR 0.2.0, OptiScaler 0.9.4, OptiPatcher Rolling 11.09, RE_DLSS5_Load_Mod 0.63, REFramework 1.5.9.1, ReShade 6.8.0, NVIDIA DLSS SDK 310.9.1.</footer>', 1, re.S)
+
+          required = ['Интерфейс v14', 'DLSS5 Autopilot v2.0.1', '1.16.0-beta.4', '135 отчётов', 'Patch 2.03.00', 'Game update v1.0.12', "{ value: 'kcd',", "{ value: 'kcd2',"]
+          if s.count('section class="tab-panel" id=') != 29:
+              raise SystemExit('profile count is not 29')
+          for x in required:
+              if x not in s: raise SystemExit(f'missing {x}')
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit v14
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git diff --cached --quiet && exit 0
+          git commit -m "Update DLSS5 guide: Autopilot 2.0.1 and Sep 18 compatibility"
+          git push origin main
