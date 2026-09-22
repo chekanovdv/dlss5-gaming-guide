@@ -1,0 +1,30 @@
+name: Export DLSS5 Guide v16
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/export-v16.yml
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Validate production v16
+        run: |
+          test -s index.html
+          grep -Fq 'Интерфейс v16' index.html
+          grep -Fq 'Игр:</strong> 29' index.html
+          test "$(git hash-object index.html)" = "6e7547b377da6bc72f9f57512da29d9826dd3a7e"
+      - name: Upload production HTML
+        uses: actions/upload-artifact@v4
+        with:
+          name: dlss5-guide-v16-2026-09-23
+          path: index.html
+          if-no-files-found: error
