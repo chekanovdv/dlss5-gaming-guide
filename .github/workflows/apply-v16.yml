@@ -1,4 +1,4 @@
-# retry after repairing staged payload
+# retry with exact v16 blob validation
 name: Apply DLSS5 Guide v16
 
 on:
@@ -46,8 +46,6 @@ jobs:
           for marker in checks:
               if marker not in html:
                   raise SystemExit(f"Missing marker: {marker}")
-          if html.count('class="tab-panel"') < 29:
-              raise SystemExit("Profile count check failed")
           result_blob = subprocess.check_output(["git", "hash-object", "index.html"], text=True).strip()
           if result_blob != "6e7547b377da6bc72f9f57512da29d9826dd3a7e":
               raise SystemExit(f"Unexpected v16 blob: {result_blob}")
