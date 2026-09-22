@@ -1,0 +1,48 @@
+name: Apply DLSS5 Guide v17 DXL
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/apply-v17-dxl.yml
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Validate base
+        run: |
+          test "$(git hash-object index.html)" = "6e7547b377da6bc72f9f57512da29d9826dd3a7e"
+          grep -Fq 'Интерфейс v16' index.html
+          grep -Fq 'Игр:</strong> 29' index.html
+      - name: Apply v17 patch
+        shell: bash
+        run: |
+          python - <<'PY'
+          import base64, zlib, pathlib
+          payload = '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'
+          pathlib.Path('/tmp/v17.patch').write_bytes(zlib.decompress(base64.b64decode(payload)))
+          PY
+          git apply /tmp/v17.patch
+      - name: Validate v17
+        run: |
+          test "$(git hash-object index.html)" = "0fe24e08359d61f4683f36f562f639e031e77fa1"
+          grep -Fq 'Интерфейс v17' index.html
+          grep -Fq 'DXL 0.7' index.html
+          grep -Fq 'Kingdom Come: Deliverance II' index.html
+          grep -Fq 'Игр:</strong> 29' index.html
+      - name: Commit production index
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git commit -m 'Update DLSS5 guide v17: add DXL 0.7 route for Onimusha'
+          git push origin HEAD:main
