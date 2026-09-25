@@ -639,8 +639,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{
 <span aria-hidden="true" class="finder-shortcut">Ctrl K</span>
 </div>
 <div class="game-results" hidden="" id="gameResults" role="listbox"></div>
-</div><div class="meta"><span class="badge"><strong>Игр:</strong> 29</span>
-<span class="badge"><strong>Обновлено:</strong> 23.09.2026</span>
+</div><div class="meta"><span class="badge"><strong>Игр:</strong> 31</span>
+<span class="badge"><strong>Обновлено:</strong> 26.09.2026</span>
 <span class="badge"><strong>Режим:</strong> Story / Single Player</span>
 </div>
 <details class="autopilot-details" id="autopilot-note"><summary>DLSS5 Autopilot — когда он нужен?</summary><div class="autopilot-details-body">
@@ -2329,7 +2329,155 @@ Autopilot → did it work? / журналы выбранного форка</pre
 <li><a href="https://www.nvidia.com/en-eu/geforce/news/dlss-kingdom-come-deliverance-ii-and-many-more-games/" target="_blank" rel="noopener noreferrer">NVIDIA: штатная поддержка DLSS Super Resolution</a></li>
 <li><a href="https://www.nexusmods.com/kingdomcomedeliverance2/mods/541" target="_blank" rel="noopener noreferrer">Авторская инструкция: путь к EXE в Steam, не подтверждение NR</a></li><li><a href="https://www.nexusmods.com/kingdomcomedeliverance2/mods/3630" target="_blank" rel="noopener noreferrer">Community compatibility signal: DLSS5 + MFG, updated 16.09.2026 (не использовать bundled files как baseline)</a></li>
 </ul><p class="small">Статус отражает доступные документы, а не личный запуск игры. Скачивайте компоненты из репозиториев авторов; обещания «DLSS 5 free upgrade / FPS ×4» не являются подтверждением совместимости.</p></div></section>
-<footer class="footer"><strong>Интерфейс v17:</strong> 29 игровых профилей, комплексная проверка 23.09.2026. DLSS5 Autopilot — <strong>2.0.4</strong>: route-policy не менялась, исправлены выбор правильного wilsjo2 OptiScaler archive и разделение stable/beta DLSS5-Feeder. Shared compatibility feed — <strong>232 отчёта</strong> (22.09 19:32 UTC): Cyberpunk optiscaler 3/2 и upstream 2/0; Starfield optiscaler 1/1 и upstream 1/0; RDR2.exe optiscaler 1/1; AC Black Flag Resynced optiscaler 2/0. DLSS5-Feeder: stable <strong>0.15.1</strong>, troubleshooting <strong>1.17.0-beta.1</strong> с поддержкой Dagherbou и wilsjo2 NR-consumer; поддержка fork не считается game-specific подтверждением. OptiPatcher Rolling обновлён <strong>22.09.2026</strong> (<code>75b76bc</code>). NVIDIA Game Ready — <strong>617.14 WHQL</strong>; для старых community-результатов 616.92 остаётся полезным A/B baseline. Для Onimusha добавлен <strong>DXL 0.7</strong> (17.09.2026) как отдельный A/B-маршрут от автора RE_DLSS5_Load_Mod: обычный native-MV режим проверяется первым, Force compatibility — только fallback и не приравнивается к native-MV/FG. Новых stable-релизов OptiScaler_DLSSNR, OptiScaler, RE_DLSS5_Load_Mod, REFramework, ReShade и NVIDIA DLSS SDK, требующих глобальной смены остальных маршрутов, не обнаружено. Сначала проверяйте NR без FG; неподтверждённые fork/FG-комбинации не переносите между играми.</footer>
+
+<section class="tab-panel" id="controlresonant">
+<div class="game-head">
+<div class="card">
+<h2>CONTROL Resonant</h2>
+<p>Рекомендуемый ранний маршрут для RTX 5080: <strong>штатный DLSS 4.5 → OptiScaler_DLSSNR → DLSS5 Neural Rendering → штатный Dynamic Multi Frame Generation</strong>. Игра вышла 24.09.2026 и нативно поддерживает DLSS Super Resolution, Ray Reconstruction, Path Tracing и Dynamic MFG.</p>
+<div class="callout warn"><strong>Early supported</strong>В OptiScaler уже есть отдельный quirk для <code>controlresonant.exe</code>, отключающий DXGI spoofing: штатного Streamline-spoof достаточно для DLSS-функций. Отдельная game-specific страница совместимости пока не опубликована, поэтому профиль считаем ранним и сначала тестируем без FG.</div>
+<div class="status-strip"><span class="status-pill warn">Early supported</span><span class="status-pill ok">Native DLSS 4.5 / RR / PT</span><span class="status-pill ok">Проверено: 26.09.2026</span></div>
+</div>
+<div class="card"><div class="summary-grid">
+<div class="metric"><div class="label">API</div><div class="value good">DirectX 12</div></div>
+<div class="metric"><div class="label">Input</div><div class="value">DLSS 4.5</div></div>
+<div class="metric"><div class="label">NR</div><div class="value">OptiScaler_DLSSNR</div></div>
+<div class="metric"><div class="label">FG</div><div class="value">Dynamic MFG</div></div>
+</div></div>
+</div>
+<div class="section recommended-profile" id="controlresonant-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix">
+<tr><th>Параметр</th><th>Рекомендация</th></tr>
+<tr><td>Разрешение</td><td>3840×2160</td></tr>
+<tr><td>API</td><td>DirectX 12</td></tr>
+<tr><td>Upscaler / режим</td><td>DLSS Quality</td></tr>
+<tr><td>DLSS5 Neural Rendering</td><td>ON</td></tr>
+<tr><td>NR Scale</td><td>75–85% с Path Tracing; 90–100% без PT</td></tr>
+<tr><td>Ray Reconstruction</td><td>ON при Path Tracing</td></tr>
+<tr><td>Path Tracing</td><td>ON для максимального качества; при нехватке FPS снижать сначала NR Scale</td></tr>
+<tr><td>Frame Generation</td><td>Штатный Dynamic MFG — только после проверки NR с FG OFF</td></tr>
+<tr><td>Reflex</td><td>ON при FG/MFG</td></tr>
+<tr><td>Ключевой параметр</td><td><code>[Spoofing] Dxgi=false</code>; OptiPatcher пока не использовать без отдельной необходимости</td></tr>
+</table><p class="small">Сначала настройте Neural Rendering при выключенном MFG. После этого включите один штатный механизм Frame Generation и не меняйте NR Scale во время проблемной сессии без необходимости.</p></div></div>
+<div class="section step-section" id="controlresonant-install"><div class="section-title"><div class="step-num">1</div><h3>Подготовить игру</h3></div><div class="section-body">
+<p>Запустите чистую игру и проверьте штатные технологии NVIDIA:</p>
+<pre>DLSS Super Resolution   Quality
+Ray Reconstruction      ON
+Path Tracing            по желанию
+Dynamic MFG             OFF</pre>
+<p>Для первого теста Neural Rendering оставьте Frame Generation/MFG выключенным.</p>
+</div></div>
+<div class="section step-section"><div class="section-title"><div class="step-num">2</div><h3>Установить OptiScaler_DLSSNR</h3></div><div class="section-body">
+<p>Распакуйте актуальную DLSSNR-ветку рядом с <code>controlresonant.exe</code> и запустите:</p>
+<pre>setup_windows.bat
+→ dxgi.dll
+→ Nvidia</pre>
+<p>Добавьте оригинальный RTX 50 runtime <code>nvngx_dlssnr.dll</code>.</p>
+</div></div>
+<div class="section step-section"><div class="section-title"><div class="step-num">3</div><h3>Отключить DXGI spoofing</h3></div><div class="section-body">
+<pre>[Spoofing]
+Dxgi=false</pre>
+<p>Эта настройка соответствует отдельному quirk, уже добавленному в OptiScaler для <code>controlresonant.exe</code>.</p>
+</div></div>
+<div class="section step-section"><div class="section-title"><div class="step-num">4</div><h3>Первый запуск DLSS5</h3></div><div class="section-body">
+<pre>DLSS Quality
+RR ON при PT
+MFG OFF
+Insert → OptiScaler
+Neural Rendering ON
+NR Scale 100%</pre>
+<p>Сравните NR ON/OFF через Frame Hold или неподвижную сцену; затем подберите NR Scale.</p>
+</div></div>
+<div class="section step-section" id="controlresonant-fg"><div class="section-title"><div class="step-num">5</div><h3>Dynamic Multi Frame Generation</h3></div><div class="section-body">
+<p>После стабильной работы NR включите штатный Dynamic MFG. Не добавляйте одновременно Smooth Motion или альтернативный FG.</p>
+</div></div>
+<div class="section step-section" id="controlresonant-diag"><div class="section-title"><div class="step-num">6</div><h3>Диагностика</h3></div><div class="section-body">
+<ul><li>Если появляется crash/black screen — сначала MFG OFF и повторный запуск.</li>
+<li>Проверьте <code>Dxgi=false</code>.</li>
+<li>Уберите ReShade/другие proxy DLL на время диагностики.</li>
+<li>Поскольку профиль новый, при нестабильном hook используйте DLSS5 Autopilot для сравнения доступных маршрутов.</li></ul>
+</div></div>
+<div class="card source-list" id="controlresonant-sources" style="margin-top:18px"><h3>Ссылки</h3><ul>
+<li><a href="https://www.nvidia.com/en-us/geforce/news/control-resonant-september-24-dlss-4-5-path-tracing/" target="_blank">NVIDIA — CONTROL Resonant: DLSS 4.5, RR, Path Tracing и Dynamic MFG</a></li>
+<li><a href="https://github.com/optiscaler/OptiScaler/blob/master/OptiScaler/misc/Quirks.h" target="_blank">OptiScaler — quirk для controlresonant.exe</a></li>
+<li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR — Releases</a></li>
+</ul></div>
+</section>
+
+<section class="tab-panel" id="townfall">
+<div class="game-head">
+<div class="card">
+<h2>SILENT HILL: Townfall</h2>
+<p>Подтверждённый маршрут: <strong>DX12 → DLSS input → OptiScaler_DLSSNR + OptiPatcher → DLSS5 Neural Rendering</strong>. Игра нативно предлагает DLSS/FSR/TSR, а текущая таблица OptiScaler подтверждает DLSS и FSR3.1/4 inputs.</p>
+<div class="callout warn"><strong>Game-specific настройки</strong>OptiScaler рекомендует отключить <strong>Letterboxing</strong> и <strong>Mouse Smoothing</strong>. OptiPatcher уже содержит отдельный inline patch для Townfall, включая DLSS и Reflex checks.</div>
+<div class="status-strip"><span class="status-pill ok">Recommended</span><span class="status-pill ok">OptiPatcher supported</span><span class="status-pill ok">Проверено: 26.09.2026</span></div>
+</div>
+<div class="card"><div class="summary-grid">
+<div class="metric"><div class="label">API</div><div class="value good">DirectX 12</div></div>
+<div class="metric"><div class="label">Input</div><div class="value">DLSS / FSR3.1</div></div>
+<div class="metric"><div class="label">Patcher</div><div class="value">OptiPatcher</div></div>
+<div class="metric"><div class="label">FG</div><div class="value">Нет подтверждённого native FG</div></div>
+</div></div>
+</div>
+<div class="section recommended-profile" id="townfall-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix">
+<tr><th>Параметр</th><th>Рекомендация</th></tr>
+<tr><td>Разрешение</td><td>3840×2160</td></tr>
+<tr><td>API</td><td>DirectX 12</td></tr>
+<tr><td>Upscaler / режим</td><td>DLSS Quality; DLSS Balanced как резерв</td></tr>
+<tr><td>DLSS5 Neural Rendering</td><td>ON</td></tr>
+<tr><td>NR Scale</td><td>85–100%; начать со 100%</td></tr>
+<tr><td>Ray Reconstruction</td><td>Не форсировать без подтверждённой штатной поддержки</td></tr>
+<tr><td>Frame Generation</td><td>OFF на базовом профиле; сторонний FG тестировать отдельно</td></tr>
+<tr><td>Letterboxing</td><td>OFF</td></tr>
+<tr><td>Mouse Smoothing</td><td>OFF</td></tr>
+<tr><td>Ключевой параметр</td><td>OptiPatcher ON; сначала DLSS input, FSR3.1 — резерв для A/B</td></tr>
+</table><p class="small">Для атмосферного тумана и тонких градаций сначала используйте DLSS Quality и NR Scale 100%; снижайте масштаб только при измеряемой нехватке производительности.</p></div></div>
+<div class="section step-section" id="townfall-install"><div class="section-title"><div class="step-num">1</div><h3>Подготовить игру</h3></div><div class="section-body">
+<p>Проверьте чистый запуск и выставьте:</p>
+<pre>API              DirectX 12
+Upscaler         NVIDIA DLSS
+Mode             Quality
+Letterboxing     OFF
+Mouse Smoothing  OFF</pre>
+</div></div>
+<div class="section step-section"><div class="section-title"><div class="step-num">2</div><h3>Установить OptiScaler_DLSSNR</h3></div><div class="section-body">
+<p>Распакуйте OptiScaler рядом с основным shipping EXE и выберите:</p>
+<pre>setup_windows.bat
+→ dxgi.dll
+→ Nvidia</pre>
+<p>Добавьте оригинальный RTX 50 <code>nvngx_dlssnr.dll</code>.</p>
+</div></div>
+<div class="section step-section"><div class="section-title"><div class="step-num">3</div><h3>Установить OptiPatcher</h3></div><div class="section-body">
+<pre>OptiPatcher.asi
+→ OptiScaler\plugins\OptiPatcher.asi
+
+[Plugins]
+LoadAsiPlugins=true</pre>
+<p>Для Townfall текущий OptiPatcher содержит отдельный patch для DLSS/Reflex checks.</p>
+</div></div>
+<div class="section step-section"><div class="section-title"><div class="step-num">4</div><h3>Первый запуск DLSS5</h3></div><div class="section-body">
+<pre>DLSS Quality
+Neural Rendering ON
+NR Scale 100%
+FG OFF</pre>
+<p>Проверьте туман, мелкую геометрию, волосы и контактные тени через A/B. Если DLSS input даёт temporal-проблемы, сравните FSR3.1 input.</p>
+</div></div>
+<div class="section step-section" id="townfall-fg"><div class="section-title"><div class="step-num">5</div><h3>Frame Generation</h3></div><div class="section-body">
+<p>На текущем подтверждённом профиле оставьте FG выключенным. OptiPatcher помечает FG для Townfall как N/A; сторонний FG не следует считать частью базовой рабочей схемы.</p>
+</div></div>
+<div class="section step-section" id="townfall-diag"><div class="section-title"><div class="step-num">6</div><h3>Диагностика</h3></div><div class="section-body">
+<ul><li>Проверьте, что используется DX12.</li>
+<li>Letterboxing и Mouse Smoothing должны быть OFF.</li>
+<li>При проблемах с DLSS сравните FSR3.1 input.</li>
+<li>Не обновляйте Streamline/DLSS DLL вручную до проверки штатной конфигурации.</li>
+<li>Если proxy <code>dxgi.dll</code> занят ReShade, сначала тестируйте OptiScaler без ReShade.</li></ul>
+</div></div>
+<div class="card source-list" id="townfall-sources" style="margin-top:18px"><h3>Ссылки</h3><ul>
+<li><a href="https://store.steampowered.com/app/1636440/SILENT_HILL_Townfall/" target="_blank">Steam — SILENT HILL: Townfall</a></li>
+<li><a href="https://github.com/optiscaler/OptiScaler/wiki/Compatibility-List" target="_blank">OptiScaler Compatibility List</a></li>
+<li><a href="https://github.com/optiscaler/OptiPatcher/blob/main/GameSupport.md" target="_blank">OptiPatcher Game Support</a></li>
+</ul></div>
+</section>
+<footer class="footer"><strong>Интерфейс v18:</strong> 31 игровых профилей. Добавлены CONTROL Resonant и SILENT HILL: Townfall; проверено 26.09.2026. Исправлен searchable-индекс: Kingdom Come: Deliverance и Kingdom Come: Deliverance II теперь также доступны через поиск. CONTROL Resonant: native DLSS 4.5/RR/Path Tracing/Dynamic MFG + ранний OptiScaler_DLSSNR route с Dxgi=false. Townfall: подтверждены DLSS/FSR3.1/4 inputs и OptiPatcher; Letterboxing/Mouse Smoothing рекомендуется отключить.</footer>
 </div>
 <script>
 const allGames = [
@@ -2361,7 +2509,11 @@ const allGames = [
   { value: 'resonance', label: 'Resonance: A Plague Tale Legacy' },
   { value: 'yakuza3', label: 'Yakuza Kiwami 3 & Dark Ties' },
   { value: "kcd", label: "Kingdom Come: Deliverance", aliases: ["Kingdom Come Deliverance 1", "KCD1", "Кингдом Кам"] },
-  { value: "kcd2", label: "Kingdom Come: Deliverance II", aliases: ["Kingdom Come: Deliverance 2", "Kingdom Come Deliverance 2", "KCD2", "Кингдом Кам 2"] }
+  { value: "kcd2", label: "Kingdom Come: Deliverance II", aliases: ["Kingdom Come: Deliverance 2", "Kingdom Come Deliverance 2", "KCD2", "Кингдом Кам 2"] },
+  { value: 'kcd', label: 'Kingdom Come: Deliverance' },
+  { value: 'kcd2', label: 'Kingdom Come: Deliverance II' },
+  { value: 'controlresonant', label: 'CONTROL Resonant' },
+  { value: 'townfall', label: 'SILENT HILL: Townfall' }
 ];
 
 const panels = document.querySelectorAll('.tab-panel');
