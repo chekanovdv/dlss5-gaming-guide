@@ -639,7 +639,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{
 <span aria-hidden="true" class="finder-shortcut">Ctrl K</span>
 </div>
 <div class="game-results" hidden="" id="gameResults" role="listbox"></div>
-</div><div class="meta"><span class="badge"><strong>Игр:</strong> 32</span>
+</div><div class="meta"><span class="badge"><strong>Игр:</strong> 34</span>
 <span class="badge"><strong>Обновлено:</strong> 26.09.2026</span>
 <span class="badge"><strong>Режим:</strong> Story / Single Player</span>
 </div>
@@ -2590,7 +2590,135 @@ Alternative FG    OFF</pre>
 <li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR — Releases</a></li>
 </ul></div>
 </section>
-<footer class="footer"><strong>Интерфейс v19:</strong> 31 игровых профилей. Добавлены CONTROL Resonant и SILENT HILL: Townfall; проверено 26.09.2026. Исправлен searchable-индекс: Kingdom Come: Deliverance и Kingdom Come: Deliverance II теперь также доступны через поиск. CONTROL Resonant: native DLSS 4.5/RR/Path Tracing/Dynamic MFG + ранний OptiScaler_DLSSNR route с Dxgi=false. Townfall: подтверждены DLSS/FSR3.1/4 inputs и OptiPatcher; Letterboxing/Mouse Smoothing рекомендуется отключить. Добавлен Where Winds Meet: DX12, штатный DLSS 4 + MFG + Reflex; OptiScaler quirk для <code>wwm.exe</code> отключает DXGI spoofing и включает <code>ForceFGRenderSizeMVs</code>. Профиль добавлен как Recommended / early confirmed; сначала NR без MFG, затем штатный MFG.</footer>
+
+<section class="tab-panel" id="blackops6">
+<div class="game-head">
+<div class="card">
+<h2>Call of Duty: Black Ops 6</h2>
+<p>Для этой игры используется <strong>только штатный/официальный NVIDIA-маршрут</strong>. Игра поддерживает DLSS на GeForce RTX, но PC-версия защищена <strong>RICOCHET Anti-Cheat</strong>; сторонняя DLL-инъекция, OptiScaler, DLSS5-Feeder, ReShade add-ons и ручная подмена DLSS DLL не входят в безопасный рекомендуемый профиль.</p>
+<div class="callout danger"><strong>RICOCHET / не устанавливать DLSS5-моды</strong>Даже если вы запускаете кампанию, не считайте её безопасной песочницей для DLL-инъекции. Используйте только настройки игры и официальные NVIDIA App overrides, если NVIDIA App сама предлагает их для Black Ops 6.</div>
+<div class="status-strip"><span class="status-pill warn">Native-only</span><span class="status-pill warn">Anti-cheat protected</span><span class="status-pill ok">Проверено: 26.09.2026</span></div>
+</div>
+<div class="card"><div class="summary-grid">
+<div class="metric"><div class="label">Защита</div><div class="value good">RICOCHET</div></div>
+<div class="metric"><div class="label">Upscaler</div><div class="value">Native DLSS</div></div>
+<div class="metric"><div class="label">DLSS5 mod</div><div class="value">Не рекомендован</div></div>
+<div class="metric"><div class="label">Override</div><div class="value">Только NVIDIA App</div></div>
+</div></div>
+</div>
+<div class="section recommended-profile" id="blackops6-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix">
+<tr><th>Параметр</th><th>Рекомендация</th></tr>
+<tr><td>Разрешение</td><td>3840×2160</td></tr>
+<tr><td>Upscaler</td><td>NVIDIA DLSS — Quality</td></tr>
+<tr><td>DLSS5 Neural Rendering через мод</td><td>Не использовать</td></tr>
+<tr><td>Frame Generation</td><td>Только штатный/официальный вариант, если доступен в текущей сборке</td></tr>
+<tr><td>NVIDIA App DLSS Override</td><td>Разрешён только если опция официально отображается для Black Ops 6</td></tr>
+<tr><td>ReShade / OptiScaler / Feeder</td><td>OFF</td></tr>
+<tr><td>Ручная замена nvngx*.dll</td><td>Не выполнять</td></tr>
+<tr><td>Ключевой параметр</td><td>Не вмешиваться в anti-cheat protected pipeline</td></tr>
+</table><p class="small">Этот профиль намеренно отличается от остальных: цель — не форсировать DLSS5 любой ценой, а сохранить безопасную для аккаунта конфигурацию.</p></div></div>
+<div class="section step-section" id="blackops6-install"><div class="section-title"><div class="step-num">1</div><h3>Использовать штатный DLSS</h3></div><div class="section-body">
+<p>В графических настройках игры выберите NVIDIA DLSS и начните с Quality. Не копируйте никакие proxy DLL рядом с исполняемыми файлами Call of Duty HQ.</p>
+</div></div>
+<div class="section step-section"><div class="section-title"><div class="step-num">2</div><h3>Проверить NVIDIA App</h3></div><div class="section-body">
+<p>Если NVIDIA App показывает для Black Ops 6 официальные DLSS Overrides, используйте только их. Если нужной опции нет — не форсируйте её через Profile Inspector, DLL swapper или сторонний injector.</p>
+</div></div>
+<div class="section step-section" id="blackops6-fg"><div class="section-title"><div class="step-num">3</div><h3>Frame Generation</h3></div><div class="section-body">
+<p>Используйте только встроенный в игру или официальный NVIDIA App вариант. Не добавляйте OptiFG/Smooth Motion/Feeder поверх защищённого процесса.</p>
+</div></div>
+<div class="section step-section" id="blackops6-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body">
+<ul><li>Если DLSS пропал после обновления — сначала восстановите/проверьте игровые файлы.</li>
+<li>Проверьте обновление драйвера и NVIDIA App.</li>
+<li>Не заменяйте DLSS DLL вручную.</li>
+<li>Не используйте этот профиль как инструкцию для обхода RICOCHET.</li></ul>
+</div></div>
+<div class="card source-list" id="blackops6-sources" style="margin-top:18px"><h3>Ссылки</h3><ul>
+<li><a href="https://www.callofduty.com/en/store/games/blackops6" target="_blank">Call of Duty — Black Ops 6 / RICOCHET</a></li>
+<li><a href="https://www.nvidia.com/en-us/drivers/details/235774/" target="_blank">NVIDIA Game Ready 566.03 — Black Ops 6 / DLSS 3 support</a></li>
+<li><a href="https://www.nvidia.com/en-us/geforce/news/nvidia-app-update-dlss-overrides-and-more/" target="_blank">NVIDIA App — DLSS Overrides</a></li>
+</ul></div>
+</section>
+
+<section class="tab-panel" id="mortalshell2">
+<div class="game-head">
+<div class="card">
+<h2>Mortal Shell II</h2>
+<p>Рекомендуемый маршрут для RTX 5080: <strong>DX12 → штатный DLSS 4.5 → OptiScaler_DLSSNR + OptiPatcher → DLSS5 Neural Rendering → штатный Multi Frame Generation</strong>. Игра вышла 20.08.2026 и нативно поддерживает DLSS 4.5 Super Resolution, MFG и ray-traced reflections/global illumination.</p>
+<div class="callout ok"><strong>OptiPatcher подтверждён</strong>Актуальная таблица OptiPatcher отмечает Mortal Shell 2 как поддерживаемую и для DLSS, и для DLSS-FG. Для первого теста всё равно оставьте MFG выключенным и проверяйте NR отдельно.</div>
+<div class="status-strip"><span class="status-pill ok">Recommended</span><span class="status-pill ok">OptiPatcher: DLSS + FG</span><span class="status-pill ok">Проверено: 26.09.2026</span></div>
+</div>
+<div class="card"><div class="summary-grid">
+<div class="metric"><div class="label">API</div><div class="value good">DirectX 12</div></div>
+<div class="metric"><div class="label">Input</div><div class="value">DLSS 4.5</div></div>
+<div class="metric"><div class="label">Patcher</div><div class="value">OptiPatcher</div></div>
+<div class="metric"><div class="label">FG</div><div class="value">Native MFG</div></div>
+</div></div>
+</div>
+<div class="section recommended-profile" id="mortalshell2-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix">
+<tr><th>Параметр</th><th>Рекомендация</th></tr>
+<tr><td>Разрешение</td><td>3840×2160</td></tr>
+<tr><td>API</td><td>DirectX 12</td></tr>
+<tr><td>Upscaler / режим</td><td>DLSS 4.5 Quality</td></tr>
+<tr><td>DLSS5 Neural Rendering</td><td>ON</td></tr>
+<tr><td>NR Scale</td><td>80–100%; начать со 100%</td></tr>
+<tr><td>Ray Tracing</td><td>RT reflections + GI — ON по запасу FPS</td></tr>
+<tr><td>Frame Generation</td><td>Native MFG после проверки NR</td></tr>
+<tr><td>Dynamic MFG</td><td>Можно включить через NVIDIA App после стабильного базового профиля</td></tr>
+<tr><td>Reflex</td><td>ON при FG/MFG</td></tr>
+<tr><td>Ключевой параметр</td><td>OptiPatcher ON; не смешивать Native MFG с альтернативным FG</td></tr>
+</table><p class="small">Если производительность ограничена GPU при RT, сначала снижайте NR Scale до 90–80%, затем переходите с Quality на Balanced.</p></div></div>
+<div class="section step-section" id="mortalshell2-install"><div class="section-title"><div class="step-num">1</div><h3>Подготовить чистую игру</h3></div><div class="section-body">
+<pre>API                    DirectX 12
+DLSS Super Resolution  Quality
+Multi Frame Generation OFF
+Ray Tracing            ON / по вкусу</pre>
+<p>Убедитесь, что нативный DLSS стабилен до установки OptiScaler.</p>
+</div></div>
+<div class="section step-section"><div class="section-title"><div class="step-num">2</div><h3>Установить OptiScaler_DLSSNR</h3></div><div class="section-body">
+<p>Распакуйте актуальную DLSSNR-ветку рядом с основным shipping EXE:</p>
+<pre>setup_windows.bat
+→ dxgi.dll
+→ Nvidia</pre>
+<p>Добавьте оригинальный RTX 50 runtime <code>nvngx_dlssnr.dll</code>.</p>
+</div></div>
+<div class="section step-section"><div class="section-title"><div class="step-num">3</div><h3>Установить OptiPatcher</h3></div><div class="section-body">
+<pre>OptiPatcher.asi
+→ OptiScaler\plugins\OptiPatcher.asi
+
+[Plugins]
+LoadAsiPlugins=true</pre>
+<p>GameSupport OptiPatcher отмечает Mortal Shell 2 как поддерживаемую для DLSS и DLSS-FG.</p>
+</div></div>
+<div class="section step-section"><div class="section-title"><div class="step-num">4</div><h3>Первый запуск Neural Rendering</h3></div><div class="section-body">
+<pre>DLSS 4.5 Quality
+MFG OFF
+Insert → OptiScaler
+Neural Rendering ON
+NR Scale 100%</pre>
+<p>Проверяйте лица/маски Shells, металл, ткань, каменную геометрию, растительность и RT reflections.</p>
+</div></div>
+<div class="section step-section" id="mortalshell2-fg"><div class="section-title"><div class="step-num">5</div><h3>Multi Frame Generation</h3></div><div class="section-body">
+<p>После стабильной работы NR включите штатный MFG. На RTX 5080 при необходимости можно попробовать Dynamic MFG через NVIDIA App.</p>
+<pre>DLSS5 NR      ON
+Native MFG    ON
+Reflex        ON
+Smooth Motion OFF
+OptiFG        OFF</pre>
+</div></div>
+<div class="section step-section" id="mortalshell2-diag"><div class="section-title"><div class="step-num">6</div><h3>Диагностика</h3></div><div class="section-body">
+<ul><li>При crash сначала MFG OFF и повторный тест NR.</li>
+<li>Проверьте, что OptiPatcher действительно загрузился из <code>OptiScaler\plugins</code>.</li>
+<li>Временно отключите ReShade и другие proxy DLL.</li>
+<li>Не включайте одновременно Native MFG, Smooth Motion и OptiFG.</li></ul>
+</div></div>
+<div class="card source-list" id="mortalshell2-sources" style="margin-top:18px"><h3>Ссылки</h3><ul>
+<li><a href="https://www.nvidia.com/en-us/geforce/news/mortal-shell-2-sinking-city-2-dlss/" target="_blank">NVIDIA — Mortal Shell II: DLSS 4.5, MFG и Ray Tracing</a></li>
+<li><a href="https://store.steampowered.com/app/2584270/Mortal_Shell_II/" target="_blank">Steam — Mortal Shell II</a></li>
+<li><a href="https://github.com/optiscaler/OptiPatcher/blob/main/GameSupport.md" target="_blank">OptiPatcher Game Support</a></li>
+<li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR — Releases</a></li>
+</ul></div>
+</section>
+<footer class="footer"><strong>Интерфейс v20:</strong> 34 игровых профилей; обновлено 26.09.2026. Добавлены Call of Duty: Black Ops 6 и Mortal Shell II. Black Ops 6 помечен как Native-only из-за RICOCHET: сторонняя DLL-инъекция, OptiScaler/Feeder и ручная замена DLSS DLL не рекомендуются. Mortal Shell II добавлен как Recommended: DLSS 4.5 + OptiScaler_DLSSNR + OptiPatcher, затем штатный MFG/Dynamic MFG после отдельной проверки NR.</footer>
 </div>
 <script>
 const allGames = [
@@ -2627,7 +2755,9 @@ const allGames = [
   { value: 'kcd2', label: 'Kingdom Come: Deliverance II' },
   { value: 'controlresonant', label: 'CONTROL Resonant' },
   { value: 'townfall', label: 'SILENT HILL: Townfall' },
-  { value: 'wherewindsmeet', label: 'Where Winds Meet' }
+  { value: 'wherewindsmeet', label: 'Where Winds Meet' },
+  { value: 'blackops6', label: 'Call of Duty: Black Ops 6' },
+  { value: 'mortalshell2', label: 'Mortal Shell II' }
 ];
 
 const panels = document.querySelectorAll('.tab-panel');
