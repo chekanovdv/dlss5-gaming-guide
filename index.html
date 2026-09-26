@@ -639,7 +639,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{
 <span aria-hidden="true" class="finder-shortcut">Ctrl K</span>
 </div>
 <div class="game-results" hidden="" id="gameResults" role="listbox"></div>
-</div><div class="meta"><span class="badge"><strong>Игр:</strong> 31</span>
+</div><div class="meta"><span class="badge"><strong>Игр:</strong> 32</span>
 <span class="badge"><strong>Обновлено:</strong> 26.09.2026</span>
 <span class="badge"><strong>Режим:</strong> Story / Single Player</span>
 </div>
@@ -2477,7 +2477,120 @@ FG OFF</pre>
 <li><a href="https://github.com/optiscaler/OptiPatcher/blob/main/GameSupport.md" target="_blank">OptiPatcher Game Support</a></li>
 </ul></div>
 </section>
-<footer class="footer"><strong>Интерфейс v18:</strong> 31 игровых профилей. Добавлены CONTROL Resonant и SILENT HILL: Townfall; проверено 26.09.2026. Исправлен searchable-индекс: Kingdom Come: Deliverance и Kingdom Come: Deliverance II теперь также доступны через поиск. CONTROL Resonant: native DLSS 4.5/RR/Path Tracing/Dynamic MFG + ранний OptiScaler_DLSSNR route с Dxgi=false. Townfall: подтверждены DLSS/FSR3.1/4 inputs и OptiPatcher; Letterboxing/Mouse Smoothing рекомендуется отключить.</footer>
+
+<section class="tab-panel" id="wherewindsmeet">
+<div class="game-head">
+<div class="card">
+<h2>Where Winds Meet</h2>
+<p>Рекомендуемый маршрут для RTX 5080: <strong>DirectX 12 → штатный DLSS → OptiScaler_DLSSNR → DLSS5 Neural Rendering → штатный Multi Frame Generation</strong>. Игра уже поддерживает DLSS 4, Multi Frame Generation и NVIDIA Reflex; NVIDIA также анонсировала обновление Super Resolution до DLSS 4.5.</p>
+<div class="callout warn"><strong>Game-specific quirk уже есть в OptiScaler</strong>Для <code>wwm.exe</code> OptiScaler автоматически применяет <code>DisableDxgiSpoofing</code> и <code>ForceFGRenderSizeMVs</code>. Это позволяет не использовать DXGI spoofing и корректирует motion-vector path для Frame Generation. OptiPatcher для этой игры отдельно не подтверждён, поэтому в базовый профиль его не добавляем.</div>
+<div class="status-strip"><span class="status-pill ok">Recommended / early confirmed</span><span class="status-pill ok">Native DLSS 4 + MFG</span><span class="status-pill ok">Проверено: 26.09.2026</span></div>
+</div>
+<div class="card"><div class="summary-grid">
+<div class="metric"><div class="label">API</div><div class="value good">DirectX 12</div></div>
+<div class="metric"><div class="label">Input</div><div class="value">DLSS</div></div>
+<div class="metric"><div class="label">NR</div><div class="value">OptiScaler_DLSSNR</div></div>
+<div class="metric"><div class="label">FG</div><div class="value">Native MFG</div></div>
+</div></div>
+</div>
+
+<div class="section recommended-profile" id="wherewindsmeet-settings">
+<div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div>
+<div class="section-body"><table class="matrix">
+<tr><th>Параметр</th><th>Рекомендация</th></tr>
+<tr><td>Разрешение</td><td>3840×2160</td></tr>
+<tr><td>API</td><td>DirectX 12</td></tr>
+<tr><td>Upscaler / режим</td><td>DLSS Quality</td></tr>
+<tr><td>DLSS5 Neural Rendering</td><td>ON</td></tr>
+<tr><td>NR Scale</td><td>85–100%; начать со 100%</td></tr>
+<tr><td>Ray Reconstruction</td><td>Не форсировать, если игра сама не предлагает RR</td></tr>
+<tr><td>Frame Generation</td><td>Native Multi Frame Generation — после проверки NR</td></tr>
+<tr><td>Reflex</td><td>ON при MFG</td></tr>
+<tr><td>V-Sync / VRR</td><td>V-Sync OFF при G-SYNC/VRR</td></tr>
+<tr><td>Ключевой параметр</td><td><code>[Spoofing] Dxgi=false</code>; game quirk <code>ForceFGRenderSizeMVs</code> должен применяться автоматически</td></tr>
+</table>
+<p class="small">Сначала проверяйте Neural Rendering без MFG. Если базовая частота кадров недостаточна, снижайте NR Scale до 90–85% до перехода с DLSS Quality на более агрессивный режим.</p>
+</div></div>
+
+<div class="section step-section" id="wherewindsmeet-install">
+<div class="section-title"><div class="step-num">1</div><h3>Подготовить чистую игру</h3></div>
+<div class="section-body">
+<p>Игра использует DirectX 12. Перед установкой модов проверьте штатный DLSS:</p>
+<pre>API                    DirectX 12
+Upscaler               NVIDIA DLSS
+DLSS Mode              Quality
+Multi Frame Generation OFF
+NVIDIA Reflex          ON</pre>
+<p>Первую проверку DLSS5 проводите с MFG выключенным.</p>
+</div></div>
+
+<div class="section step-section">
+<div class="section-title"><div class="step-num">2</div><h3>Установить OptiScaler_DLSSNR</h3></div>
+<div class="section-body">
+<p>Распакуйте актуальную DLSSNR-ветку рядом с <code>wwm.exe</code> и запустите:</p>
+<pre>setup_windows.bat
+→ dxgi.dll
+→ Nvidia</pre>
+<p>Добавьте оригинальный RTX 50 runtime:</p>
+<pre>nvngx_dlssnr.dll</pre>
+<p>Forwarder OptiScaler <code>nvngx.dll_dlssnr.dll</code> должен оставаться рядом с остальными файлами сборки.</p>
+</div></div>
+
+<div class="section step-section">
+<div class="section-title"><div class="step-num">3</div><h3>Проверить DXGI spoofing</h3></div>
+<div class="section-body">
+<p>OptiScaler уже содержит специальный quirk для <code>wwm.exe</code>, однако для прозрачности конфигурации проверьте:</p>
+<pre>[Spoofing]
+Dxgi=false</pre>
+<p>Не включайте spoofing вручную: штатного Streamline-spoof достаточно для DLSS-функций игры.</p>
+</div></div>
+
+<div class="section step-section">
+<div class="section-title"><div class="step-num">4</div><h3>Первый запуск Neural Rendering</h3></div>
+<div class="section-body">
+<pre>DLSS Quality
+Multi Frame Generation OFF
+
+Insert → OptiScaler
+
+Neural Rendering ON
+NR Scale 100%</pre>
+<p>Сравните NR ON/OFF в неподвижной сцене: лица, волосы, ткань, растительность, дальняя геометрия и мелкие детали окружения.</p>
+</div></div>
+
+<div class="section step-section" id="wherewindsmeet-fg">
+<div class="section-title"><div class="step-num">5</div><h3>Multi Frame Generation</h3></div>
+<div class="section-body">
+<p>После стабильной работы NR включите штатный MFG:</p>
+<pre>DLSS5 NR          ON
+Native MFG        ON
+NVIDIA Reflex     ON
+Smooth Motion     OFF
+Alternative FG    OFF</pre>
+<p>OptiScaler содержит <code>ForceFGRenderSizeMVs</code> специально для Where Winds Meet. Не смешивайте штатный MFG с альтернативным FG в одной конфигурации.</p>
+</div></div>
+
+<div class="section step-section" id="wherewindsmeet-diag">
+<div class="section-title"><div class="step-num">6</div><h3>Диагностика</h3></div>
+<div class="section-body">
+<ul>
+<li>Если <code>Insert</code> не открывает OptiScaler — проверьте загрузку <code>dxgi.dll</code> и наличие другого proxy DLL.</li>
+<li>Если появляются артефакты после MFG — сначала выключите MFG и подтвердите стабильность NR отдельно.</li>
+<li>Проверьте, что <code>Dxgi=false</code>.</li>
+<li>Не устанавливайте OptiPatcher без отдельной подтверждённой необходимости.</li>
+<li>При конфликте ReShade/overlay временно оставьте только OptiScaler.</li>
+</ul>
+</div></div>
+
+<div class="card source-list" id="wherewindsmeet-sources" style="margin-top:18px">
+<h3>Ссылки</h3><ul>
+<li><a href="https://www.nvidia.com/en-us/geforce/news/gdc-2026-nvidia-geforce-rtx-announcements/" target="_blank">NVIDIA — Where Winds Meet: DLSS 4 / MFG и анонс DLSS 4.5</a></li>
+<li><a href="https://store.steampowered.com/app/3564740/Where_Winds_Meet/" target="_blank">Steam — Where Winds Meet</a></li>
+<li><a href="https://github.com/optiscaler/OptiScaler/blob/master/OptiScaler/misc/Quirks.h" target="_blank">OptiScaler — Where Winds Meet quirk</a></li>
+<li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR — Releases</a></li>
+</ul></div>
+</section>
+<footer class="footer"><strong>Интерфейс v19:</strong> 31 игровых профилей. Добавлены CONTROL Resonant и SILENT HILL: Townfall; проверено 26.09.2026. Исправлен searchable-индекс: Kingdom Come: Deliverance и Kingdom Come: Deliverance II теперь также доступны через поиск. CONTROL Resonant: native DLSS 4.5/RR/Path Tracing/Dynamic MFG + ранний OptiScaler_DLSSNR route с Dxgi=false. Townfall: подтверждены DLSS/FSR3.1/4 inputs и OptiPatcher; Letterboxing/Mouse Smoothing рекомендуется отключить. Добавлен Where Winds Meet: DX12, штатный DLSS 4 + MFG + Reflex; OptiScaler quirk для <code>wwm.exe</code> отключает DXGI spoofing и включает <code>ForceFGRenderSizeMVs</code>. Профиль добавлен как Recommended / early confirmed; сначала NR без MFG, затем штатный MFG.</footer>
 </div>
 <script>
 const allGames = [
@@ -2513,7 +2626,8 @@ const allGames = [
   { value: 'kcd', label: 'Kingdom Come: Deliverance' },
   { value: 'kcd2', label: 'Kingdom Come: Deliverance II' },
   { value: 'controlresonant', label: 'CONTROL Resonant' },
-  { value: 'townfall', label: 'SILENT HILL: Townfall' }
+  { value: 'townfall', label: 'SILENT HILL: Townfall' },
+  { value: 'wherewindsmeet', label: 'Where Winds Meet' }
 ];
 
 const panels = document.querySelectorAll('.tab-panel');
