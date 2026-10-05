@@ -639,8 +639,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{
 <span aria-hidden="true" class="finder-shortcut">Ctrl K</span>
 </div>
 <div class="game-results" hidden="" id="gameResults" role="listbox"></div>
-</div><div class="meta"><span class="badge"><strong>Игр:</strong> 34</span>
-<span class="badge"><strong>Проверено:</strong> 04.10.2026</span>
+</div><div class="meta"><span class="badge"><strong>Игр:</strong> 35</span>
+<span class="badge"><strong>Проверено:</strong> 05.10.2026</span>
 <span class="badge"><strong>Режим:</strong> Story / Single Player</span>
 </div>
 <details class="autopilot-details" id="autopilot-note"><summary>DLSS5 Autopilot — когда он нужен?</summary><div class="autopilot-details-body">
@@ -2710,7 +2710,109 @@ OptiFG        OFF</pre>
 <li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR — Releases</a></li>
 </ul></div>
 </section>
-<footer class="footer"><strong>Интерфейс v21:</strong> 34 игровых профиля; комплексная проверка 04.10.2026. Обновлены DLSS5 Autopilot до <strong>2.0.8</strong> и DLSS5-Feeder: stable <strong>1.17.0</strong>, diagnostic beta <strong>1.18.0-beta.1</strong>. OptiPatcher Rolling — <strong>788f5ab / 28.09.2026</strong>; учтены обновления Townfall (Reflex), Mortal Shell II, STALKER 2 и Beast of Reincarnation. Stable OptiScaler остаётся <strong>0.9.4</strong>, Dagherbou OptiScaler_DLSSNR — <strong>0.2.0</strong>, RE_DLSS5_Load_Mod — <strong>0.63</strong>, NVIDIA Game Ready — <strong>617.14 WHQL</strong>. Для Feeder-профилей stable 1.17.0 заменяет устаревший 0.15.1; beta 1.18 helper mode используется только для специальных NGX process failures.</footer>
+
+<section class="tab-panel" id="sleepingdogs" data-profile-added="2026-10-05">
+<div class="game-head">
+<div class="card">
+<h2>Sleeping Dogs: Definitive Edition</h2>
+<p>64-bit <strong>DirectX 11</strong>, без штатного DLSS/FSR2/XeSS. Для актуального toolchain основной маршрут проверки — <strong>DLSS5 Autopilot → standalone-dlssnr</strong>; <strong>DLSS5-Feeder + ReShade</strong> используйте как отдельный fallback/A-B маршрут.</p>
+<div class="callout ok"><strong>Есть community-подтверждение на RTX 5080</strong>Опубликован отдельный тест Sleeping Dogs: Definitive Edition с DLSS5 Neural Rendering на RTX 5080 через RenoDX/Feeder. Это подтверждает практическую реализуемость NR в игре, но не является стандартизированным 4K-бенчмарком и не доказывает стабильность любой версии Feeder/драйвера.</div>
+<div class="callout warn"><strong>Почему сначала standalone-dlssnr</strong>На новых NVIDIA-драйверах Autopilot для 64-bit D3D11/D3D12 игр без собственного DLSS рекомендует <code>standalone-dlssnr</code>, чтобы не зависеть от проблемной in-process NGX/renodx цепочки. В старом shared report для <code>sdhdship.exe</code> маршрут Feeder не дошёл до запуска и был помечен inconclusive — поэтому не считайте один старый отказ доказательством несовместимости игры.</div>
+<div class="callout warn"><strong>Proxy DLL</strong>ReShade для Definitive Edition подтверждён через <code>dxgi.dll</code>. Не держите одновременно несколько <code>dxgi.dll</code>/<code>d3d11.dll</code> загрузчиков. Перед переходом между standalone и Feeder возвращайте чистую папку игры.</div>
+<div class="status-strip"><span class="status-pill ok">DX11 / x64</span><span class="status-pill exp">NR: community-confirmed, route требует A/B</span><span class="status-pill ok">Проверено: 05.10.2026</span></div>
+</div>
+<div class="card"><div class="summary-grid">
+<div class="metric"><div class="label">EXE</div><div class="value">sdhdship.exe</div></div>
+<div class="metric"><div class="label">API</div><div class="value good">DirectX 11 / x64</div></div>
+<div class="metric"><div class="label">Native DLSS</div><div class="value">Нет</div></div>
+<div class="metric"><div class="label">Основной route</div><div class="value">standalone-dlssnr</div></div>
+</div></div>
+</div>
+
+<div class="section recommended-profile" id="sleepingdogs-settings">
+<div class="section-title"><div class="step-num">★</div><h3>Стартовые настройки RTX 5080 / 4K</h3></div>
+<div class="section-body">
+<div class="callout"><strong>Стартовый профиль, не готовый бенчмарк</strong>Публичный тест подтверждает работу NR на RTX 5080, но не даёт универсальной таблицы frametime для 4K. Сначала добейтесь стабильного NR без FG и меняйте по одному параметру.</div>
+<table class="matrix">
+<tr><th>Параметр</th><th>Рекомендация</th></tr>
+<tr><td>Разрешение дисплея</td><td>3840×2160</td></tr>
+<tr><td>API</td><td>DirectX 11</td></tr>
+<tr><td>Основной маршрут</td><td>Autopilot <code>standalone-dlssnr</code></td></tr>
+<tr><td>Fallback</td><td>DLSS5-Feeder stable 1.17.0 + ReShade Full Add-on Support через <code>dxgi.dll</code></td></tr>
+<tr><td>DLSS5 Neural Rendering</td><td>ON после чистого baseline</td></tr>
+<tr><td>NR Scale / work area</td><td>Начать со 100%; снижать только после замера frametime</td></tr>
+<tr><td>Внутриигровой AA</td><td>High как baseline; при артефактах Feeder проверить Medium</td></tr>
+<tr><td>Ray Reconstruction</td><td>Не применяется — штатного RR нет</td></tr>
+<tr><td>Frame Generation</td><td>OFF на этапе диагностики; штатного DLSS FG/MFG нет</td></tr>
+<tr><td>Smooth Motion / внешний FG</td><td>Только отдельный эксперимент после стабильного NR</td></tr>
+<tr><td>Anti-cheat</td><td>Критичного online anti-cheat для single-player профиля не требуется; не переносить DLL-моды в сторонние online-компоненты</td></tr>
+</table>
+</div></div>
+
+<div class="section step-section" id="sleepingdogs-install">
+<div class="section-title"><div class="step-num">1</div><h3>Чистый baseline</h3></div>
+<div class="section-body">
+<p>Проверьте запуск <code>sdhdship.exe</code> без старых ReShade/ENB/proxy DLL. Удалите или временно вынесите сторонние <code>dxgi.dll</code>, <code>d3d11.dll</code> и старые ReShade add-ons.</p>
+<pre>Game EXE        sdhdship.exe
+API             DirectX 11
+Resolution      3840x2160
+Frame Generation OFF
+External injectors OFF</pre>
+</div></div>
+
+<div class="section step-section">
+<div class="section-title"><div class="step-num">2</div><h3>Сначала проверить Autopilot</h3></div>
+<div class="section-body">
+<pre>DLSS5 Autopilot
+→ Sleeping Dogs: Definitive Edition
+→ verify EXE: sdhdship.exe
+→ verify API: DX11 / x64
+→ route: standalone-dlssnr
+→ INSTALL
+→ Play
+→ did it work?</pre>
+<p>Считайте маршрут успешным только если диагностика подтверждает фактический запуск Neural Rendering, а не просто открытие overlay/окна.</p>
+</div></div>
+
+<div class="section step-section">
+<div class="section-title"><div class="step-num">3</div><h3>Fallback: Feeder + ReShade</h3></div>
+<div class="section-body">
+<p>Если standalone-route несовместим с вашей сборкой, верните чистую папку и тестируйте Feeder отдельно.</p>
+<pre>ReShade Full Add-on Support
+Proxy            dxgi.dll
+DLSS5-Feeder     stable 1.17.0
+RTX 50 runtime   nvngx_dlssnr.dll
+NR work area     100%
+FG               OFF</pre>
+<p>ReShade для Definitive Edition исторически подтверждён именно через <code>dxgi.dll</code>. Не смешивайте этот proxy с другим загрузчиком того же имени.</p>
+</div></div>
+
+<div class="section step-section" id="sleepingdogs-fg">
+<div class="section-title"><div class="step-num">4</div><h3>Frame Generation</h3></div>
+<div class="section-body">
+<p>У Sleeping Dogs: Definitive Edition нет штатного DLSS Frame Generation/MFG. Сначала оставьте FG полностью выключенным. Smooth Motion или другой внешний FG проверяйте только как отдельный эксперимент после стабильного NR и сравнивайте latency/артефакты в движении и в HUD.</p>
+</div></div>
+
+<div class="section step-section" id="sleepingdogs-diag">
+<div class="section-title"><div class="step-num">5</div><h3>Диагностика</h3></div>
+<div class="section-body">
+<ul>
+<li>Если игра не стартует — первым делом проверьте конфликт proxy DLL и верните чистую папку.</li>
+<li>Для Feeder убедитесь, что ReShade загружает add-ons и создаётся <code>dlss5-feed.log</code>.</li>
+<li>Если overlay есть, но NR визуально не работает — это ещё не успешный запуск; используйте Autopilot verdict/log.</li>
+<li>Не переносите параметры NR Scale из других DX11-игр без A/B замера frametime.</li>
+</ul>
+</div></div>
+
+<div class="card source-list" id="sleepingdogs-sources" style="margin-top:18px"><h3>Ссылки</h3><ul>
+<li><a href="https://www.pcgamingwiki.com/wiki/Sleeping_Dogs:_Definitive_Edition" target="_blank">PCGamingWiki — Direct3D 11</a></li>
+<li><a href="https://reshade.me/forum/general-discussion/87-compatibility-list?start=192" target="_blank">ReShade compatibility — Definitive Edition / dxgi.dll</a></li>
+<li><a href="https://www.youtube.com/watch?v=zfrMMsmnZY0" target="_blank">Community test — DLSS5 Neural Rendering / RTX 5080</a></li>
+<li><a href="https://github.com/Kizzuwatnaa/DLSS5-Autopilot" target="_blank">DLSS5 Autopilot</a></li>
+<li><a href="https://github.com/jlrouzies-fr/DLSS5-Feeder" target="_blank">DLSS5-Feeder</a></li>
+</ul></div>
+</section>
+<footer class="footer"><strong>Интерфейс v22:</strong> 35 игровых профилей; обновление 05.10.2026. Добавлен <strong>Sleeping Dogs: Definitive Edition</strong>: DX11/x64 без native DLSS, основной текущий маршрут — Autopilot <code>standalone-dlssnr</code>, Feeder 1.17.0 + ReShade через <code>dxgi.dll</code> — отдельный fallback/A-B. Учтён публичный RTX 5080 community-тест Neural Rendering; он не трактуется как универсальный 4K-бенчмарк. Удалены дубли Kingdom Come из searchable combobox. Базовые версии компонентов сохранены: Autopilot <strong>2.0.8</strong>, Feeder stable <strong>1.17.0</strong> / diagnostic beta <strong>1.18.0-beta.1</strong>, OptiScaler <strong>0.9.4</strong>, OptiScaler_DLSSNR <strong>0.2.0</strong>, Game Ready <strong>617.14 WHQL</strong>.</footer>
 </div>
 <script>
 const allGames = [
@@ -2743,13 +2845,12 @@ const allGames = [
   { value: 'yakuza3', label: 'Yakuza Kiwami 3 & Dark Ties' },
   { value: "kcd", label: "Kingdom Come: Deliverance", aliases: ["Kingdom Come Deliverance 1", "KCD1", "Кингдом Кам"] },
   { value: "kcd2", label: "Kingdom Come: Deliverance II", aliases: ["Kingdom Come: Deliverance 2", "Kingdom Come Deliverance 2", "KCD2", "Кингдом Кам 2"] },
-  { value: 'kcd', label: 'Kingdom Come: Deliverance' },
-  { value: 'kcd2', label: 'Kingdom Come: Deliverance II' },
   { value: 'controlresonant', label: 'CONTROL Resonant' },
   { value: 'townfall', label: 'SILENT HILL: Townfall' },
   { value: 'wherewindsmeet', label: 'Where Winds Meet' },
   { value: 'blackops6', label: 'Call of Duty: Black Ops 6' },
-  { value: 'mortalshell2', label: 'Mortal Shell II' }
+  { value: 'mortalshell2', label: 'Mortal Shell II' },
+  { value: 'sleepingdogs', label: 'Sleeping Dogs: Definitive Edition', aliases: ['Sleeping Dogs DE', 'Sleeping Dogs Definitive', 'SDDE'] }
 ];
 
 const panels = document.querySelectorAll('.tab-panel');
