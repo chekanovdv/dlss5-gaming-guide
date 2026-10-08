@@ -640,23 +640,23 @@ a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{
 </div>
 <div class="game-results" hidden="" id="gameResults" role="listbox"></div>
 </div><div class="meta"><span class="badge"><strong>Игр:</strong> 35</span>
-<span class="badge"><strong>Проверено:</strong> 05.10.2026</span>
+<span class="badge"><strong>Проверено:</strong> 08.10.2026</span>
 <span class="badge"><strong>Режим:</strong> Story / Single Player</span>
 </div>
 <details class="autopilot-details" id="autopilot-note"><summary>DLSS5 Autopilot — когда он нужен?</summary><div class="autopilot-details-body">
 <p><strong>Актуально: DLSS5 Autopilot v2.0.8 (30.09.2026).</strong> Это установщик, диагностический маршрутизатор и инструмент проверки фактически загруженной DLL-цепочки. Для уже настроенных игр сохраняйте game-specific профиль из этого справочника.</p>
 <ul>
-<li><strong>NVIDIA driver:</strong> актуальный Game Ready — <strong>617.14 WHQL (22.09.2026)</strong>; минимальная версия для текущего DLSS5 toolchain остаётся <code>616.56</code>.</li>
+<li><strong>NVIDIA driver:</strong> актуальный Game Ready — <strong>617.42 WHQL (22.09.2026)</strong>; минимальная версия для текущего DLSS5 toolchain остаётся <code>616.56</code>.</li>
 <li><strong>Feeder:</strong> текущий stable — <strong>DLSS5-Feeder 1.17.0 (27.09.2026)</strong>. Он поддерживает wilsjo2 OptiScaler-DLSSNR-PreSR-Multipass как neural consumer, RenoDX DLSS5 v6.1+ и добавляет experimental output stabiliser. Для RTX 50 штатный подписанный <code>nvngx_dlssnr.dll</code> поддерживается напрямую.</li>
-<li><strong>Feeder beta:</strong> <strong>1.18.0-beta.1 (29.09.2026)</strong> добавляет 64-bit helper mode для процессов, внутри которых NGX не создаёт DLSS, и пишет собственный NGX failure reason в лог. Для обычных 64-bit D3D11/D3D12 игр используйте stable 1.17.0; helper beta — только для диагностики специальных случаев.</li>
+<li><strong>Feeder beta:</strong> <strong>1.18.0-beta.2 (29.09.2026)</strong> добавляет 64-bit helper mode для процессов, внутри которых NGX не создаёт DLSS, и пишет собственный NGX failure reason в лог. Для обычных 64-bit D3D11/D3D12 игр используйте stable 1.17.0; helper beta — только для диагностики специальных случаев.</li>
 <li><strong>Autopilot 2.0.8:</strong> распознаёт новые строки Feeder 1.18 beta, читает фактически загруженные DLL при отсутствии OptiScaler.log, корректнее диагностирует неверный proxy/exe и анализирует лог Remix runtime.</li>
 <li><strong>OptiScaler:</strong> стабильный mainline остаётся <strong>0.9.4</strong>; DLSSNR fork Dagherbou — <strong>0.2.0</strong>. Подтверждение обычного OptiScaler не следует автоматически считать подтверждением Neural Rendering или конкретной комбинации NR+FG.</li>
-<li><strong>OptiPatcher:</strong> Rolling build <strong>788f5ab, 28.09.2026</strong>. После 26.09 обновлены Townfall (Reflex), Mortal Shell II, STALKER 2 и Beast of Reincarnation; также добавлены новые game-specific patches.</li>
+<li><strong>OptiPatcher:</strong> Rolling build <strong>702ea18, 06.10.2026</strong>. После 26.09 обновлены Townfall (Reflex), Mortal Shell II, STALKER 2 и Beast of Reincarnation; также добавлены новые game-specific patches.</li>
 <li><strong>RE_DLSS5_Load_Mod:</strong> текущий официальный релиз остаётся <strong>0.63</strong>; для Onimusha сохраняется ранее отмеченный fallback на 0.59 только если 0.63 не запускается на конкретной системе.</li>
 </ul>
 <p><a href="https://github.com/Kizzuwatnaa/DLSS5-Autopilot/releases/tag/v2.0.8" target="_blank">DLSS5 Autopilot v2.0.8</a> ·
 <a href="https://github.com/jlrouzies-fr/DLSS5-Feeder/releases/tag/v1.17.0" target="_blank">DLSS5-Feeder 1.17.0 stable</a> ·
-<a href="https://github.com/jlrouzies-fr/DLSS5-Feeder/releases/tag/v1.18.0-beta.1" target="_blank">Feeder 1.18.0-beta.1</a></p>
+<a href="https://github.com/jlrouzies-fr/DLSS5-Feeder/releases/tag/v1.18.0-beta.2" target="_blank">Feeder 1.18.0-beta.2</a></p>
 </div></details></header><nav aria-label="Навигация внутри выбранной игры" class="context-bar" id="contextBar">
 <div class="context-game">
 <span class="context-label">Выбрано</span>
@@ -1402,7 +1402,7 @@ Native DLSSG       ON</pre>
 <div class="card">
 <h2>The Witcher 3: Wild Hunt</h2>
 <p>Используйте только <strong>DirectX 12</strong>. OptiScaler устанавливается не в корень игры, а в <code>The Witcher 3\bin\x64_dx12</code>.</p>
-<div class="callout warn"><strong>DLSS input может мерцать</strong>Если появляются flicker/shimmer, переключите игровой upscaler на XeSS — этот workaround указан в актуальной compatibility entry.</div><div class="callout danger"><strong>29.09.2026 — The Witcher 3 Remastered</strong>CD PROJEKT RED выпускает бесплатный Remastered с изменениями графики, производительности и gameplay. Этот профиль проверен для текущей pre-Remastered версии. После обновления 29 сентября заново проверьте <code>bin\x64_dx12</code>, DLL-hook, DLSS/XeSS input, NR и FG до применения старых workaround.</div><div class="callout ok"><strong>Game Ready 617.14 — для Remastered</strong>Новый драйвер 617.14 WHQL от 22.09 включает day-one support для The Witcher 3: Wild Hunt — Remastered. До релиза 29.09 текущий профиль остаётся baseline; после обновления игры повторно проверьте DLL-hook, DLSS/RR, NR и FG уже на 617.14+ и не переносите старые workaround автоматически.</div><div class="status-strip"><span class="status-pill ok">Проверено: 23.09.2026</span></div>
+<div class="callout warn"><strong>DLSS input может мерцать</strong>Если появляются flicker/shimmer, переключите игровой upscaler на XeSS — этот workaround указан в актуальной compatibility entry.</div><div class="callout danger"><strong>29.09.2026 — The Witcher 3 Remastered</strong>CD PROJEKT RED выпускает бесплатный Remastered с изменениями графики, производительности и gameplay. Этот профиль проверен для текущей pre-Remastered версии. После обновления 29 сентября заново проверьте <code>bin\x64_dx12</code>, DLL-hook, DLSS/XeSS input, NR и FG до применения старых workaround.</div><div class="callout ok"><strong>Game Ready 617.14 — для Remastered</strong>Новый драйвер 617.42 WHQL от 22.09 включает day-one support для The Witcher 3: Wild Hunt — Remastered. До релиза 29.09 текущий профиль остаётся baseline; после обновления игры повторно проверьте DLL-hook, DLSS/RR, NR и FG уже на 617.14+ и не переносите старые workaround автоматически.</div><div class="status-strip"><span class="status-pill ok">Проверено: 23.09.2026</span></div>
 </div>
 <div class="card"><div class="summary-grid">
 <div class="metric"><div class="label">API</div><div class="value good">DX12</div></div>
@@ -1704,7 +1704,7 @@ Native DLSSG       ON</pre>
 <div class="card">
 <h2>Batman: Arkham Knight</h2>
 <p>У игры нет собственного DLSS, поэтому обычному OptiScaler_DLSSNR не к чему подключать Neural Rendering. Здесь нужен <strong>DLSS5-Feeder 1.17.0 + ReShade</strong>, который создаёт синтетический DLAA/DLSS contract.</p>
-<div class="callout danger"><strong>Экспериментальный путь</strong>Исторический отчёт от 08.09.2026 относился к DLSS5-Feeder 0.15.1: NR мог прекращаться через несколько тысяч кадров из-за D3D12 device removal. На stable 1.17.0 требуется повторная проверка этого сценария. Используйте этот профиль как экспериментальный.</div><div class="callout warn"><strong>Autopilot 2.0.4 / Driver 616.64+ — первый route policy сохраняется</strong>Для 64-bit D3D11/D3D12 игры без собственного DLSS первым автоматическим маршрутом теперь является <strong>standalone-dlssnr</strong>. Feeder остаётся ручным fallback; откат на 616.56 — резерв, если standalone не подходит.</div><div class="callout ok"><strong>Autopilot 2.0.4 — native-DLSS detection и installer fixes сохранены</strong>Если рядом с Arkham Knight остался <code>nvngx_dlss.dll</code> от DLSS swapper/wrapper, актуальный Autopilot больше не должен принимать его за штатный DLSS игры и предлагать неверные DLSS/DX12 routes. Чистая папка всё равно предпочтительна.</div><div class="callout warn"><strong>DLSS5-Feeder 1.17.0-beta.1 — 22.09.2026</strong>Новая beta добавляет поддержку wilsjo2 NR-consumer и расширяет проверку реального model pass. Для Batman: Arkham Knight это не основание менять рабочий fallback: сохраняйте stable <strong>0.15.1</strong>; beta используйте только для диагностики или отдельного A/B wilsjo2-route.</div><div class="callout ok"><strong>Feeder актуализирован 04.10.2026</strong>Для ручного Feeder-route используйте stable <strong>1.17.0</strong>. Beta <strong>1.18.0-beta.1</strong> нужна только если лог показывает, что NGX не может создать DLSS внутри процесса и требуется 64-bit helper mode; для обычной 64-bit игры helper mode не является базовым маршрутом.</div><div class="status-strip"><span class="status-pill ok">Проверено: 23.09.2026</span></div>
+<div class="callout danger"><strong>Экспериментальный путь</strong>Исторический отчёт от 08.09.2026 относился к DLSS5-Feeder 0.15.1: NR мог прекращаться через несколько тысяч кадров из-за D3D12 device removal. На stable 1.17.0 требуется повторная проверка этого сценария. Используйте этот профиль как экспериментальный.</div><div class="callout warn"><strong>Autopilot 2.0.4 / Driver 616.64+ — первый route policy сохраняется</strong>Для 64-bit D3D11/D3D12 игры без собственного DLSS первым автоматическим маршрутом теперь является <strong>standalone-dlssnr</strong>. Feeder остаётся ручным fallback; откат на 616.56 — резерв, если standalone не подходит.</div><div class="callout ok"><strong>Autopilot 2.0.4 — native-DLSS detection и installer fixes сохранены</strong>Если рядом с Arkham Knight остался <code>nvngx_dlss.dll</code> от DLSS swapper/wrapper, актуальный Autopilot больше не должен принимать его за штатный DLSS игры и предлагать неверные DLSS/DX12 routes. Чистая папка всё равно предпочтительна.</div><div class="callout warn"><strong>DLSS5-Feeder 1.17.0-beta.1 — 22.09.2026</strong>Новая beta добавляет поддержку wilsjo2 NR-consumer и расширяет проверку реального model pass. Для Batman: Arkham Knight это не основание менять рабочий fallback: сохраняйте stable <strong>0.15.1</strong>; beta используйте только для диагностики или отдельного A/B wilsjo2-route.</div><div class="callout ok"><strong>Feeder актуализирован 04.10.2026</strong>Для ручного Feeder-route используйте stable <strong>1.17.0</strong>. Beta <strong>1.18.0-beta.2</strong> нужна только если лог показывает, что NGX не может создать DLSS внутри процесса и требуется 64-bit helper mode; для обычной 64-bit игры helper mode не является базовым маршрутом.</div><div class="status-strip"><span class="status-pill ok">Проверено: 23.09.2026</span></div>
 </div>
 <div class="card"><div class="summary-grid">
 <div class="metric"><div class="label">API</div><div class="value good">D3D11</div></div>
@@ -2124,7 +2124,7 @@ NR Scale 100%</pre></div></div>
 <div class="section step-section" id="mafiaold-fg"><div class="section-title"><div class="step-num">3</div><h3>Frame Generation</h3></div><div class="section-body"><p>Native DLSSG. Включайте только после стабильной работы NR; Smooth Motion оставьте OFF, если используется другой FG.</p></div></div>
 <div class="section step-section" id="mafiaold-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>При flicker попробуйте Non-Linear Color/sRGB Input.</p></div></div>
 <div class="card source-list" id="mafiaold-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiScaler/wiki/Compatibility-List" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li></ul></div></section><section class="tab-panel" id="mafiade">
-<div class="game-head"><div class="card"><h2>Mafia: Definitive Edition</h2><p>Рекомендуемый маршрут на NVIDIA 616.64+: <strong>DLSS5 Autopilot 2.0.8 → standalone-dlssnr</strong>. Ручной fallback: <strong>DLSS5-Feeder 1.17.0 + ReShade</strong>.</p><div class="callout danger"><strong>Experimental</strong>DX11-игра без штатного DLSS. Feeder и OptiScaler/Smooth Motion одновременно не использовать.</div><div class="callout warn"><strong>Autopilot 2.0.4 / Driver 616.64+ — первый route policy сохраняется</strong>Для 64-bit D3D11/D3D12 игры без собственного DLSS первым автоматическим маршрутом теперь является <strong>standalone-dlssnr</strong>. Feeder остаётся ручным fallback; откат на 616.56 — резерв, если standalone не подходит.</div><div class="callout warn"><strong>DLSS5-Feeder 1.17.0-beta.1 — 22.09.2026</strong>Beta добавляет поддержку wilsjo2 NR-consumer и более строгую проверку model pass. Mafia: Definitive Edition в этом профиле не требует перехода на beta: для ручного стабильного fallback сохраняйте <strong>0.15.1</strong>; prerelease используйте только для диагностики или отдельного A/B.</div><div class="callout ok"><strong>Feeder актуализирован 04.10.2026</strong>Для ручного Feeder-route используйте stable <strong>1.17.0</strong>. Beta <strong>1.18.0-beta.1</strong> нужна только если лог показывает, что NGX не может создать DLSS внутри процесса и требуется 64-bit helper mode; для обычной 64-bit игры helper mode не является базовым маршрутом.</div><div class="status-strip"><span class="status-pill exp">Experimental</span><span class="status-pill ok">Проверено: 23.09.2026</span></div></div>
+<div class="game-head"><div class="card"><h2>Mafia: Definitive Edition</h2><p>Рекомендуемый маршрут на NVIDIA 616.64+: <strong>DLSS5 Autopilot 2.0.8 → standalone-dlssnr</strong>. Ручной fallback: <strong>DLSS5-Feeder 1.17.0 + ReShade</strong>.</p><div class="callout danger"><strong>Experimental</strong>DX11-игра без штатного DLSS. Feeder и OptiScaler/Smooth Motion одновременно не использовать.</div><div class="callout warn"><strong>Autopilot 2.0.4 / Driver 616.64+ — первый route policy сохраняется</strong>Для 64-bit D3D11/D3D12 игры без собственного DLSS первым автоматическим маршрутом теперь является <strong>standalone-dlssnr</strong>. Feeder остаётся ручным fallback; откат на 616.56 — резерв, если standalone не подходит.</div><div class="callout warn"><strong>DLSS5-Feeder 1.17.0-beta.1 — 22.09.2026</strong>Beta добавляет поддержку wilsjo2 NR-consumer и более строгую проверку model pass. Mafia: Definitive Edition в этом профиле не требует перехода на beta: для ручного стабильного fallback сохраняйте <strong>0.15.1</strong>; prerelease используйте только для диагностики или отдельного A/B.</div><div class="callout ok"><strong>Feeder актуализирован 04.10.2026</strong>Для ручного Feeder-route используйте stable <strong>1.17.0</strong>. Beta <strong>1.18.0-beta.2</strong> нужна только если лог показывает, что NGX не может создать DLSS внутри процесса и требуется 64-bit helper mode; для обычной 64-bit игры helper mode не является базовым маршрутом.</div><div class="status-strip"><span class="status-pill exp">Experimental</span><span class="status-pill ok">Проверено: 23.09.2026</span></div></div>
 <div class="card"><div class="summary-grid"><div class="metric"><div class="label">Injection</div><div class="value good">ReShade dxgi.dll</div></div><div class="metric"><div class="label">Input</div><div class="value">Synthetic DLAA contract</div></div><div class="metric"><div class="label">NR</div><div class="value">DLSS5-Feeder 1.17.0 + ReShade</div></div><div class="metric"><div class="label">FG</div><div class="value">OFF</div></div></div></div></div>
 <div class="section recommended-profile" id="mafiade-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix"><tr><th>Параметр</th><th>Рекомендация</th></tr><tr><td>Разрешение</td><td>3840×2160</td></tr><tr><td>Маршрут</td><td>Autopilot standalone-dlssnr на 616.64+; Feeder 1.17.0 + ReShade как manual fallback</td></tr><tr><td>Input</td><td>Standalone own feed; Synthetic DLAA contract только для Feeder fallback</td></tr><tr><td>DLSS5 Neural Rendering</td><td>ON; standalone-dlssnr предпочтителен на 616.64+</td></tr><tr><td>NR Scale</td><td>100% на старте</td></tr><tr><td>Frame Generation</td><td>OFF</td></tr><tr><td>Ключевой параметр</td><td>На 616.64+ standalone-dlssnr; Feeder fallback: LaunchPad MV → DLSS5 Feed → NR</td></tr></table><p class="small">Сначала проверяйте Neural Rendering без Frame Generation; затем включайте только один FG-механизм.</p></div></div>
 <div class="section step-section" id="mafiade-install"><div class="section-title"><div class="step-num">1</div><h3>Установка</h3></div><div class="section-body">
@@ -2174,7 +2174,7 @@ NR Scale 100%</pre></div></div>
 <div class="section step-section" id="ronin-fg"><div class="section-title"><div class="step-num">3</div><h3>Frame Generation</h3></div><div class="section-body"><p>После проверки NR. Включайте только после стабильной работы NR; Smooth Motion оставьте OFF, если используется другой FG.</p></div></div>
 <div class="section step-section" id="ronin-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>FSR inputs не работают. Если overlay OptiScaler не появляется, compatibility guide отмечает workaround через Nukem-мод.</p></div></div>
 <div class="card source-list" id="ronin-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiScaler/wiki/Rise-of-the-Ronin" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li></ul></div></section><section class="tab-panel" id="nier">
-<div class="game-head"><div class="card"><h2>NieR:Automata</h2><p>Рекомендуемый маршрут на NVIDIA 616.64+: <strong>DLSS5 Autopilot 2.0.8 → standalone-dlssnr</strong>. Ручной fallback: <strong>DLSS5-Feeder 1.17.0 + ReShade</strong>.</p><div class="callout danger"><strong>Experimental</strong>64-bit D3D11 без штатного DLSS. Feeder несовместим с OptiScaler и Smooth Motion.</div><div class="callout warn"><strong>Autopilot 2.0.4 / Driver 616.64+ — первый route policy сохраняется</strong>Для 64-bit D3D11/D3D12 игры без собственного DLSS первым автоматическим маршрутом теперь является <strong>standalone-dlssnr</strong>. Feeder остаётся ручным fallback; откат на 616.56 — резерв, если standalone не подходит.</div><div class="callout warn"><strong>DLSS5-Feeder 1.17.0-beta.1 — 22.09.2026</strong>Beta добавляет поддержку wilsjo2 NR-consumer и более строгую проверку model pass. NieR:Automata в этом профиле не требует перехода на beta: для ручного стабильного fallback сохраняйте <strong>0.15.1</strong>; prerelease используйте только для диагностики или отдельного A/B.</div><div class="callout ok"><strong>Feeder актуализирован 04.10.2026</strong>Для ручного Feeder-route используйте stable <strong>1.17.0</strong>. Beta <strong>1.18.0-beta.1</strong> нужна только если лог показывает, что NGX не может создать DLSS внутри процесса и требуется 64-bit helper mode; для обычной 64-bit игры helper mode не является базовым маршрутом.</div><div class="status-strip"><span class="status-pill exp">Experimental</span><span class="status-pill ok">Проверено: 23.09.2026</span></div></div>
+<div class="game-head"><div class="card"><h2>NieR:Automata</h2><p>Рекомендуемый маршрут на NVIDIA 616.64+: <strong>DLSS5 Autopilot 2.0.8 → standalone-dlssnr</strong>. Ручной fallback: <strong>DLSS5-Feeder 1.17.0 + ReShade</strong>.</p><div class="callout danger"><strong>Experimental</strong>64-bit D3D11 без штатного DLSS. Feeder несовместим с OptiScaler и Smooth Motion.</div><div class="callout warn"><strong>Autopilot 2.0.4 / Driver 616.64+ — первый route policy сохраняется</strong>Для 64-bit D3D11/D3D12 игры без собственного DLSS первым автоматическим маршрутом теперь является <strong>standalone-dlssnr</strong>. Feeder остаётся ручным fallback; откат на 616.56 — резерв, если standalone не подходит.</div><div class="callout warn"><strong>DLSS5-Feeder 1.17.0-beta.1 — 22.09.2026</strong>Beta добавляет поддержку wilsjo2 NR-consumer и более строгую проверку model pass. NieR:Automata в этом профиле не требует перехода на beta: для ручного стабильного fallback сохраняйте <strong>0.15.1</strong>; prerelease используйте только для диагностики или отдельного A/B.</div><div class="callout ok"><strong>Feeder актуализирован 04.10.2026</strong>Для ручного Feeder-route используйте stable <strong>1.17.0</strong>. Beta <strong>1.18.0-beta.2</strong> нужна только если лог показывает, что NGX не может создать DLSS внутри процесса и требуется 64-bit helper mode; для обычной 64-bit игры helper mode не является базовым маршрутом.</div><div class="status-strip"><span class="status-pill exp">Experimental</span><span class="status-pill ok">Проверено: 23.09.2026</span></div></div>
 <div class="card"><div class="summary-grid"><div class="metric"><div class="label">Injection</div><div class="value good">ReShade dxgi.dll</div></div><div class="metric"><div class="label">Input</div><div class="value">Synthetic DLAA contract</div></div><div class="metric"><div class="label">NR</div><div class="value">DLSS5-Feeder 1.17.0 + ReShade</div></div><div class="metric"><div class="label">FG</div><div class="value">OFF</div></div></div></div></div>
 <div class="section recommended-profile" id="nier-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix"><tr><th>Параметр</th><th>Рекомендация</th></tr><tr><td>Разрешение</td><td>3840×2160</td></tr><tr><td>Маршрут</td><td>Autopilot standalone-dlssnr на 616.64+; Feeder 1.17.0 + ReShade как manual fallback</td></tr><tr><td>Input</td><td>Standalone own feed; Synthetic DLAA contract только для Feeder fallback</td></tr><tr><td>DLSS5 Neural Rendering</td><td>ON; standalone-dlssnr предпочтителен на 616.64+</td></tr><tr><td>NR Scale</td><td>100% на старте</td></tr><tr><td>Frame Generation</td><td>OFF</td></tr><tr><td>Ключевой параметр</td><td>На 616.64+ standalone-dlssnr; Feeder fallback: MSAA/SSAA OFF, LaunchPad MV обязателен</td></tr></table><p class="small">Сначала проверяйте Neural Rendering без Frame Generation; затем включайте только один FG-механизм.</p></div></div>
 <div class="section step-section" id="nier-install"><div class="section-title"><div class="step-num">1</div><h3>Установка</h3></div><div class="section-body">
@@ -2812,45 +2812,156 @@ FG               OFF</pre>
 <li><a href="https://github.com/jlrouzies-fr/DLSS5-Feeder" target="_blank">DLSS5-Feeder</a></li>
 </ul></div>
 </section>
-<footer class="footer"><strong>Интерфейс v22:</strong> 35 игровых профилей; обновление 05.10.2026. Добавлен <strong>Sleeping Dogs: Definitive Edition</strong>: DX11/x64 без native DLSS, основной текущий маршрут — Autopilot <code>standalone-dlssnr</code>, Feeder 1.17.0 + ReShade через <code>dxgi.dll</code> — отдельный fallback/A-B. Учтён публичный RTX 5080 community-тест Neural Rendering; он не трактуется как универсальный 4K-бенчмарк. Удалены дубли Kingdom Come из searchable combobox. Базовые версии компонентов сохранены: Autopilot <strong>2.0.8</strong>, Feeder stable <strong>1.17.0</strong> / diagnostic beta <strong>1.18.0-beta.1</strong>, OptiScaler <strong>0.9.4</strong>, OptiScaler_DLSSNR <strong>0.2.0</strong>, Game Ready <strong>617.14 WHQL</strong>.</footer>
+
+<section class="tab-panel" id="hellraiserrevival">
+<div class="game-head">
+<div class="card">
+<h2>Clive Barker's Hellraiser: Revival</h2>
+<p>Базовый маршрут для RTX 5080: <strong>DX12 / UE5 → штатный DLSS Super Resolution → штатный Frame Generation / NVIDIA App Dynamic FG</strong>. Для <strong>DLSS5 Neural Rendering</strong> game-specific подтверждения OptiScaler/OptiPatcher на 08.10.2026 ещё нет, поэтому NR добавлен только как экспериментальный маршрут через Autopilot/OptiScaler.</p>
+<div class="callout warn"><strong>Native-first / Experimental NR</strong>Игра вышла 08.10.2026. NVIDIA официально подтверждает DLSS Super Resolution и Frame Generation; через NVIDIA App доступны новые DLSS-модели и Dynamic Frame Generation до 6×. Не считайте наличие DLSS автоматическим подтверждением Neural Rendering.</div>
+<div class="status-strip"><span class="status-pill warn">Experimental NR</span><span class="status-pill ok">Native DLSS + FG</span><span class="status-pill ok">Проверено: 08.10.2026</span></div>
+</div>
+<div class="card"><div class="summary-grid">
+<div class="metric"><div class="label">Engine</div><div class="value good">Unreal Engine 5</div></div>
+<div class="metric"><div class="label">API</div><div class="value">DirectX 12</div></div>
+<div class="metric"><div class="label">Native</div><div class="value">DLSS SR + FG</div></div>
+<div class="metric"><div class="label">NR</div><div class="value">Experimental</div></div>
+</div></div>
+</div>
+<div class="section recommended-profile" id="hellraiserrevival-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix">
+<tr><th>Параметр</th><th>Рекомендация</th></tr>
+<tr><td>Разрешение</td><td>3840×2160</td></tr>
+<tr><td>API</td><td>DirectX 12</td></tr>
+<tr><td>Upscaler / режим</td><td>DLSS Quality; DLAA при достаточном базовом FPS</td></tr>
+<tr><td>DLSS5 Neural Rendering</td><td>Experimental — только после отдельной A/B-проверки</td></tr>
+<tr><td>NR Scale</td><td>100% на первом тесте; снижать до 90–85% только при подтверждённой работе</td></tr>
+<tr><td>Ray Reconstruction</td><td>Не форсировать: отдельная штатная поддержка не подтверждена</td></tr>
+<tr><td>Frame Generation</td><td>Native FG; Dynamic FG через NVIDIA App по желанию</td></tr>
+<tr><td>Dynamic FG</td><td>До 6× через NVIDIA App, если доступно для текущего профиля</td></tr>
+<tr><td>Ключевой параметр</td><td>Сначала native DLSS/FG; NR тестировать отдельно с FG OFF</td></tr>
+</table><p class="small">Игра новая. До появления game-specific compatibility entry не переносите сюда настройки proxy DLL из других UE5-игр как гарантированно рабочие.</p></div></div>
+<div class="section step-section" id="hellraiserrevival-install"><div class="section-title"><div class="step-num">1</div><h3>Проверить штатный DLSS</h3></div><div class="section-body">
+<pre>Resolution       3840×2160
+DLSS             Quality
+Frame Generation OFF</pre>
+<p>Сначала убедитесь, что чистая игра стабильна без сторонних DLL-инжекторов.</p>
+</div></div>
+<div class="section step-section"><div class="section-title"><div class="step-num">2</div><h3>Настроить NVIDIA App</h3></div><div class="section-body">
+<p>Если NVIDIA App предлагает для игры DLSS Overrides, можно обновить модель Super Resolution и включить Dynamic Frame Generation. Используйте только официально отображаемые для игры параметры.</p>
+</div></div>
+<div class="section step-section"><div class="section-title"><div class="step-num">3</div><h3>Экспериментальный тест Neural Rendering</h3></div><div class="section-body">
+<p>Для проверки DLSS5 NR предпочтительно начать с <strong>DLSS5 Autopilot 2.0.8</strong> и его определения маршрута. Если выбран OptiScaler route:</p>
+<pre>DLSS Quality
+Frame Generation OFF
+Neural Rendering ON
+NR Scale 100%</pre>
+<p>Успех обычного DLSS/OptiScaler не считать подтверждением NR: нужна видимая A/B-разница и корректный лог Neural Rendering.</p>
+</div></div>
+<div class="section step-section" id="hellraiserrevival-fg"><div class="section-title"><div class="step-num">4</div><h3>Frame Generation</h3></div><div class="section-body">
+<p>После проверки изображения используйте штатный FG или Dynamic FG через NVIDIA App. Не включайте одновременно несколько FG-механизмов.</p>
+</div></div>
+<div class="section step-section" id="hellraiserrevival-diag"><div class="section-title"><div class="step-num">5</div><h3>Диагностика</h3></div><div class="section-body">
+<ul><li>При crash сначала удалите экспериментальный NR-route и проверьте чистую игру.</li><li>Не ставьте OptiPatcher: game-specific поддержка Hellraiser пока не подтверждена.</li><li>Если OptiScaler proxy не загружается, используйте Autopilot 2.0.8 для проверки фактически загруженных DLL и выбора другого proxy name.</li><li>Результат NR считать рабочим только при подтверждении логом и A/B-сравнением.</li></ul>
+</div></div>
+<div class="card source-list" id="hellraiserrevival-sources" style="margin-top:18px"><h3>Ссылки</h3><ul>
+<li><a href="https://store.steampowered.com/app/1551980/Clive_Barkers_Hellraiser_Revival/" target="_blank">Steam — Clive Barker's Hellraiser: Revival</a></li>
+<li><a href="https://www.nvidia.com/en-us/geforce/news/call-of-duty-modern-warfare-4-dlss-4-5-available-october-16/" target="_blank">NVIDIA — Hellraiser: Revival с DLSS</a></li>
+<li><a href="https://github.com/Kizzuwatnaa/DLSS5-Autopilot/releases/tag/v2.0.8" target="_blank">DLSS5 Autopilot 2.0.8</a></li>
+<li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li>
+</ul></div>
+</section>
+
+<section class="tab-panel" id="gearseday">
+<div class="game-head">
+<div class="card">
+<h2>Gears of War: E-Day</h2>
+<p>Для этой игры рекомендуемый профиль — <strong>Native-only</strong>: штатный <strong>DLSS 4.5 Super Resolution + Dynamic Multi Frame Generation + NVIDIA Reflex + Ray Tracing/RTX Mega Geometry</strong>. Steam указывает использование <strong>Easy Anti-Cheat</strong>, поэтому OptiScaler, DLSS5-Feeder, ReShade add-ons и ручная DLL-инъекция в production-профиле не рекомендуются.</p>
+<div class="callout danger"><strong>Easy Anti-Cheat</strong>Не отключайте и не обходите anti-cheat ради DLSS5 NR. Даже если игра имеет одиночную кампанию, базовый справочник не рекомендует внедрять сторонние DLL в защищённый процесс.</div>
+<div class="status-strip"><span class="status-pill warn">Native-only</span><span class="status-pill warn">Easy Anti-Cheat</span><span class="status-pill ok">DLSS 4.5 / Dynamic MFG</span><span class="status-pill ok">Проверено: 08.10.2026</span></div>
+</div>
+<div class="card"><div class="summary-grid">
+<div class="metric"><div class="label">Engine</div><div class="value good">Unreal Engine 5</div></div>
+<div class="metric"><div class="label">API</div><div class="value">DirectX 12</div></div>
+<div class="metric"><div class="label">Native</div><div class="value">DLSS 4.5 + MFG</div></div>
+<div class="metric"><div class="label">Anti-Cheat</div><div class="value">Easy Anti-Cheat</div></div>
+</div></div>
+</div>
+<div class="section recommended-profile" id="gearseday-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix">
+<tr><th>Параметр</th><th>Рекомендация</th></tr>
+<tr><td>Разрешение</td><td>3840×2160</td></tr>
+<tr><td>API</td><td>DirectX 12</td></tr>
+<tr><td>Upscaler / режим</td><td>DLSS 4.5 Quality</td></tr>
+<tr><td>DLSS5 Neural Rendering mod</td><td>Не использовать</td></tr>
+<tr><td>Ray Tracing</td><td>Ultra / по запасу базового FPS</td></tr>
+<tr><td>RTX Mega Geometry</td><td>ON для максимального качества на RTX 5080</td></tr>
+<tr><td>Frame Generation</td><td>Dynamic MFG; подобрать target FPS под монитор</td></tr>
+<tr><td>Reflex</td><td>ON</td></tr>
+<tr><td>V-Sync / VRR</td><td>V-Sync OFF при G-SYNC/VRR</td></tr>
+<tr><td>Ключевой параметр</td><td>Только native/NVIDIA App; DLL injection OFF</td></tr>
+</table><p class="small">На RTX 5080 ориентируйтесь прежде всего на требуемую частоту обновления дисплея, а не на максимальный множитель MFG.</p></div></div>
+<div class="section step-section" id="gearseday-install"><div class="section-title"><div class="step-num">1</div><h3>Использовать штатный DLSS 4.5</h3></div><div class="section-body">
+<pre>DLSS Super Resolution  Quality
+Ray Tracing            High / Ultra
+RTX Mega Geometry      ON
+Dynamic MFG            по целевому FPS
+NVIDIA Reflex          ON</pre>
+<p>Для RTX 5080 этого набора достаточно; дополнительный DLSS5 loader не требуется.</p>
+</div></div>
+<div class="section step-section"><div class="section-title"><div class="step-num">2</div><h3>NVIDIA App</h3></div><div class="section-body">
+<p>Используйте только официальные DLSS Overrides, доступные NVIDIA App для игры. Не заменяйте <code>nvngx*.dll</code> вручную.</p>
+</div></div>
+<div class="section step-section" id="gearseday-fg"><div class="section-title"><div class="step-num">3</div><h3>Dynamic Multi Frame Generation</h3></div><div class="section-body">
+<p>На RTX 50 Dynamic MFG может менять множитель автоматически для достижения выбранной частоты кадров. Начните с target FPS, соответствующего частоте вашего монитора; не фиксируйте 6× без необходимости.</p>
+</div></div>
+<div class="section step-section" id="gearseday-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body">
+<ul><li>При проблемах сначала восстановите игровые файлы и отключите сторонние injectors/overlays.</li><li>Обновите драйвер NVIDIA и NVIDIA App.</li><li>Не используйте OptiScaler/Feeder/ReShade add-ons в anti-cheat protected процессе.</li><li>Не используйте обход Easy Anti-Cheat как часть этого руководства.</li></ul>
+</div></div>
+<div class="card source-list" id="gearseday-sources" style="margin-top:18px"><h3>Ссылки</h3><ul>
+<li><a href="https://www.nvidia.com/en-us/geforce/news/gears-of-war-e-day-dlss-4-5-ray-tracing-rtx-mega-geometry/" target="_blank">NVIDIA — Gears of War: E-Day DLSS 4.5 / RTX</a></li>
+<li><a href="https://store.steampowered.com/app/3010850/Gears_of_War_EDay/" target="_blank">Steam — Gears of War: E-Day / Easy Anti-Cheat</a></li>
+</ul></div>
+</section>
+<footer class="footer"><strong>Интерфейс v23:</strong> 37 игровых профилей; комплексная проверка 08.10.2026. Добавлены <strong>Clive Barker's Hellraiser: Revival</strong> и <strong>Gears of War: E-Day</strong>. Hellraiser: native DLSS SR + FG/Dynamic FG через NVIDIA App, Neural Rendering пока experimental из-за отсутствия game-specific OptiScaler/OptiPatcher подтверждения. Gears E-Day: native-only из-за Easy Anti-Cheat; DLSS 4.5, Dynamic MFG, Reflex, RT и RTX Mega Geometry. Базовые компоненты: DLSS5 Autopilot <strong>2.0.8</strong>, Feeder stable <strong>1.17.0</strong> / diagnostic beta <strong>1.18.0-beta.2</strong>, OptiPatcher Rolling <strong>702ea18 / 06.10.2026</strong>, Game Ready <strong>617.42 WHQL</strong>. Searchable combobox перестроен по фактическим секциям и включает все 37 профилей.</footer>
 </div>
 <script>
 const allGames = [
-  { value: 'rdr2', label: 'Red Dead Redemption 2' },
-  { value: 'acbf', label: 'Assassin’s Creed Black Flag Resynced' },
-  { value: 'onimusha', label: 'Onimusha: Way of the Sword' },
-  { value: 'crimson', label: 'Crimson Desert' },
-  { value: 'gtav', label: 'Grand Theft Auto V Enhanced' },
-  { value: 'witcher3', label: 'The Witcher 3: Wild Hunt' },
-  { value: 'starfield', label: 'Starfield' },
-  { value: 'tlou1', label: 'The Last of Us Part I' },
-  { value: 'tlou2', label: 'The Last of Us Part II Remastered' },
-  { value: 'ds2', label: 'DEATH STRANDING 2: ON THE BEACH' },
-  { value: 'cyberpunk', label: 'Cyberpunk 2077' },
-  { value: 'batman', label: 'Batman: Arkham Knight' },
-  { value: 'hogwarts', label: 'Hogwarts Legacy' },
-  { value: 'wuchang', label: 'WUCHANG: Fallen Feathers' },
-  { value: '007firstlight', label: '007: First Light' },
-  { value: 'beast', label: 'Beast of Reincarnation' },
-  { value: 'indiana', label: 'Indiana Jones and the Great Circle' },
-  { value: 'avatar', label: 'Avatar: Frontiers of Pandora' },
-  { value: 'mafiaold', label: 'Mafia: The Old Country' },
-  { value: 'mafiade', label: 'Mafia: Definitive Edition' },
-  { value: 'bloodlines2', label: 'Vampire: The Masquerade - Bloodlines 2' },
-  { value: 'ronin', label: 'Rise of the Ronin' },
-  { value: 'nier', label: 'NieR:Automata' },
-  { value: 'stalker2', label: 'S.T.A.L.K.E.R. 2: Heart of Chornobyl' },
-  { value: 'splitfiction', label: 'Split Fiction' },
-  { value: 'resonance', label: 'Resonance: A Plague Tale Legacy' },
-  { value: 'yakuza3', label: 'Yakuza Kiwami 3 & Dark Ties' },
-  { value: "kcd", label: "Kingdom Come: Deliverance", aliases: ["Kingdom Come Deliverance 1", "KCD1", "Кингдом Кам"] },
-  { value: "kcd2", label: "Kingdom Come: Deliverance II", aliases: ["Kingdom Come: Deliverance 2", "Kingdom Come Deliverance 2", "KCD2", "Кингдом Кам 2"] },
-  { value: 'controlresonant', label: 'CONTROL Resonant' },
-  { value: 'townfall', label: 'SILENT HILL: Townfall' },
-  { value: 'wherewindsmeet', label: 'Where Winds Meet' },
-  { value: 'blackops6', label: 'Call of Duty: Black Ops 6' },
-  { value: 'mortalshell2', label: 'Mortal Shell II' },
-  { value: 'sleepingdogs', label: 'Sleeping Dogs: Definitive Edition', aliases: ['Sleeping Dogs DE', 'Sleeping Dogs Definitive', 'SDDE'] }
+  { value: "rdr2", label: "Red Dead Redemption 2" },
+  { value: "acbf", label: "Assassin’s Creed Black Flag Resynced" },
+  { value: "onimusha", label: "Onimusha: Way of the Sword" },
+  { value: "crimson", label: "Crimson Desert" },
+  { value: "gtav", label: "Grand Theft Auto V Enhanced" },
+  { value: "witcher3", label: "The Witcher 3: Wild Hunt" },
+  { value: "starfield", label: "Starfield" },
+  { value: "tlou1", label: "The Last of Us Part I" },
+  { value: "tlou2", label: "The Last of Us Part II Remastered" },
+  { value: "ds2", label: "DEATH STRANDING 2: ON THE BEACH" },
+  { value: "cyberpunk", label: "Cyberpunk 2077" },
+  { value: "batman", label: "Batman: Arkham Knight" },
+  { value: "hogwarts", label: "Hogwarts Legacy" },
+  { value: "wuchang", label: "WUCHANG: Fallen Feathers" },
+  { value: "007firstlight", label: "007: First Light" },
+  { value: "beast", label: "Beast of Reincarnation" },
+  { value: "indiana", label: "Indiana Jones and the Great Circle" },
+  { value: "avatar", label: "Avatar: Frontiers of Pandora" },
+  { value: "mafiaold", label: "Mafia: The Old Country" },
+  { value: "mafiade", label: "Mafia: Definitive Edition" },
+  { value: "bloodlines2", label: "Vampire: The Masquerade - Bloodlines 2" },
+  { value: "ronin", label: "Rise of the Ronin" },
+  { value: "nier", label: "NieR:Automata" },
+  { value: "stalker2", label: "S.T.A.L.K.E.R. 2: Heart of Chornobyl" },
+  { value: "splitfiction", label: "Split Fiction" },
+  { value: "resonance", label: "Resonance: A Plague Tale Legacy" },
+  { value: "yakuza3", label: "Yakuza Kiwami 3 & Dark Ties" },
+  { value: "kcd", label: "Kingdom Come: Deliverance" },
+  { value: "kcd2", label: "Kingdom Come: Deliverance II" },
+  { value: "controlresonant", label: "CONTROL Resonant" },
+  { value: "townfall", label: "SILENT HILL: Townfall" },
+  { value: "wherewindsmeet", label: "Where Winds Meet" },
+  { value: "blackops6", label: "Call of Duty: Black Ops 6" },
+  { value: "mortalshell2", label: "Mortal Shell II" },
+  { value: "sleepingdogs", label: "Sleeping Dogs: Definitive Edition" },
+  { value: "hellraiserrevival", label: "Clive Barker's Hellraiser: Revival" },
+  { value: "gearseday", label: "Gears of War: E-Day" }
 ];
 
 const panels = document.querySelectorAll('.tab-panel');
