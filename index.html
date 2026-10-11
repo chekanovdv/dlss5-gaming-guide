@@ -639,7 +639,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{
 <span aria-hidden="true" class="finder-shortcut">Ctrl K</span>
 </div>
 <div class="game-results" hidden="" id="gameResults" role="listbox"></div>
-</div><div class="meta"><span class="badge"><strong>Игр:</strong> 37</span>
+</div><div class="meta"><span class="badge"><strong>Игр:</strong> 42</span>
 <span class="badge"><strong>Проверено:</strong> 11.10.2026</span>
 <span class="badge"><strong>Режим:</strong> Story / Single Player</span>
 </div>
@@ -2922,47 +2922,174 @@ NVIDIA Reflex          ON</pre>
 <li><a href="https://store.steampowered.com/app/3010850/Gears_of_War_EDay/" target="_blank">Steam — Gears of War: E-Day / Easy Anti-Cheat</a></li>
 </ul></div>
 </section>
-<footer class="footer"><strong>Интерфейс v24:</strong> 37 игровых профилей; проверка и production-обновление <strong>11.10.2026</strong>. Исправлен верхний счётчик профилей (35 → 37). OptiPatcher Rolling обновлён до <strong>1a31f0d / 10.10.2026</strong>; для <strong>Clive Barker's Hellraiser: Revival</strong> теперь подтверждены game-specific DLSS и DLSSG input patches, при этом Neural Rendering и NR+FG по-прежнему обозначены как experimental до отдельного подтверждения. Базовые компоненты: DLSS5 Autopilot <strong>2.0.8</strong>, Feeder stable <strong>1.17.0</strong> / diagnostic beta <strong>1.18.0-beta.2</strong>, Game Ready <strong>617.42 WHQL</strong>.</footer>
+
+<section class="tab-panel" id="trepang2" data-profile-added="2026-10-11">
+<div class="game-head"><div class="card">
+<h2>Trepang2</h2>
+<p>Подтверждённый базовый путь: <strong>OptiScaler через dxgi.dll → DLSS input</strong>. OptiPatcher Rolling поддерживает DLSS input для Trepang2; отдельного DLSSG patch нет.</p>
+<div class="callout ok"><strong>OptiScaler подтверждён</strong>Compatibility Wiki подтверждает Trepang2 с DLSS input. При каждом запуске игра может сбрасывать DLSS preset к Performance — после старта переключите preset туда-обратно и проверьте фактический режим в overlay.</div>
+<div class="callout warn"><strong>Neural Rendering</strong>Обычная совместимость OptiScaler не является подтверждением OptiScaler_DLSSNR. Для NR используйте отдельный A/B-тест с FG OFF. При необходимости можно принудительно запустить DX12 параметром <code>-dx12</code>.</div>
+<div class="status-strip"><span class="status-pill ok">OptiScaler: confirmed</span><span class="status-pill ok">OptiPatcher: DLSS</span><span class="status-pill exp">NR: experimental</span><span class="status-pill ok">Проверено: 11.10.2026</span></div>
+</div><div class="card"><div class="summary-grid">
+<div class="metric"><div class="label">Proxy</div><div class="value">dxgi.dll</div></div>
+<div class="metric"><div class="label">Input</div><div class="value good">DLSS</div></div>
+<div class="metric"><div class="label">OptiPatcher</div><div class="value">DLSS only</div></div>
+<div class="metric"><div class="label">NR</div><div class="value">A/B test</div></div>
+</div></div></div>
+<div class="section recommended-profile" id="trepang2-settings"><div class="section-title"><div class="step-num">★</div><h3>Стартовые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix">
+<tr><th>Параметр</th><th>Рекомендация</th></tr>
+<tr><td>Разрешение</td><td>3840×2160</td></tr><tr><td>API</td><td>DX11 baseline; <code>-dx12</code> как A/B</td></tr>
+<tr><td>Upscaler</td><td>DLSS Quality</td></tr><tr><td>NR</td><td>Experimental; начать со 100%</td></tr>
+<tr><td>FG</td><td>OFF при первичной диагностике</td></tr><tr><td>Ключевой параметр</td><td>После каждого запуска перепроверьте фактический DLSS preset</td></tr>
+</table></div></div>
+<div class="section step-section" id="trepang2-install"><div class="section-title"><div class="step-num">1</div><h3>Установка</h3></div><div class="section-body"><pre>OptiScaler / OptiScaler_DLSSNR
+Proxy: dxgi.dll
+Input: DLSS
+OptiPatcher Rolling: ON
+FG: OFF</pre></div></div>
+<div class="section step-section" id="trepang2-fg"><div class="section-title"><div class="step-num">2</div><h3>Frame Generation</h3></div><div class="section-body"><p>Штатного DLSSG patch в OptiPatcher для Trepang2 нет. Любой внешний FG проверяйте отдельно после стабильного NR.</p></div></div>
+<div class="section step-section" id="trepang2-diag"><div class="section-title"><div class="step-num">3</div><h3>Диагностика</h3></div><div class="section-body"><p>Если визуально используется Performance после рестарта, переключите DLSS preset и верните Quality. Не считайте запуск обычного OptiScaler подтверждением NR.</p></div></div>
+<div class="card source-list" id="trepang2-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiScaler/wiki/Trepang2" target="_blank">OptiScaler Wiki — Trepang2</a></li><li><a href="https://github.com/optiscaler/OptiPatcher/blob/main/GameSupport.md" target="_blank">OptiPatcher GameSupport</a></li></ul></div>
+</section>
+
+<section class="tab-panel" id="samson" data-profile-added="2026-10-11">
+<div class="game-head"><div class="card">
+<h2>Samson</h2>
+<p>Native-first профиль: <strong>DLSS 4.5 Super Resolution + Ray Tracing + Frame Generation</strong>. OptiPatcher Rolling подтверждает DLSS и DLSSG inputs; Neural Rendering остаётся отдельным экспериментом.</p>
+<div class="callout ok"><strong>Официальная RTX-поддержка</strong>NVIDIA подтверждает DLSS 4.5 Super Resolution и ray-traced effects; официальный performance guide также указывает Frame Generation для RTX 40/50.</div>
+<div class="callout ok"><strong>OptiPatcher</strong>GameSupport текущего Rolling отмечает Samson как поддерживаемую для <strong>DLSS и DLSSG</strong>. Это подтверждает входы, но не доказывает работу NR-fork.</div>
+<div class="status-strip"><span class="status-pill ok">Native DLSS 4.5</span><span class="status-pill ok">OptiPatcher DLSS+DLSSG</span><span class="status-pill exp">NR experimental</span><span class="status-pill ok">Проверено: 11.10.2026</span></div>
+</div><div class="card"><div class="summary-grid"><div class="metric"><div class="label">Engine</div><div class="value">UE5</div></div><div class="metric"><div class="label">DLSS</div><div class="value good">4.5 SR</div></div><div class="metric"><div class="label">RT</div><div class="value">Native</div></div><div class="metric"><div class="label">FG</div><div class="value">Native</div></div></div></div></div>
+<div class="section recommended-profile" id="samson-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix">
+<tr><th>Параметр</th><th>Рекомендация</th></tr><tr><td>Разрешение</td><td>3840×2160</td></tr>
+<tr><td>DLSS</td><td>Quality</td></tr><tr><td>Ray Tracing</td><td>High; Max после проверки базового FPS</td></tr>
+<tr><td>Frame Generation</td><td>Native ON после baseline</td></tr><tr><td>NR</td><td>Experimental; OptiScaler_DLSSNR + fresh OptiPatcher, FG OFF на первом тесте</td></tr>
+<tr><td>V-Sync / VRR</td><td>V-Sync OFF при VRR</td></tr>
+</table></div></div>
+<div class="section step-section" id="samson-install"><div class="section-title"><div class="step-num">1</div><h3>Сначала native</h3></div><div class="section-body"><pre>DLSS Quality
+Ray Tracing High
+Frame Generation OFF
+External injectors OFF</pre><p>После стабильного baseline можно отдельно проверить OptiScaler_DLSSNR + OptiPatcher.</p></div></div>
+<div class="section step-section" id="samson-fg"><div class="section-title"><div class="step-num">2</div><h3>Frame Generation</h3></div><div class="section-body"><p>Native FG включайте после проверки NR либо используйте его без NR как основной production-путь.</p></div></div>
+<div class="section step-section" id="samson-diag"><div class="section-title"><div class="step-num">3</div><h3>Диагностика</h3></div><div class="section-body"><p>Если NR-route нестабилен, вернитесь к native DLSS 4.5 + FG; поддержка OptiPatcher не является гарантией NR.</p></div></div>
+<div class="card source-list" id="samson-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://www.nvidia.com/en-eu/geforce/news/dlss-4-5-rtx-path-tracing-game-announcements-gdc-2026/" target="_blank">NVIDIA — Samson DLSS 4.5 / RT</a></li><li><a href="https://github.com/optiscaler/OptiPatcher/blob/main/GameSupport.md" target="_blank">OptiPatcher GameSupport</a></li></ul></div>
+</section>
+
+<section class="tab-panel" id="pragmata" data-profile-added="2026-10-11">
+<div class="game-head"><div class="card">
+<h2>PRAGMATA</h2>
+<p>Native RTX-профиль: <strong>Path Tracing + DLSS Ray Reconstruction + DLSS Multi Frame Generation + Reflex</strong>. Для мод-маршрута OptiScaler подтверждён через <code>dxgi.dll</code>, но требует <strong>REFramework</strong>.</p>
+<div class="callout ok"><strong>RTX 5080 / 4K подтверждён NVIDIA</strong>NVIDIA публикует около 190 FPS на RTX 5080 при 4K max, Path Tracing, DLSS RR и DLSS MFG 4X. Это ориентир для native-пути, не benchmark NR-fork.</div>
+<div class="callout warn"><strong>OptiScaler + REFramework</strong>Compatibility Wiki подтверждает DLSS и FSR3.1 inputs, DLSSG через Streamline. После обновлений игры возможны crashes до обновления REFramework; RTSS при crash следует полностью закрыть.</div>
+<div class="status-strip"><span class="status-pill ok">PT + RR + MFG</span><span class="status-pill ok">OptiScaler confirmed</span><span class="status-pill exp">NR mod: A/B only</span><span class="status-pill ok">Проверено: 11.10.2026</span></div>
+</div><div class="card"><div class="summary-grid"><div class="metric"><div class="label">Proxy</div><div class="value">dxgi.dll</div></div><div class="metric"><div class="label">Required</div><div class="value">REFramework</div></div><div class="metric"><div class="label">RR</div><div class="value good">Native</div></div><div class="metric"><div class="label">MFG</div><div class="value good">RTX 50</div></div></div></div></div>
+<div class="section recommended-profile" id="pragmata-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix">
+<tr><th>Параметр</th><th>Рекомендация</th></tr><tr><td>Разрешение</td><td>3840×2160</td></tr>
+<tr><td>Path Tracing</td><td>ON</td></tr><tr><td>DLSS</td><td>Quality / рекомендованный native режим</td></tr>
+<tr><td>Ray Reconstruction</td><td>ON с Path Tracing</td></tr><tr><td>MFG</td><td>4X как официальный RTX 5080 baseline</td></tr>
+<tr><td>NR mod</td><td>Только отдельный A/B: REFramework + OptiScaler_DLSSNR, MFG OFF</td></tr>
+</table></div></div>
+<div class="section step-section" id="pragmata-install"><div class="section-title"><div class="step-num">1</div><h3>Native baseline</h3></div><div class="section-body"><pre>4K
+Path Tracing ON
+DLSS / RR ON
+MFG 4X
+Reflex ON</pre></div></div>
+<div class="section step-section" id="pragmata-fg"><div class="section-title"><div class="step-num">2</div><h3>NR A/B</h3></div><div class="section-body"><p>Для мод-теста установите REFramework, затем OptiScaler через <code>dxgi.dll</code>. Первый запуск NR выполняйте с PT/RR/MFG OFF, затем включайте функции по одной.</p></div></div>
+<div class="section step-section" id="pragmata-diag"><div class="section-title"><div class="step-num">3</div><h3>Диагностика</h3></div><div class="section-body"><ul><li>Если игра обновилась и OptiScaler падает — сначала обновите REFramework.</li><li>Закройте RTSS при startup crash.</li><li>XeFG через REF может давать тяжёлый intermittent stutter; native DLSSG предпочтительнее.</li></ul></div></div>
+<div class="card source-list" id="pragmata-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://www.nvidia.com/en-us/geforce/news/pragmata-path-tracing-dlss-ray-reconstruction-multi-frame-gen/" target="_blank">NVIDIA — PRAGMATA PT/RR/MFG</a></li><li><a href="https://github.com/optiscaler/OptiScaler/wiki/PRAGMATA" target="_blank">OptiScaler Wiki — PRAGMATA</a></li></ul></div>
+</section>
+
+<section class="tab-panel" id="immortalsofaveum" data-profile-added="2026-10-11">
+<div class="game-head"><div class="card">
+<h2>Immortals of Aveum</h2>
+<p>Подтверждённый маршрут: <strong>OptiScaler через d3d12.dll + OptiPatcher → DLSS input → DLSSG via Streamline</strong>. Игра также поддерживает FSR3 FG и NVIDIA DLSS 4/MFG override.</p>
+<div class="callout ok"><strong>Proxy d3d12.dll обязателен</strong>Compatibility Wiki рекомендует <code>d3d12.dll</code>, чтобы обойти signature verification, которая может блокировать OptiScaler.</div>
+<div class="callout warn"><strong>Level load / FG</strong>После загрузки нового уровня выбранный upscaler может сбрасываться — перепроверьте его. Для FG предпочтителен DLSSG via Streamline; Nukem DLSSG известен crash в Chapter 12.</div>
+<div class="status-strip"><span class="status-pill ok">OptiScaler confirmed</span><span class="status-pill ok">OptiPatcher DLSS+FG</span><span class="status-pill exp">NR requires A/B</span><span class="status-pill ok">Проверено: 11.10.2026</span></div>
+</div><div class="card"><div class="summary-grid"><div class="metric"><div class="label">Proxy</div><div class="value good">d3d12.dll</div></div><div class="metric"><div class="label">Inputs</div><div class="value">DLSS / FSR3</div></div><div class="metric"><div class="label">FG</div><div class="value">DLSSG via SL</div></div><div class="metric"><div class="label">HDR</div><div class="value">Native PC</div></div></div></div></div>
+<div class="section recommended-profile" id="immortalsofaveum-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix">
+<tr><th>Параметр</th><th>Рекомендация</th></tr><tr><td>Разрешение</td><td>3840×2160</td></tr>
+<tr><td>Proxy</td><td><code>d3d12.dll</code></td></tr><tr><td>Input</td><td>DLSS Quality</td></tr>
+<tr><td>NR</td><td>100% first test; снижать после frametime A/B</td></tr><tr><td>FG</td><td>DLSSG via Streamline после стабильного NR</td></tr>
+<tr><td>OptiPatcher</td><td>ON</td></tr><tr><td>HDR</td><td>По дисплею</td></tr>
+</table></div></div>
+<div class="section step-section" id="immortalsofaveum-install"><div class="section-title"><div class="step-num">1</div><h3>Установка</h3></div><div class="section-body"><pre>OptiScaler_DLSSNR
+Proxy: d3d12.dll
+OptiPatcher Rolling: ON
+DLSS Quality
+FG OFF</pre></div></div>
+<div class="section step-section" id="immortalsofaveum-fg"><div class="section-title"><div class="step-num">2</div><h3>Frame Generation</h3></div><div class="section-body"><p>После стабильного NR включайте DLSSG via Streamline. Не используйте Nukem DLSSG для Chapter 12.</p></div></div>
+<div class="section step-section" id="immortalsofaveum-diag"><div class="section-title"><div class="step-num">3</div><h3>Диагностика</h3></div><div class="section-body"><p>После загрузки уровня проверьте, что выбранный upscaler не сбросился. Если OptiScaler не загружается — первым делом проверьте имя proxy <code>d3d12.dll</code>.</p></div></div>
+<div class="card source-list" id="immortalsofaveum-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiScaler/wiki/Immortals-of-Aveum" target="_blank">OptiScaler Wiki — Immortals of Aveum</a></li><li><a href="https://github.com/optiscaler/OptiPatcher/blob/main/GameSupport.md" target="_blank">OptiPatcher GameSupport</a></li><li><a href="https://www.ea.com/games/immortals-of-aveum/immortals-of-aveum/news/update-1064" target="_blank">EA — FSR3 / HDR update</a></li></ul></div>
+</section>
+
+<section class="tab-panel" id="bladesoffire" data-profile-added="2026-10-11">
+<div class="game-head"><div class="card">
+<h2>Blades of Fire</h2>
+<p>После v2.0 игра имеет штатные <strong>DLSS Super Resolution + DLSS Frame Generation</strong>; через NVIDIA App на RTX 50 доступны DLSS 4.5 SR и Multi Frame Generation 6X. OptiScaler compatibility подтверждён с DLSS input.</p>
+<div class="callout ok"><strong>OptiScaler confirmed</strong>В актуальной compatibility list Blades of Fire отмечена как рабочая с DLSS input. Отдельного OptiPatcher support нет.</div>
+<div class="callout warn"><strong>Overlay</strong>Для OptiScaler overlay используйте клавиатуру — мышь в overlay для этой игры не работает.</div>
+<div class="status-strip"><span class="status-pill ok">Native DLSS + FG</span><span class="status-pill ok">OptiScaler confirmed</span><span class="status-pill exp">NR experimental</span><span class="status-pill ok">Проверено: 11.10.2026</span></div>
+</div><div class="card"><div class="summary-grid"><div class="metric"><div class="label">Input</div><div class="value good">DLSS</div></div><div class="metric"><div class="label">FG</div><div class="value">Native / MFG 6X override</div></div><div class="metric"><div class="label">OptiPatcher</div><div class="value">Not required</div></div><div class="metric"><div class="label">NR</div><div class="value">A/B only</div></div></div></div></div>
+<div class="section recommended-profile" id="bladesoffire-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix">
+<tr><th>Параметр</th><th>Рекомендация</th></tr><tr><td>Разрешение</td><td>3840×2160</td></tr>
+<tr><td>DLSS</td><td>4.5 Quality через native/NVIDIA App</td></tr><tr><td>FG</td><td>Native FG; MFG 6X только при необходимости</td></tr>
+<tr><td>NR</td><td>Experimental; первый A/B с FG OFF и NR 100%</td></tr><tr><td>OptiPatcher</td><td>Не требуется / поддержки нет</td></tr>
+</table></div></div>
+<div class="section step-section" id="bladesoffire-install"><div class="section-title"><div class="step-num">1</div><h3>Native baseline</h3></div><div class="section-body"><pre>DLSS 4.5 Quality
+Frame Generation OFF
+NVIDIA App override по желанию
+External injectors OFF</pre></div></div>
+<div class="section step-section" id="bladesoffire-fg"><div class="section-title"><div class="step-num">2</div><h3>NR / MFG</h3></div><div class="section-body"><p>Для NR используйте OptiScaler_DLSSNR как отдельный эксперимент; затем возвращайте native FG/MFG. Не включайте несколько FG-механизмов одновременно.</p></div></div>
+<div class="section step-section" id="bladesoffire-diag"><div class="section-title"><div class="step-num">3</div><h3>Диагностика</h3></div><div class="section-body"><p>Если overlay открыт, навигацию выполняйте клавиатурой. Обычный OptiScaler success не считайте подтверждением NR.</p></div></div>
+<div class="card source-list" id="bladesoffire-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiScaler/wiki/Compatibility-List" target="_blank">OptiScaler Compatibility List</a></li><li><a href="https://www.nvidia.com/en-us/geforce/news/forza-horizon-6-dlss-4-5-super-resolution-multi-frame-gen/" target="_blank">NVIDIA — Blades of Fire v2.0 DLSS / MFG</a></li></ul></div>
+</section>
+<footer class="footer"><strong>Интерфейс v25:</strong> 42 игровых профиля; обновление <strong>11.10.2026</strong>. Добавлены <strong>Blades of Fire, Immortals of Aveum, PRAGMATA, Samson и Trepang2</strong>. Выпадающий searchable-список полностью пересортирован по алфавиту. Для новых профилей отдельно разделены native DLSS/FG/RR возможности, подтверждённая совместимость обычного OptiScaler/OptiPatcher и экспериментальный Neural Rendering. PRAGMATA использует native Path Tracing + RR + MFG и требует REFramework для OptiScaler; Immortals of Aveum — <code>d3d12.dll</code> + OptiPatcher; Trepang2 — DLSS input + OptiPatcher без DLSSG patch; Samson — native DLSS 4.5/RT и OptiPatcher DLSS+DLSSG; Blades of Fire — native DLSS/FG + NVIDIA App MFG 6X, OptiScaler confirmed без OptiPatcher.</footer>
 </div>
 <script>
 const allGames = [
-  { value: "rdr2", label: "Red Dead Redemption 2" },
+  { value: "007firstlight", label: "007: First Light" },
   { value: "acbf", label: "Assassin’s Creed Black Flag Resynced" },
-  { value: "onimusha", label: "Onimusha: Way of the Sword" },
+  { value: "avatar", label: "Avatar: Frontiers of Pandora" },
+  { value: "batman", label: "Batman: Arkham Knight" },
+  { value: "beast", label: "Beast of Reincarnation" },
+  { value: "bladesoffire", label: "Blades of Fire" },
+  { value: "blackops6", label: "Call of Duty: Black Ops 6" },
+  { value: "hellraiserrevival", label: "Clive Barker's Hellraiser: Revival" },
+  { value: "controlresonant", label: "CONTROL Resonant" },
   { value: "crimson", label: "Crimson Desert" },
+  { value: "cyberpunk", label: "Cyberpunk 2077" },
+  { value: "ds2", label: "DEATH STRANDING 2: ON THE BEACH" },
+  { value: "gearseday", label: "Gears of War: E-Day" },
   { value: "gtav", label: "Grand Theft Auto V Enhanced" },
-  { value: "witcher3", label: "The Witcher 3: Wild Hunt" },
+  { value: "hogwarts", label: "Hogwarts Legacy" },
+  { value: "immortalsofaveum", label: "Immortals of Aveum", aliases: ["Immortals Aveum"] },
+  { value: "indiana", label: "Indiana Jones and the Great Circle" },
+  { value: "kcd", label: "Kingdom Come: Deliverance" },
+  { value: "kcd2", label: "Kingdom Come: Deliverance II" },
+  { value: "mafiade", label: "Mafia: Definitive Edition" },
+  { value: "mafiaold", label: "Mafia: The Old Country" },
+  { value: "mortalshell2", label: "Mortal Shell II" },
+  { value: "nier", label: "NieR:Automata" },
+  { value: "onimusha", label: "Onimusha: Way of the Sword" },
+  { value: "pragmata", label: "PRAGMATA" },
+  { value: "rdr2", label: "Red Dead Redemption 2" },
+  { value: "resonance", label: "Resonance: A Plague Tale Legacy" },
+  { value: "ronin", label: "Rise of the Ronin" },
+  { value: "stalker2", label: "S.T.A.L.K.E.R. 2: Heart of Chornobyl" },
+  { value: "samson", label: "Samson" },
+  { value: "townfall", label: "SILENT HILL: Townfall" },
+  { value: "sleepingdogs", label: "Sleeping Dogs: Definitive Edition" },
+  { value: "splitfiction", label: "Split Fiction" },
   { value: "starfield", label: "Starfield" },
   { value: "tlou1", label: "The Last of Us Part I" },
   { value: "tlou2", label: "The Last of Us Part II Remastered" },
-  { value: "ds2", label: "DEATH STRANDING 2: ON THE BEACH" },
-  { value: "cyberpunk", label: "Cyberpunk 2077" },
-  { value: "batman", label: "Batman: Arkham Knight" },
-  { value: "hogwarts", label: "Hogwarts Legacy" },
-  { value: "wuchang", label: "WUCHANG: Fallen Feathers" },
-  { value: "007firstlight", label: "007: First Light" },
-  { value: "beast", label: "Beast of Reincarnation" },
-  { value: "indiana", label: "Indiana Jones and the Great Circle" },
-  { value: "avatar", label: "Avatar: Frontiers of Pandora" },
-  { value: "mafiaold", label: "Mafia: The Old Country" },
-  { value: "mafiade", label: "Mafia: Definitive Edition" },
+  { value: "witcher3", label: "The Witcher 3: Wild Hunt" },
+  { value: "trepang2", label: "Trepang2" },
   { value: "bloodlines2", label: "Vampire: The Masquerade - Bloodlines 2" },
-  { value: "ronin", label: "Rise of the Ronin" },
-  { value: "nier", label: "NieR:Automata" },
-  { value: "stalker2", label: "S.T.A.L.K.E.R. 2: Heart of Chornobyl" },
-  { value: "splitfiction", label: "Split Fiction" },
-  { value: "resonance", label: "Resonance: A Plague Tale Legacy" },
-  { value: "yakuza3", label: "Yakuza Kiwami 3 & Dark Ties" },
-  { value: "kcd", label: "Kingdom Come: Deliverance" },
-  { value: "kcd2", label: "Kingdom Come: Deliverance II" },
-  { value: "controlresonant", label: "CONTROL Resonant" },
-  { value: "townfall", label: "SILENT HILL: Townfall" },
   { value: "wherewindsmeet", label: "Where Winds Meet" },
-  { value: "blackops6", label: "Call of Duty: Black Ops 6" },
-  { value: "mortalshell2", label: "Mortal Shell II" },
-  { value: "sleepingdogs", label: "Sleeping Dogs: Definitive Edition" },
-  { value: "hellraiserrevival", label: "Clive Barker's Hellraiser: Revival" },
-  { value: "gearseday", label: "Gears of War: E-Day" }
+  { value: "wuchang", label: "WUCHANG: Fallen Feathers" },
+  { value: "yakuza3", label: "Yakuza Kiwami 3 & Dark Ties" }
 ];
 
 const panels = document.querySelectorAll('.tab-panel');
