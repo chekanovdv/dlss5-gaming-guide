@@ -657,6 +657,21 @@ a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{
 <p><a href="https://github.com/Kizzuwatnaa/DLSS5-Autopilot/releases/tag/v2.0.9" target="_blank">DLSS5 Autopilot v2.0.9</a> ·
 <a href="https://github.com/jlrouzies-fr/DLSS5-Feeder/releases/tag/v1.19.0" target="_blank">DLSS5-Feeder 1.19.0 stable</a> ·
 <a href="https://github.com/jlrouzies-fr/DLSS5-Feeder/releases/tag/v1.18.0-beta.2" target="_blank">Feeder 1.18.0-beta.2 (архив)</a></p>
+</div></details><details class="autopilot-details" id="artifact-troubleshooting" style="max-width:100%;margin-top:14px">
+<summary>Артефакты Neural Rendering, RR и FG — причины и восстановление FPS</summary>
+<div class="autopilot-details-body">
+<p><strong>Главный принцип:</strong> работающий DLSS/OptiScaler input или overlay не доказывает успешную работу Neural Rendering. Сверяйте <code>OptiScaler.log</code>, <code>ReShade.log</code>, <code>dlss5-feed.log</code>, версию драйвера и реальное время кадра.</p>
+<div style="overflow-x:auto"><table class="matrix">
+<tr><th>Симптом</th><th>Вероятная область</th><th>Порядок исправления</th></tr>
+<tr><td>Пересветы, мерцающее освещение, чёрные тени или неправильные цвета</td><td>Exposure/white point, HDR, NR composition, spoofing</td><td>Сначала native DLSS и HDR отдельно; затем вернуть NR Color Strength/Transfer/Intensity к default, отказаться от Replace, проверить Non-Linear sRGB/PQ только при game-specific рекомендации.</td></tr>
+<tr><td>Двойные контуры, шлейфы, HUD ghosting</td><td>Motion vectors, depth, HUD маски и FG</td><td>Все FG/MFG/Smooth Motion OFF. Сравнить DLSS без NR; затем NR без FG. Для OptiFG проверять HUDFix и DisplayResolution MV только по инструкции конкретной игры.</td></tr>
+<tr><td>Чёрный экран, разбитые текстуры, вспышки после смены upscaler</td><td>Неверный proxy, compute/resource state, spoofing</td><td>Вернуть native input; выполнить чистый перезапуск. <code>Dxgi=false</code>, <code>RestoreComputeSignature=true</code> и другие overrides включать только при подтверждённом game-specific случае.</td></tr>
+<tr><td>Резкое падение FPS при включении NR</td><td>Стоимость NR model pass, VRAM, PT/RR/FG, 4K work area</td><td>Сравнить 1440p, FG/PT/RR OFF и NR с одним проходом/default 100%; уменьшать масштаб только после замеров frametime, а не по FPS с генерацией кадров.</td></tr>
+<tr><td>После NR OFF FPS остаётся низким</td><td>Hook, swapchain и ресурсы не сброшены при переключении</td><td>Полностью завершить игру и запустить вновь; если не помогло — временно убрать модифицированные proxy/NR DLL и сравнить с чистой игрой. NR OFF не гарантирует выгрузку DLL.</td></tr>
+<tr><td>Артефакты/краш с Feeder</td><td>Неправильный depth source, MSAA, NGX init, два ReShade add-ons</td><td>MSAA OFF, один proxy и один NR-consumer, проверить Generic Depth и первую строку <code>dlss5-feed.log</code>; helper-mode только при NGX-проблеме.</td></tr>
+</table></div>
+<p><strong>Стандарт A/B:</strong> A — чистая игра (native DLSS, FG OFF), B — hook установлен, NR OFF, C — NR ON, PT/RR/FG OFF, D — по одному возвращать RT/RR и затем один FG. При сбое каждый следующий тест начинайте с нового процесса. Anti-cheat обходить нельзя; защищённые игры использовать в native-only режиме.</p>
+<p class="small">Основано на <a href="https://github.com/optiscaler/OptiScaler/wiki/Known-Issues" target="_blank" rel="noopener">OptiScaler Known Issues</a>, <a href="https://github.com/optiscaler/OptiScaler/wiki/007-First-Light" target="_blank" rel="noopener">007 compatibility</a> и <a href="https://github.com/jlrouzies-fr/DLSS5-Feeder/releases/tag/v1.19.0" target="_blank" rel="noopener">Feeder 1.19</a>. «Диагностически» означает гипотезу, а не подтверждённый баг.</p>
 </div></details></header><nav aria-label="Навигация внутри выбранной игры" class="context-bar" id="contextBar">
 <div class="context-game">
 <span class="context-label">Выбрано</span>
@@ -830,6 +845,11 @@ Frame Generation   OFF</pre>
 </ul>
 </div>
 </div>
+<details class="autopilot-details" id="rdr2-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> Подтверждено: HUDFix может мерцать — тестируйте V-Sync из игры без второго V-Sync override; DX12 предпочтительнее Vulkan. С RTSS используйте совместимый Detours hook или временно выключите RTSS. Не смешивайте FG.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="rdr2-sources" style="margin-top:18px">
 <h3>Ссылки для RDR2</h3>
 <ul>
@@ -1007,6 +1027,11 @@ Native DLSS Frame Gen    ON</pre>
 </ul>
 </div>
 </div>
+<details class="autopilot-details" id="acbf-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> Подтверждено: при чрезмерно тёмных тенях/просадке GPU проверьте <code>[Spoofing] Dxgi=false</code>. Сначала штатный DLSS без NR/FG.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="acbf-sources" style="margin-top:18px">
 <h3>Ссылки для Black Flag Resynced</h3>
 <ul>
@@ -1151,6 +1176,11 @@ NR True Layers                 1</pre>
 └── reframework\...</pre>
 </div>
 </div>
+<details class="autopilot-details" id="onimusha-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> RE Engine: оставьте один loader (REFramework + RE_DLSS5_Load_Mod либо DXL), удалите прежний конфликтующий D18. При повреждённом HUD/DLSS попробуйте <code>RestoreComputeSignature=true</code> после чистого A/B.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="onimusha-sources" style="margin-top:18px">
 <h3>Ссылки для Onimusha</h3>
 <ul>
@@ -1314,6 +1344,11 @@ Ultimate ASI Loader → version.dll</pre>
 </ul>
 </div>
 </div>
+<details class="autopilot-details" id="crimson-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> Разделите native Ray Reconstruction, Path Tracing и сторонний NR. При мерцании света сравните чистый DLSS/RR и затем NR с RR/FG OFF; не заменяйте <code>nvngx_dlssd.dll</code> в исходном тесте.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="crimson-sources" style="margin-top:18px">
 <h3>Ссылки для Crimson Desert</h3>
 <ul>
@@ -1390,6 +1425,11 @@ DLSS5 NR           ON
 Native DLSSG       ON</pre>
 <div class="callout warn"><strong>Если настройки OptiScaler не сохраняются</strong>У GTA V Enhanced известны случаи проблем с сохранением INI после обновлений; compatibility guide рекомендует DirectStorageFix как обходной путь.</div>
 </div></div>
+<details class="autopilot-details" id="gtav-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> Anti-cheat: в GTA Online и с BattlEye сторонние DLL не использовать. В Story Mode сначала чистый native DLSS, затем изолированный OptiScaler; при сбросе настроек после патча проверяйте пресеты заново.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="gtav-sources" style="margin-top:18px">
 <h3>Ссылки</h3>
 <ul>
@@ -1446,6 +1486,11 @@ Resource Blocking → ON
 Gamma/Brightness → Default</pre>
 <div class="callout warn"><strong>HDR</strong>Default Gamma/Brightness требуется для рекомендованной OptiFG-схемы; это может мешать HDR/HUDFix-конфигурациям.</div>
 </div></div>
+<details class="autopilot-details" id="witcher3-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> Проверяйте текущий билд и настоящий DX12 EXE в <code>bin\x64_dx12</code>. При flicker HairWorks/RT сравните native DX12 без NR; workaround для старых сборок не переносите на Remastered автоматически.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="witcher3-sources" style="margin-top:18px">
 <h3>Ссылки</h3>
 <ul>
@@ -1495,6 +1540,11 @@ FG                 OFF</pre>
 Set Velocity as ValidNow  ON</pre>
 <p>Эти параметры рекомендованы compatibility guide для Starfield при проблемах с FG.</p>
 </div></div>
+<details class="autopilot-details" id="starfield-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> Диагностически: при шлейфах за объектами выключите FG, сравните штатный DLSS с OptiScaler/NR на одинаковой сцене. Сначала оставьте исходный Colour/Exposure и NR 1 pass.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="starfield-sources" style="margin-top:18px">
 <h3>Ссылки</h3><ul>
 <li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li>
@@ -1548,6 +1598,11 @@ NR Scale          100%</pre>
 6. Enable FG in game and restart</pre>
 <div class="callout warn"><strong>Нюанс</strong>При этом игровой DLSS пункт становится недоступен, но OptiScaler конвертирует FSR 3.1 input в выбранный внутренний upscaler. Делайте этот шаг только после проверки DLSS5 NR.</div>
 </div></div>
+<details class="autopilot-details" id="tlou1-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> Диагностически: при двойных контурах/белых вспышках исключите FG и sharpening; затем отдельно проверьте DLSS Quality + NR. После патчей перепроверьте загруженный EXE и файлы Streamline.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="tlou1-sources" style="margin-top:18px">
 <h3>Ссылки</h3><ul>
 <li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li>
@@ -1589,6 +1644,11 @@ NR Scale          100%</pre>
 <p>На RTX 5080 сначала используйте штатный DLSSG через Streamline. Если возникают артефакты UI, сравните с FSR 3.1 FG / XeFG через OptiScaler.</p>
 <div class="callout"><strong>Для NVIDIA</strong>Ограничения по недоступности DLSS, описанные в wiki для spoofing-сценариев AMD/Intel, к RTX 5080 не относятся — используйте native DLSS input как основной.</div>
 </div></div>
+<details class="autopilot-details" id="tlou2-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> Диагностически: при ghosting HUD или в динамике выключите FG, затем отдельно NR. Сравнивайте базовый frametime, а не только сгенерированные FPS; не комбинируйте два proxy.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="tlou2-sources" style="margin-top:18px">
 <h3>Ссылки</h3><ul>
 <li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li>
@@ -1633,6 +1693,11 @@ NR Scale          100%</pre>
 2. Если UI/ghosting неудовлетворительны → XeFG
 3. Если DLSS input shimmer → XeSS input + повторная проверка FG</pre>
 </div></div>
+<details class="autopilot-details" id="ds2-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> В профиле отмечен shimmer на DLSS input: отдельно сравните XeSS/FSR input на чистом OptiScaler. Это не подтверждает, что тот же backend безопасен для стороннего NR.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="ds2-sources" style="margin-top:18px">
 <h3>Ссылки</h3><ul>
 <li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li>
@@ -1694,6 +1759,11 @@ NR Scale           100% → 80–90% при нехватке FPS
 Native DLSSG       ON</pre>
 <p>Если Neural Rendering чрезмерно меняет лица/материалы, уменьшайте intensity/strength NR, а не отключайте RR первым шагом.</p>
 </div></div>
+<details class="autopilot-details" id="cyberpunk-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> При ghosting с Path Tracing: native DLSS + RR → отдельно NR с RR/FG OFF → RR ON → FG ON последним. Сбросьте агрессивный NR Colour/Replace и sharpening перед проверкой.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="cyberpunk-sources" style="margin-top:18px">
 <h3>Ссылки</h3><ul>
 <li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li>
@@ -1775,6 +1845,11 @@ evaluation succeeded</pre>
 <ul><li>оставьте Smooth Motion и OptiScaler выключенными;</li><li>уберите сторонние overlays/injectors, кроме ReShade/Feeder;</li><li>если crash происходит до записи лога, используйте диагностику DLSS5 Autopilot v2.0.9 по Windows Application Error и сравните standalone-dlssnr route.</li></ul>
 <div class="callout ok"><strong>HDR10 bridge в Feeder 0.15.1</strong>Если конкретная конфигурация реально выводит <strong>HDR10 PQ BT.2020</strong> в 10-bit swapchain, оставьте <code>hdr_bridge=-1</code> (auto). Базовый <code>hdr_paper_white=203</code> нит; в <code>dlss5-feed.log</code> ищите <code>HDR10 bridge ON</code>. Для SDR bridge не активируется; путь относится к 64-bit D3D11.</div>
 </div></div>
+<details class="autopilot-details" id="batman-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> DX11 без native DLSS: standalone NR или Feeder+ReShade — только по одному. При неверной глубине отключите MSAA/SSAA и проверьте Generic Depth и <code>dlss5-feed.log</code>.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="batman-sources" style="margin-top:18px">
 <h3>Ссылки</h3><ul>
 <li><a href="https://github.com/jlrouzies-fr/DLSS5-Feeder" target="_blank">DLSS5-Feeder</a></li>
@@ -1907,6 +1982,11 @@ Native DLSSG         ON после проверки NR
 V-Sync               OFF при VRR/G-SYNC</pre>
 </div>
 </div>
+<details class="autopilot-details" id="hogwarts-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> Подтверждено: spoofing может снижать производительность — используйте game-specific OptiPatcher. После официального DLSS5-патча сначала проверьте native NR без прежнего <code>dxgi.dll</code>.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="hogwarts-sources" style="margin-top:18px">
 <h3>Ссылки для Hogwarts Legacy</h3>
 <ul>
@@ -2045,6 +2125,11 @@ Smooth Motion        OFF</pre>
 <p>Если FPS ограничен GPU, сначала уменьшайте NR Scale до 90–80%, а не включайте несколько механизмов FG одновременно.</p>
 </div>
 </div>
+<details class="autopilot-details" id="wuchang-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> Подтверждено: после изменения разрешения может мерцать FSR-модель; переключите model preset и верните его назад. Для RTX предпочитайте DLSS/OptiPatcher; не заменяйте Streamline вручную.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="wuchang-sources" style="margin-top:18px">
 <h3>Ссылки для WUCHANG</h3>
 <ul>
@@ -2054,9 +2139,9 @@ Smooth Motion        OFF</pre>
 </ul>
 </div>
 </section><section class="tab-panel" id="007firstlight">
-<div class="game-head"><div class="card"><h2>007: First Light</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR</strong>.</p><div class="callout warn"><strong>Recommended</strong>При crash/порче изображения включите RestoreComputeSignature=true. FSR3.1 input не использовать.</div><div class="callout ok"><strong>17.09.2026 — Game Update 1.2.1, Path Tracing Hotfix #1</strong>После выхода Path Tracing + DLSS 4.5 Ray Reconstruction IOI выпустила hotfix 1.2.1: исправлены несколько GPU crash/hang и scene-specific crash с включённым Path Tracing. Разработчики отдельно признают оставшиеся проблемы производительности и обещают дальнейшие исправления. Поэтому сохраняйте поэтапную проверку: <strong>NR при PT/RR/FG OFF → PT + RR → Dynamic MFG последним</strong>; стартовый NR Scale не снижайте только из-за hotfix без собственного A/B-бенчмарка.</div><div class="callout ok"><strong>Autopilot shared result</strong>В актуальном feed (20.09, 189 отчётов) для 007 First Light остаётся <strong>1 success / 0 fail</strong> на <code>optiscaler</code> и драйвере 616.92. Этот результат относится к маршруту в целом и <strong>не доказывает</strong> стабильность NR-fork одновременно с Path Tracing, RR и Dynamic MFG.</div><div class="status-strip"><span class="status-pill ok">Recommended</span><span class="status-pill ok">Проверено: 11.10.2026</span></div></div>
+<div class="game-head"><div class="card"><h2>007: First Light</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR</strong>.</p><div class="callout warn"><strong>Recommended</strong>При crash/порче изображения включите RestoreComputeSignature=true. FSR3.1/4 inputs доступны после Path Tracing update; для RTX 5080 сначала тестируйте DLSS Quality и проверяйте FSR отдельно от NR.</div><div class="callout ok"><strong>17.09.2026 — Game Update 1.2.1, Path Tracing Hotfix #1</strong>После выхода Path Tracing + DLSS 4.5 Ray Reconstruction IOI выпустила hotfix 1.2.1: исправлены несколько GPU crash/hang и scene-specific crash с включённым Path Tracing. Разработчики отдельно признают оставшиеся проблемы производительности и обещают дальнейшие исправления. Поэтому сохраняйте поэтапную проверку: <strong>NR при PT/RR/FG OFF → PT + RR → Dynamic MFG последним</strong>; стартовый NR Scale меняйте только после собственного A/B-бенчмарка. На RTX 5080 начните с 1440p: FG/PT/RR OFF при тесте NR.</div><div class="callout ok"><strong>Autopilot shared result</strong>В актуальном feed (20.09, 189 отчётов) для 007 First Light остаётся <strong>1 success / 0 fail</strong> на <code>optiscaler</code> и драйвере 616.92. Этот результат относится к маршруту в целом и <strong>не доказывает</strong> стабильность NR-fork одновременно с Path Tracing, RR и Dynamic MFG.</div><div class="status-strip"><span class="status-pill ok">Recommended</span><span class="status-pill ok">Проверено: 11.10.2026</span></div></div>
 <div class="card"><div class="summary-grid"><div class="metric"><div class="label">Injection</div><div class="value good">dxgi.dll</div></div><div class="metric"><div class="label">Input</div><div class="value">DLSS</div></div><div class="metric"><div class="label">NR</div><div class="value">OptiScaler_DLSSNR</div></div><div class="metric"><div class="label">FG</div><div class="value">Native DLSSG</div></div></div></div></div>
-<div class="section recommended-profile" id="007firstlight-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix"><tr><th>Параметр</th><th>Рекомендация</th></tr><tr><td>Разрешение</td><td>3840×2160</td></tr><tr><td>Маршрут</td><td>OptiScaler_DLSSNR</td></tr><tr><td>Input</td><td>DLSS</td></tr><tr><td>DLSS5 Neural Rendering</td><td>ON</td></tr><tr><td>NR Scale</td><td>85–100%</td></tr><tr><td>Ray Tracing / RR</td><td>Path Tracing + DLSS 4.5 Ray Reconstruction доступны; включать после отдельной проверки NR</td></tr><tr><td>Frame Generation</td><td>Dynamic MFG / native DLSSG — включать последним после стабильных NR и RR</td></tr><tr><td>Ключевой параметр</td><td>Sharpness Override по вкусу; RestoreComputeSignature=true</td></tr></table><p class="small">Сначала проверяйте Neural Rendering без Frame Generation; затем включайте только один FG-механизм.</p></div></div>
+<div class="section recommended-profile" id="007firstlight-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix"><tr><th>Параметр</th><th>Рекомендация</th></tr><tr><td>Разрешение</td><td>2560×1440 baseline; 4K — только после стабильного A/B</td></tr><tr><td>Маршрут</td><td>OptiScaler_DLSSNR</td></tr><tr><td>Input</td><td>DLSS</td></tr><tr><td>DLSS5 Neural Rendering</td><td>Экспериментально: native baseline OFF; затем ON только с PT/RR/FG OFF</td></tr><tr><td>NR Scale</td><td>1440p: 100%, 1 pass; 4K только по собственным frametime</td></tr><tr><td>Ray Tracing / RR</td><td>Path Tracing + DLSS 4.5 Ray Reconstruction доступны; включать после отдельной проверки NR</td></tr><tr><td>Frame Generation</td><td>OFF на первых тестах; native DLSSG/Dynamic MFG — последним, только один механизм</td></tr><tr><td>Ключевой параметр</td><td>Sharpness Override по вкусу; RestoreComputeSignature=true</td></tr></table><p class="small">Сначала проверяйте Neural Rendering без Frame Generation; затем включайте только один FG-механизм.</p></div></div>
 <div class="section step-section" id="007firstlight-install"><div class="section-title"><div class="step-num">1</div><h3>Установка</h3></div><div class="section-body"><p>Распакуйте OptiScaler_DLSSNR рядом с основным EXE и запустите:</p><pre>setup_windows.bat
 → dxgi.dll
 → Nvidia</pre><p>Добавьте оригинальный RTX 50 <code>nvngx_dlssnr.dll</code>. </p></div></div>
@@ -2064,10 +2149,17 @@ Smooth Motion        OFF</pre>
 Frame Generation OFF
 Insert → OptiScaler
 Neural Rendering ON
-NR Scale 100%</pre></div></div>
+NR Scale 100%, 1 pass
+PT OFF / RR OFF / FG OFF
+RestoreComputeSignature=true (для DLSS/Sharpness)</pre></div></div>
 <div class="section step-section" id="007firstlight-fg"><div class="section-title"><div class="step-num">3</div><h3>Frame Generation</h3></div><div class="section-body"><p>Native DLSSG. Включайте только после стабильной работы NR; Smooth Motion оставьте OFF, если используется другой FG.</p></div></div>
-<div class="section step-section" id="007firstlight-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>При crash/порче изображения включите RestoreComputeSignature=true. FSR3.1 input не использовать.</p><p><strong>Текущий PT/RR build:</strong> сначала FG OFF и RR OFF → проверить NR; затем RR ON → A/B; только последним включить Dynamic MFG. Если проблема появляется только после RR или MFG, не приписывайте её NR без повторного теста предыдущего шага.</p></div></div>
-<div class="card source-list" id="007firstlight-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiScaler/wiki/007-First-Light" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li><li><a href="https://www.nvidia.com/en-ph/geforce/news/007-first-light-path-tracing-dlss-4-5-ray-reconstruction-update-out-now/" target="_blank">NVIDIA — Path Tracing + DLSS 4.5 Ray Reconstruction update out now</a></li><li><a href="https://ioi.dk/007firstlightgame/patch-notes/2026/1-2-1-game-update" target="_blank">IO Interactive — Game Update 1.2.1 / Path Tracing Hotfix #1</a></li></ul></div></section><section class="tab-panel" id="beast">
+<div class="section step-section" id="007firstlight-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>При crash/порче изображения включите RestoreComputeSignature=true. FSR3.1/4 inputs доступны после Path Tracing update; для RTX 5080 сначала тестируйте DLSS Quality и проверяйте FSR отдельно от NR.</p><p><strong>Известный регресс #1207:</strong> возможны потери базового FPS уже при установленном OptiScaler, а при поворотах камеры и FG — артефакты. Отключение NR не гарантирует восстановления FPS без перезапуска; при сохранении просадки сравните с чистой игрой без <code>dxgi.dll</code>. <a href="https://github.com/optiscaler/OptiScaler/issues/1207" target="_blank" rel="noopener">Подробности #1207</a>.</p><p><strong>Текущий PT/RR build:</strong> сначала FG OFF и RR OFF → проверить NR; затем RR ON → A/B; только последним включить Dynamic MFG. Если проблема появляется только после RR или MFG, не приписывайте её NR без повторного теста предыдущего шага.</p></div></div>
+<details class="autopilot-details" id="007firstlight-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> Подтверждённый регресс <a href="https://github.com/optiscaler/OptiScaler/issues/1207" target="_blank" rel="noopener">OptiScaler #1207</a>: падение базового FPS при поворотах камеры даже с FG OFF, XeFG/MFG усиливает просадки и артефакты. NR OFF не обязан выгружать hook: перезапустите игру, затем сравните с запуском без <code>dxgi.dll</code>. Для DLSS/sharpness проверьте <code>RestoreComputeSignature=true</code>. Стартуйте с 1440p без PT/RR/FG.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
+<div class="card source-list" id="007firstlight-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiScaler/wiki/007-First-Light" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/optiscaler/OptiScaler/issues/1207" target="_blank" rel="noopener">Issue #1207 — падение FPS и артефакты FG</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li><li><a href="https://www.nvidia.com/en-ph/geforce/news/007-first-light-path-tracing-dlss-4-5-ray-reconstruction-update-out-now/" target="_blank">NVIDIA — Path Tracing + DLSS 4.5 Ray Reconstruction update out now</a></li><li><a href="https://ioi.dk/007firstlightgame/patch-notes/2026/1-2-1-game-update" target="_blank">IO Interactive — Game Update 1.2.1 / Path Tracing Hotfix #1</a></li></ul></div></section><section class="tab-panel" id="beast">
 <div class="game-head"><div class="card"><h2>Beast of Reincarnation</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR + OptiPatcher</strong>.</p><div class="callout warn"><strong>Recommended</strong>FSR3 input может приводить к crash; для RTX 5080 используйте DLSS.</div><div class="callout ok"><strong>OptiPatcher: актуальные patterns</strong>Stable <code>v0.41</code> уже поддерживает Beast of Reincarnation, но rolling build от <strong>22.09.2026</strong> содержит дополнительные обновления поддержки. Начиная с game update 1.0.9 DLSS и DLSS Frame Generation связаны; если текущий build не открывает DLSSG корректно, используйте свежий rolling OptiPatcher и выбирайте <strong>DLSS</strong> как игровой upscaler.</div><div class="callout ok"><strong>Game update v1.0.11 — upscaling menu reorganized</strong>В патче v1.0.11 разработчики реорганизовали параметры upscaling, чтобы дефолты применялись по обнаруженной GPU. После обновления <strong>не переносите старое состояние меню автоматически</strong>: перед NR/FG тестом вручную выберите DLSS и убедитесь, что игра действительно использует DLSS input. Это не является отдельным подтверждением NR-fork.</div><div class="callout warn"><strong>Game update v1.0.12 — 17.09.2026: изменены DLSS / Frame Generation settings</strong>Патч теперь подстраивает доступные Frame Generation options под GPU <strong>RTX 40 / RTX 50</strong>; при <strong>DLSS-Dynamic</strong> и мониторе 120 Гц+ добавлен выбор target frame rate. После обновления заново проверьте игровые DLSS/FG параметры, не переносите старое состояние меню автоматически и первичный NR-тест выполняйте с <strong>FG OFF</strong>. Текущий OptiPatcher rolling от 19.09 вышел уже после game update 1.0.12 и содержит обновление Beast support. Используйте его, но всё равно проверяйте, что patcher действительно находит актуальные patterns; при отсутствии сигнатуры не форсируйте старые offsets.</div><div class="callout ok"><strong>OptiPatcher Rolling 28.09</strong>Поддержка Beast of Reincarnation обновлена в свежем Rolling build <code>788f5ab</code>. FSR3 input по-прежнему не используйте, если наблюдается crash.</div><div class="status-strip"><span class="status-pill ok">Recommended</span><span class="status-pill ok">Проверено: 11.10.2026</span></div></div>
 <div class="card"><div class="summary-grid"><div class="metric"><div class="label">Injection</div><div class="value good">dxgi.dll</div></div><div class="metric"><div class="label">Input</div><div class="value">DLSS</div></div><div class="metric"><div class="label">NR</div><div class="value">OptiScaler_DLSSNR + OptiPatcher</div></div><div class="metric"><div class="label">FG</div><div class="value">Native DLSSG после NR</div></div></div></div></div>
 <div class="section recommended-profile" id="beast-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix"><tr><th>Параметр</th><th>Рекомендация</th></tr><tr><td>Разрешение</td><td>3840×2160</td></tr><tr><td>Маршрут</td><td>OptiScaler_DLSSNR + OptiPatcher</td></tr><tr><td>Input</td><td>DLSS</td></tr><tr><td>DLSS5 Neural Rendering</td><td>ON</td></tr><tr><td>NR Scale</td><td>85–100%</td></tr><tr><td>Frame Generation</td><td>Native DLSSG после проверки NR; после v1.0.12 заново выбрать доступный RTX 50 FG option</td></tr><tr><td>Ключевой параметр</td><td>DLSS input; DLSS-Dynamic target FPS доступен на 120 Гц+, но для первичной NR-настройки оставить обычный Quality/рекомендуемый режим; проверить OptiPatcher patterns на v1.0.12</td></tr></table><p class="small">Сначала проверяйте Neural Rendering без Frame Generation; затем включайте только один FG-механизм.</p></div></div>
@@ -2081,6 +2173,11 @@ Neural Rendering ON
 NR Scale 100%</pre></div></div>
 <div class="section step-section" id="beast-fg"><div class="section-title"><div class="step-num">3</div><h3>Frame Generation</h3></div><div class="section-body"><p>После стабильной проверки NR используйте штатный <strong>DLSS Frame Generation</strong>. Начиная с v1.0.12 игра сама адаптирует набор FG-options под RTX 40/50; для RTX 5080 заново выберите нужный native option после патча. В поддержке OptiPatcher DLSSG связан с выбранным DLSS-upscaler, поэтому оставьте игровой upscaler на DLSS; Smooth Motion и альтернативный FG — OFF. Если используете DLSS-Dynamic на дисплее 120 Гц+, v1.0.12 добавляет target frame rate — это отдельная игровая настройка и не заменяет NR Scale.</p></div></div>
 <div class="section step-section" id="beast-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>FSR3 input может приводить к crash; для RTX 5080 используйте DLSS.</p></div></div>
+<details class="autopilot-details" id="beast-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> После обновления игры снова выберите DLSS в меню. При FSR3 crash переключитесь на DLSS; OptiPatcher должен найти новую сигнатуру, старые смещения не форсируйте.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="beast-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiScaler/wiki/Compatibility-List" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li><li><a href="https://github.com/optiscaler/OptiPatcher/releases/tag/rolling" target="_blank">OptiPatcher Rolling Release</a></li><li><a href="https://steamdb.info/patchnotes/25130977/" target="_blank">Beast of Reincarnation v1.0.11 — patch notes mirror</a></li><li><a href="https://steamdb.info/patchnotes/25337386/" target="_blank">Beast of Reincarnation v1.0.12 — 17.09.2026</a></li></ul></div></section><section class="tab-panel" id="indiana">
 <div class="game-head"><div class="card"><h2>Indiana Jones and the Great Circle</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR</strong>.</p><div class="callout warn"><strong>Recommended</strong>При проблемах с FG/overlay временно закройте RTSS/MSI Afterburner.</div><div class="status-strip"><span class="status-pill ok">Recommended</span><span class="status-pill ok">Проверено: 11.10.2026</span></div></div>
 <div class="card"><div class="summary-grid"><div class="metric"><div class="label">Injection</div><div class="value good">dxgi.dll / winmm.dll</div></div><div class="metric"><div class="label">Input</div><div class="value">DLSS</div></div><div class="metric"><div class="label">NR</div><div class="value">OptiScaler_DLSSNR</div></div><div class="metric"><div class="label">FG</div><div class="value">Native FG</div></div></div></div></div>
@@ -2095,6 +2192,11 @@ Neural Rendering ON
 NR Scale 100%</pre></div></div>
 <div class="section step-section" id="indiana-fg"><div class="section-title"><div class="step-num">3</div><h3>Frame Generation</h3></div><div class="section-body"><p>Native FG. Включайте только после стабильной работы NR; Smooth Motion оставьте OFF, если используется другой FG.</p></div></div>
 <div class="section step-section" id="indiana-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>При проблемах с FG/overlay временно закройте RTSS/MSI Afterburner.</p></div></div>
+<details class="autopilot-details" id="indiana-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> При артефактах UI/FG временно закройте RTSS и сторонние overlays. Сравните native DLSS без PT/FG, затем NR отдельно, а PT/RR/FG включайте по одному.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="indiana-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiScaler/wiki/Indiana-Jones-and-the-Great-Circle" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li></ul></div></section><section class="tab-panel" id="avatar">
 <div class="game-head"><div class="card"><h2>Avatar: Frontiers of Pandora</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR</strong>.</p><div class="callout warn"><strong>Recommended</strong>Обязательно Dxgi=false: spoofing может снижать FPS и ломать освещение/RT в интерьерах.</div><div class="status-strip"><span class="status-pill ok">Recommended</span><span class="status-pill ok">Проверено: 11.10.2026</span></div></div>
 <div class="card"><div class="summary-grid"><div class="metric"><div class="label">Injection</div><div class="value good">dxgi.dll</div></div><div class="metric"><div class="label">Input</div><div class="value">DLSS</div></div><div class="metric"><div class="label">NR</div><div class="value">OptiScaler_DLSSNR</div></div><div class="metric"><div class="label">FG</div><div class="value">Native DLSSG</div></div></div></div></div>
@@ -2109,6 +2211,11 @@ Neural Rendering ON
 NR Scale 100%</pre></div></div>
 <div class="section step-section" id="avatar-fg"><div class="section-title"><div class="step-num">3</div><h3>Frame Generation</h3></div><div class="section-body"><p>Native DLSSG. Включайте только после стабильной работы NR; Smooth Motion оставьте OFF, если используется другой FG.</p></div></div>
 <div class="section step-section" id="avatar-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>Обязательно Dxgi=false: spoofing может снижать FPS и ломать освещение/RT в интерьерах.</p></div></div>
+<details class="autopilot-details" id="avatar-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> Подтверждено: DXGI spoofing делает тени неестественно тёмными и повышает нагрузку. Проверьте <code>[Spoofing] Dxgi=false</code>; ratio overrides могут игнорироваться игрой.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="avatar-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiScaler/wiki/Avatar-Frontiers-of-Pandora" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li></ul></div></section><section class="tab-panel" id="mafiaold">
 <div class="game-head"><div class="card"><h2>Mafia: The Old Country</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR + OptiPatcher</strong>.</p><div class="callout warn"><strong>Recommended</strong>При flicker попробуйте Non-Linear Color/sRGB Input.</div><div class="status-strip"><span class="status-pill ok">Recommended</span><span class="status-pill ok">Проверено: 11.10.2026</span></div></div>
 <div class="card"><div class="summary-grid"><div class="metric"><div class="label">Injection</div><div class="value good">dxgi.dll</div></div><div class="metric"><div class="label">Input</div><div class="value">DLSS</div></div><div class="metric"><div class="label">NR</div><div class="value">OptiScaler_DLSSNR + OptiPatcher</div></div><div class="metric"><div class="label">FG</div><div class="value">Native DLSSG</div></div></div></div></div>
@@ -2123,6 +2230,11 @@ Neural Rendering ON
 NR Scale 100%</pre></div></div>
 <div class="section step-section" id="mafiaold-fg"><div class="section-title"><div class="step-num">3</div><h3>Frame Generation</h3></div><div class="section-body"><p>Native DLSSG. Включайте только после стабильной работы NR; Smooth Motion оставьте OFF, если используется другой FG.</p></div></div>
 <div class="section step-section" id="mafiaold-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>При flicker попробуйте Non-Linear Color/sRGB Input.</p></div></div>
+<details class="autopilot-details" id="mafiaold-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> При flicker/неправильных цветах попробуйте Non-Linear Color/sRGB input только для этой игры и сравните с default. NR Replace/Colour Strength верните к стандартному значению.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="mafiaold-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiScaler/wiki/Compatibility-List" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li></ul></div></section><section class="tab-panel" id="mafiade">
 <div class="game-head"><div class="card"><h2>Mafia: Definitive Edition</h2><p>Рекомендуемый маршрут на NVIDIA 616.64+: <strong>DLSS5 Autopilot 2.0.9 → standalone-dlssnr</strong>. Ручной fallback: <strong>DLSS5-Feeder 1.19.0 + ReShade</strong>.</p><div class="callout danger"><strong>Experimental</strong>DX11-игра без штатного DLSS. Feeder и OptiScaler/Smooth Motion одновременно не использовать.</div><div class="callout warn"><strong>Autopilot 2.0.4 / Driver 616.64+ — первый route policy сохраняется</strong>Для 64-bit D3D11/D3D12 игры без собственного DLSS первым автоматическим маршрутом теперь является <strong>standalone-dlssnr</strong>. Feeder остаётся ручным fallback; откат на 616.56 — резерв, если standalone не подходит.</div><div class="callout warn"><strong>DLSS5-Feeder 1.17.0-beta.1 — 22.09.2026</strong>Beta добавляет поддержку wilsjo2 NR-consumer и более строгую проверку model pass. Mafia: Definitive Edition в этом профиле не требует перехода на beta: для ручного стабильного fallback сохраняйте <strong>0.15.1</strong>; prerelease используйте только для диагностики или отдельного A/B.</div><div class="callout ok"><strong>Feeder stable 1.19.0 — 11.10.2026</strong>Используйте stable <strong>1.19.0</strong>; helper mode доступен в stable, но включается лишь при подтверждённой проблеме с NGX. Для MSAA/depth ошибок сначала отключите MSAA и проверьте <code>ReShade.log</code>.</div><div class="status-strip"><span class="status-pill exp">Experimental</span><span class="status-pill ok">Проверено: 11.10.2026</span></div></div>
 <div class="card"><div class="summary-grid"><div class="metric"><div class="label">Injection</div><div class="value good">ReShade dxgi.dll</div></div><div class="metric"><div class="label">Input</div><div class="value">Synthetic DLAA contract</div></div><div class="metric"><div class="label">NR</div><div class="value">DLSS5-Feeder 1.19.0 + ReShade</div></div><div class="metric"><div class="label">FG</div><div class="value">OFF</div></div></div></div></div>
@@ -2145,6 +2257,11 @@ DLSS5 Feed ON
 Neural Rendering ON</pre></div></div>
 <div class="section step-section" id="mafiade-fg"><div class="section-title"><div class="step-num">3</div><h3>Frame Generation</h3></div><div class="section-body"><p>OFF. Включайте только после стабильной работы NR; Smooth Motion оставьте OFF, если используется другой FG.</p></div></div>
 <div class="section step-section" id="mafiade-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>Проверяйте <code>dlss5-feed.log</code> на <code>feature ready</code> и <code>frame N delivered</code>. Порядок эффектов: motion vectors → DLSS5 Feed.</p><div class="callout ok"><strong>HDR10 bridge в Feeder 0.15.1</strong>Если конкретная конфигурация реально выводит <strong>HDR10 PQ BT.2020</strong> в 10-bit swapchain, оставьте <code>hdr_bridge=-1</code> (auto). Feeder преобразует PQ → linear FP16 → PQ, чтобы DLSS-NR видел корректный HDR. Базовый <code>hdr_paper_white=203</code> нит. В <code>dlss5-feed.log</code> ищите <code>HDR10 bridge ON</code>. Для SDR этот путь не включается; функция относится к 64-bit D3D11.</div></div></div>
+<details class="autopilot-details" id="mafiade-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> DX11 Feeder/standalone: при чёрных участках и depth artefacts выключите MSAA, проверьте Generic Depth в логах. Не оставляйте одновременно разные <code>d3d11.dll</code> и <code>dxgi.dll</code> proxy.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="mafiade-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/jlrouzies-fr/DLSS5-Feeder" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li><li><a href="https://github.com/jlrouzies-fr/DLSS5-Feeder/releases/tag/v1.19.0" target="_blank">DLSS5-Feeder 1.19.0</a></li></ul></div></section><section class="tab-panel" id="bloodlines2">
 <div class="game-head"><div class="card"><h2>Vampire: The Masquerade - Bloodlines 2</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR + OptiPatcher</strong>.</p><div class="callout warn"><strong>Recommended</strong>Сначала добейтесь стабильного NR с FG OFF; затем включайте FG.</div><div class="status-strip"><span class="status-pill ok">Recommended</span><span class="status-pill ok">Проверено: 11.10.2026</span></div></div>
 <div class="card"><div class="summary-grid"><div class="metric"><div class="label">Injection</div><div class="value good">dxgi.dll</div></div><div class="metric"><div class="label">Input</div><div class="value">DLSS</div></div><div class="metric"><div class="label">NR</div><div class="value">OptiScaler_DLSSNR + OptiPatcher</div></div><div class="metric"><div class="label">FG</div><div class="value">Native DLSSG если стабилен</div></div></div></div></div>
@@ -2159,6 +2276,11 @@ Neural Rendering ON
 NR Scale 100%</pre></div></div>
 <div class="section step-section" id="bloodlines2-fg"><div class="section-title"><div class="step-num">3</div><h3>Frame Generation</h3></div><div class="section-body"><p>Native DLSSG если стабилен. Включайте только после стабильной работы NR; Smooth Motion оставьте OFF, если используется другой FG.</p></div></div>
 <div class="section step-section" id="bloodlines2-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>Сначала добейтесь стабильного NR с FG OFF; затем включайте FG.</p></div></div>
+<details class="autopilot-details" id="bloodlines2-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> Диагностически: при flicker тестируйте native DLSS с FG OFF, после этого один OptiScaler/NR; PT/RR добавляйте отдельно. Без логов не утверждайте, что это ошибка NR.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="bloodlines2-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiScaler/wiki/Compatibility-List" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li></ul></div></section><section class="tab-panel" id="ronin">
 <div class="game-head"><div class="card"><h2>Rise of the Ronin</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR</strong>.</p><div class="callout warn"><strong>Supported with workaround</strong>FSR inputs не работают. Если overlay OptiScaler не появляется, compatibility guide отмечает workaround через Nukem-мод.</div><div class="status-strip"><span class="status-pill warn">Supported with workaround</span><span class="status-pill ok">Проверено: 11.10.2026</span></div></div>
 <div class="card"><div class="summary-grid"><div class="metric"><div class="label">Injection</div><div class="value good">dxgi.dll</div></div><div class="metric"><div class="label">Input</div><div class="value">DLSS</div></div><div class="metric"><div class="label">NR</div><div class="value">OptiScaler_DLSSNR</div></div><div class="metric"><div class="label">FG</div><div class="value">После проверки NR</div></div></div></div></div>
@@ -2173,6 +2295,11 @@ Neural Rendering ON
 NR Scale 100%</pre></div></div>
 <div class="section step-section" id="ronin-fg"><div class="section-title"><div class="step-num">3</div><h3>Frame Generation</h3></div><div class="section-body"><p>После проверки NR. Включайте только после стабильной работы NR; Smooth Motion оставьте OFF, если используется другой FG.</p></div></div>
 <div class="section step-section" id="ronin-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>FSR inputs не работают. Если overlay OptiScaler не появляется, compatibility guide отмечает workaround через Nukem-мод.</p></div></div>
+<details class="autopilot-details" id="ronin-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> Диагностически: верните native upscaler при повреждённом HUD; не включайте NR и FG одновременно на первом запуске. После сбоя рендера выполняйте полное закрытие игры.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="ronin-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiScaler/wiki/Rise-of-the-Ronin" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li></ul></div></section><section class="tab-panel" id="nier">
 <div class="game-head"><div class="card"><h2>NieR:Automata</h2><p>Рекомендуемый маршрут на NVIDIA 616.64+: <strong>DLSS5 Autopilot 2.0.9 → standalone-dlssnr</strong>. Ручной fallback: <strong>DLSS5-Feeder 1.19.0 + ReShade</strong>.</p><div class="callout danger"><strong>Experimental</strong>64-bit D3D11 без штатного DLSS. Feeder несовместим с OptiScaler и Smooth Motion.</div><div class="callout warn"><strong>Autopilot 2.0.4 / Driver 616.64+ — первый route policy сохраняется</strong>Для 64-bit D3D11/D3D12 игры без собственного DLSS первым автоматическим маршрутом теперь является <strong>standalone-dlssnr</strong>. Feeder остаётся ручным fallback; откат на 616.56 — резерв, если standalone не подходит.</div><div class="callout warn"><strong>DLSS5-Feeder 1.17.0-beta.1 — 22.09.2026</strong>Beta добавляет поддержку wilsjo2 NR-consumer и более строгую проверку model pass. NieR:Automata в этом профиле не требует перехода на beta: для ручного стабильного fallback сохраняйте <strong>0.15.1</strong>; prerelease используйте только для диагностики или отдельного A/B.</div><div class="callout ok"><strong>Feeder stable 1.19.0 — 11.10.2026</strong>Используйте stable <strong>1.19.0</strong>; helper mode доступен в stable, но включается лишь при подтверждённой проблеме с NGX. Для MSAA/depth ошибок сначала отключите MSAA и проверьте <code>ReShade.log</code>.</div><div class="status-strip"><span class="status-pill exp">Experimental</span><span class="status-pill ok">Проверено: 11.10.2026</span></div></div>
 <div class="card"><div class="summary-grid"><div class="metric"><div class="label">Injection</div><div class="value good">ReShade dxgi.dll</div></div><div class="metric"><div class="label">Input</div><div class="value">Synthetic DLAA contract</div></div><div class="metric"><div class="label">NR</div><div class="value">DLSS5-Feeder 1.19.0 + ReShade</div></div><div class="metric"><div class="label">FG</div><div class="value">OFF</div></div></div></div></div>
@@ -2195,6 +2322,11 @@ DLSS5 Feed ON
 Neural Rendering ON</pre></div></div>
 <div class="section step-section" id="nier-fg"><div class="section-title"><div class="step-num">3</div><h3>Frame Generation</h3></div><div class="section-body"><p>OFF. Включайте только после стабильной работы NR; Smooth Motion оставьте OFF, если используется другой FG.</p></div></div>
 <div class="section step-section" id="nier-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>Проверяйте <code>dlss5-feed.log</code> на <code>feature ready</code> и <code>frame N delivered</code>. Порядок эффектов: motion vectors → DLSS5 Feed.</p><div class="callout ok"><strong>HDR10 bridge в Feeder 0.15.1</strong>Если конкретная конфигурация реально выводит <strong>HDR10 PQ BT.2020</strong> в 10-bit swapchain, оставьте <code>hdr_bridge=-1</code> (auto). Feeder преобразует PQ → linear FP16 → PQ, чтобы DLSS-NR видел корректный HDR. Базовый <code>hdr_paper_white=203</code> нит. В <code>dlss5-feed.log</code> ищите <code>HDR10 bridge ON</code>. Для SDR этот путь не включается; функция относится к 64-bit D3D11.</div></div></div>
+<details class="autopilot-details" id="nier-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> NieR DX11 без штатного DLSS: не смешивайте DLAA proxy, ReShade и Feeder. Если маска глубины неверна, отключите MSAA и проверьте standalone NR отдельно.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="nier-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/jlrouzies-fr/DLSS5-Feeder" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li><li><a href="https://github.com/jlrouzies-fr/DLSS5-Feeder/releases/tag/v1.19.0" target="_blank">DLSS5-Feeder 1.19.0</a></li></ul></div></section><section class="tab-panel" id="stalker2">
 <div class="game-head"><div class="card"><h2>S.T.A.L.K.E.R. 2: Heart of Chornobyl</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR + OptiPatcher</strong>.</p><div class="callout warn"><strong>Recommended</strong>FSR3.1 upscaling input показывает худшее качество; для RTX 5080 используйте DLSS.</div><div class="callout ok"><strong>OptiPatcher rolling 22.09.2026</strong>Rolling Release содержит обновлённые паттерны для S.T.A.L.K.E.R. 2. Если stable <code>v0.41</code> на текущем патче игры не открывает DLSS/DLSSG inputs либо patcher перестал находить сигнатуру, используйте актуальный rolling build от 22 сентября.</div><div class="callout warn"><strong>Patch 2.0.6 — 18.09.2026</strong>GSC выпустила небольшой crash-fix patch и отдельно предупреждает, что после обновления модификации могут перестать работать. Актуальный OptiPatcher rolling датирован 22.09 и уже содержит обновлённые S.T.A.L.K.E.R. 2 patches после game build 2.0.6. Используйте его и всё равно <strong>проверьте лог patcher/signature match</strong>; при отсутствии сигнатуры не форсируйте старый patch. Рекомендуемый DLSS route не меняется.</div><div class="callout ok"><strong>OptiPatcher Rolling 28.09</strong>STALKER 2 patches обновлены в свежем Rolling build <code>788f5ab</code>. При проблемах после обновления игры сначала обновите OptiPatcher.</div><div class="status-strip"><span class="status-pill ok">Recommended</span><span class="status-pill ok">Проверено: 11.10.2026</span></div></div>
 <div class="card"><div class="summary-grid"><div class="metric"><div class="label">Injection</div><div class="value good">dxgi.dll / winmm.dll</div></div><div class="metric"><div class="label">Input</div><div class="value">DLSS</div></div><div class="metric"><div class="label">NR</div><div class="value">OptiScaler_DLSSNR + OptiPatcher</div></div><div class="metric"><div class="label">FG</div><div class="value">Native DLSSG / XeFG</div></div></div></div></div>
@@ -2209,6 +2341,11 @@ Neural Rendering ON
 NR Scale 100%</pre></div></div>
 <div class="section step-section" id="stalker2-fg"><div class="section-title"><div class="step-num">3</div><h3>Frame Generation</h3></div><div class="section-body"><p>Native DLSSG / XeFG. Включайте только после стабильной работы NR; Smooth Motion оставьте OFF, если используется другой FG.</p></div></div>
 <div class="section step-section" id="stalker2-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>FSR3.1 upscaling input показывает худшее качество; для RTX 5080 используйте DLSS.</p></div></div>
+<details class="autopilot-details" id="stalker2-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> После патчей STALKER 2 проверьте OptiPatcher signature match; при чёрных/цветных текстурах — native DLSS, spoofing OFF и сброс экспериментальных Resource Barrier overrides. Не используйте старые offsets.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="stalker2-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiScaler/wiki/S.T.A.L.K.E.R.-2-Heart-of-Chornobyl" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li><li><a href="https://github.com/optiscaler/OptiPatcher/releases/tag/rolling" target="_blank">OptiPatcher Rolling Release</a></li><li><a href="https://steamdb.info/patchnotes/25382007/" target="_blank">S.T.A.L.K.E.R. 2 — Patch 2.0.6 / 18.09.2026</a></li></ul></div></section><section class="tab-panel" id="splitfiction">
 <div class="game-head"><div class="card"><h2>Split Fiction</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR</strong>.</p><div class="callout warn"><strong>Supported route</strong>В compatibility list подтверждён FSR3 input; отдельный DLSS input не подтверждён.</div><div class="status-strip"><span class="status-pill warn">Supported route</span><span class="status-pill ok">Проверено: 11.10.2026</span></div></div>
 <div class="card"><div class="summary-grid"><div class="metric"><div class="label">Injection</div><div class="value good">dxgi.dll</div></div><div class="metric"><div class="label">Input</div><div class="value">FSR3</div></div><div class="metric"><div class="label">NR</div><div class="value">OptiScaler_DLSSNR</div></div><div class="metric"><div class="label">FG</div><div class="value">FSR3 FG после NR</div></div></div></div></div>
@@ -2223,6 +2360,11 @@ Neural Rendering ON
 NR Scale 100%</pre></div></div>
 <div class="section step-section" id="splitfiction-fg"><div class="section-title"><div class="step-num">3</div><h3>Frame Generation</h3></div><div class="section-body"><p>FSR3 FG после NR. Включайте только после стабильной работы NR; Smooth Motion оставьте OFF, если используется другой FG.</p></div></div>
 <div class="section step-section" id="splitfiction-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>В compatibility list подтверждён FSR3 input; отдельный DLSS input не подтверждён.</p></div></div>
+<details class="autopilot-details" id="splitfiction-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> При шлейфах в split-screen проверьте оба игровых viewport без FG и NR; если эффект появляется в одной камере, сохраните логи motion vectors вместо ручной подмены ресурсов.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="splitfiction-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiScaler/wiki/Compatibility-List" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li></ul></div></section><section class="tab-panel" id="resonance">
 <div class="game-head"><div class="card"><h2>Resonance: A Plague Tale Legacy</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR + optional OptiPatcher</strong>.</p><div class="callout warn"><strong>Recommended / recent support</strong>Поддержка Resonance добавлена <strong>после stable OptiPatcher v0.41</strong>. Если используете OptiPatcher, берите <strong>Rolling Release от 22.09.2026</strong>; иначе оставьте чистый OptiScaler route.</div><div class="status-strip"><span class="status-pill ok">Recommended / recent support</span><span class="status-pill ok">Проверено: 11.10.2026</span></div></div>
 <div class="card"><div class="summary-grid"><div class="metric"><div class="label">Injection</div><div class="value good">dxgi.dll</div></div><div class="metric"><div class="label">Input</div><div class="value">DLSS 4/4.5</div></div><div class="metric"><div class="label">NR</div><div class="value">OptiScaler_DLSSNR + optional OptiPatcher</div></div><div class="metric"><div class="label">FG</div><div class="value">Native DLSS FG/MFG</div></div></div></div></div>
@@ -2237,6 +2379,11 @@ Neural Rendering ON
 NR Scale 100%</pre></div></div>
 <div class="section step-section" id="resonance-fg"><div class="section-title"><div class="step-num">3</div><h3>Frame Generation</h3></div><div class="section-body"><p>Native DLSS FG/MFG. Включайте только после стабильной работы NR; Smooth Motion оставьте OFF, если используется другой FG.</p></div></div>
 <div class="section step-section" id="resonance-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>OptiPatcher support добавлен недавно; при проблемах сначала проверьте чистый OptiScaler route.</p></div></div>
+<details class="autopilot-details" id="resonance-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> После игрового обновления сначала сравните stutter на чистой игре: shader compilation тоже вызывает просадки. Определите актуальный input/OptiPatcher отдельно от NR/FG.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="resonance-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiPatcher/releases/tag/rolling" target="_blank">OptiPatcher Rolling Release — Resonance support</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li></ul></div></section><section class="tab-panel" id="yakuza3">
 <div class="game-head"><div class="card"><h2>Yakuza Kiwami 3 &amp; Dark Ties</h2><p>Рекомендуемый маршрут: <strong>OptiScaler_DLSSNR trial / Autopilot</strong>.</p><div class="callout danger"><strong>Experimental</strong>PC-версия имеет DLSS 4/FSR3/XeSS2, но отдельной протестированной записи OptiScaler пока нет.</div><div class="status-strip"><span class="status-pill exp">Experimental</span><span class="status-pill ok">Проверено: 11.10.2026</span></div></div>
 <div class="card"><div class="summary-grid"><div class="metric"><div class="label">Injection</div><div class="value good">dxgi.dll (trial)</div></div><div class="metric"><div class="label">Input</div><div class="value">DLSS 4</div></div><div class="metric"><div class="label">NR</div><div class="value">OptiScaler_DLSSNR trial / Autopilot</div></div><div class="metric"><div class="label">FG</div><div class="value">NVIDIA MFG после NR</div></div></div></div></div>
@@ -2251,6 +2398,11 @@ Neural Rendering ON
 NR Scale 100%</pre></div></div>
 <div class="section step-section" id="yakuza3-fg"><div class="section-title"><div class="step-num">3</div><h3>Frame Generation</h3></div><div class="section-body"><p>NVIDIA MFG после NR. Включайте только после стабильной работы NR; Smooth Motion оставьте OFF, если используется другой FG.</p></div></div>
 <div class="section step-section" id="yakuza3-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body"><p>PC-версия имеет DLSS 4/FSR3/XeSS2, но отдельной протестированной записи OptiScaler пока нет.</p></div></div>
+<details class="autopilot-details" id="yakuza3-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> Поддержка стороннего NR не доказана: при flicker/краше вернитесь к native DLSS, FG OFF. Не перебирайте несколько одновременно установленных proxy.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="yakuza3-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/Kizzuwatnaa/DLSS5-Autopilot" target="_blank">Основной compatibility/source</a></li><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank">OptiScaler_DLSSNR</a></li></ul></div></section>
 <section class="tab-panel" id="kcd" data-profile-added="2026-09-16">
 <div class="game-head"><div class="card"><h2>Kingdom Come: Deliverance</h2><p>Первая часть: 64-bit DirectX 11, без штатного DLSS. Обычная замена nvngx_dlss.dll не добавляет отсутствующую интеграцию. Профиль относится к Windows-версии оригинальной игры, а не к Kingdom Come: Deliverance II.</p><p>Маршрут для проверки: <strong>Autopilot: standalone-dlssnr; Feeder как резерв</strong>.</p><div class="callout warn"><strong>NR: экспериментальный профиль</strong>Маршрут выбран по общей политике Autopilot для игр без DLSS, а не по подтверждённому тесту KCD на RTX 5080. На NVIDIA 616.64+ первым проверяйте standalone-dlssnr; Feeder используйте только отдельной чистой установкой. Наличие ReShade overlay ещё не доказывает работу Neural Rendering.</div><div class="callout warn"><strong>Feeder beta не меняет базовый KCD route</strong>DLSS5-Feeder 1.17.0-beta.1 умеет подключать wilsjo2 NR-consumer, но для Kingdom Come: Deliverance это не является game-specific подтверждением. Сначала используйте Autopilot <code>standalone-dlssnr</code>; stable Feeder 0.15.1 остаётся отдельным fallback.</div><div class="status-strip"><span class="status-pill exp">NR: требуется проверка в игре</span><span class="status-pill warn">Источники: 23.09.2026</span></div></div><div class="card"><div class="summary-grid">
@@ -2278,6 +2430,11 @@ NR Scale 100%</pre></div></div>
 5. Проверить движение камеры, диалоги и загрузку сохранения</pre><p>У standalone результат выводится через собственное окно. При нехватке производительности проверьте рекомендованный автором reduced-resolution fullscreen/borderless режим; это не тот же регулятор, что NR Scale в OptiScaler.</p><p><strong>Резерв:</strong> сначала удалите текущий маршрут через Autopilot, затем установите <code>feeder</code>. Он использует ReShade с поддержкой add-on, буфер глубины и шейдерные motion vectors. Проверьте корректность глубины, векторов движения и факт выполнения модели. На 616.64+ возможны ошибки NGX, описанные автором Autopilot; стабильность именно KCD не подтверждена. Самостоятельно понижать драйвер только ради этого профиля не требуется.</p></div></div>
 <div class="section step-section" id="kcd-fg"><div class="section-title"><div class="step-num">3</div><h3>Генерация кадров и ограничения</h3></div><div class="section-body"><p>Штатные NVIDIA DLSS FG/MFG и Ray Reconstruction здесь не подтверждены и не включаются простой заменой DLL. Общий OptiFG поддерживает D3D12, поэтому его инструкцию нельзя переносить на эту D3D11-игру.</p><p>Оставьте FG выключенным до устойчивой работы NR. Возможности FG внутри standalone проверяйте отдельно по его текущей документации, не смешивая их со Smooth Motion или внешней интерполяцией. Возврат к чистому рендереру остаётся безопасным вариантом.</p></div></div>
 <div class="section step-section" id="kcd-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика и откат</h3></div><div class="section-body"><p><strong>Вылет до меню:</strong> проверьте, не заняты ли <code>dxgi.dll</code>, <code>d3d11.dll</code> или <code>version.dll</code> ранее установленными ReShade/ENB/ASI-модами. Не заменяйте их вслепую и не удаляйте файлы Windows. Сначала вернитесь к чистому запуску.</p><p><strong>NR визуально не работает:</strong> проверьте выбранный EXE, вывод standalone и логи; у Feeder дополнительно проверьте глубину и motion vectors. <strong>Шлейфы на интерфейсе:</strong> отключите дополнительные эффекты и FG, сравните диалог и движение камеры с NR OFF.</p><p><strong>Откат:</strong> Autopilot → Uninstall восстанавливает его резервные копии. Для ручной установки удаляйте только добавленные вами компоненты и возвращайте сохранённые оригиналы. После патча игры повторно проверяйте EXE и совместимость.</p></div></div>
+<details class="autopilot-details" id="kcd-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> DX11 без native DLSS: сравните standalone и Feeder только в разных чистых установках; при depth artifacts отключите MSAA и проверьте логи Feeder.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="kcd-sources" style="margin-top:18px"><h3>Источники и компоненты</h3><ul>
 <li><a href="https://github.com/Kizzuwatnaa/DLSS5-Autopilot#which-route-a-game-gets" target="_blank" rel="noopener noreferrer">Autopilot: политика маршрутов и ограничения драйверов</a></li>
 <li><a href="https://github.com/jlrouzies-fr/DLSS5-Feeder" target="_blank" rel="noopener noreferrer">DLSS5-Feeder: документация автора</a></li>
@@ -2314,6 +2471,11 @@ Neural Rendering ON → Model Resolution 75%
 Autopilot → did it work? / журналы выбранного форка</pre><p>Сравните лицо в диалоге, волосы, растительность, движение камеры и интерфейс. Сам факт наличия DLSS или меню OptiScaler не подтверждает выполнение NR.</p><p><strong>Альтернативы Autopilot:</strong> <code>native</code> и <code>neural-upstream</code> допустимы по общей политике D3D12 + DLSS, но не помечены здесь как проверенные KCD II-маршруты. Перед сменой полностью удалите предыдущую установку. У neural-upstream NR выполняется до апскейла; его cadence не равен Model Resolution в OptiScaler.</p></div></div>
 <div class="section step-section" id="kcd2-fg"><div class="section-title"><div class="step-num">3</div><h3>Frame Generation и HDR</h3></div><div class="section-body"><p>Подтверждённая запись обычного OptiScaler рекомендует <strong>OptiFG → XeFG</strong>. Включайте эту связку после стабильного NR и только при её наличии в выбранной версии NR-форка. При отсутствии XeFG не смешивайте библиотеки разных сборок: проверьте поддерживаемый ею FSR3.1 FG либо оставьте генерацию выключенной.</p><p>Community-профиль от 16.09 демонстрирует DLSS5 + MFG, но также описывает артефакты на резких dialogue/cutscene camera cuts. Поэтому даже при успешном MFG отдельно проверяйте диалоги и кат-сцены; это не повод переносить его bundled DLL в чистую установку.</p><p>В игре нет штатного DLSS-FG согласно compatibility-профилю. Поэтому не обещается NVIDIA MFG 4×/6× через простую замену <code>nvngx_dlssg.dll</code> или override в NVIDIA App.</p><p>Только если при HDR + XeFG возникают проблемы, сохраните <code>user.cfg</code> и добавьте или измените в нём:</p><pre>r_HDRPipeline=2</pre><p>Это рекомендация wiki для совместимого HDR10-вывода, а не обязательная настройка SDR и не доказательство HDR-совместимости NR. При искажении цвета верните SDR и отключите FG для диагностики.</p></div></div>
 <div class="section step-section" id="kcd2-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика и откат</h3></div><div class="section-body"><p><strong>Нет Insert overlay:</strong> проверьте, что мод находится рядом с запущенным EXE, а <code>dxgi.dll</code> принадлежит выбранному OptiScaler. <strong>Не работает NR:</strong> проверьте именно NR-форк, архитектуру runtime, лог и активный DLSS input.</p><p><strong>Вылет или шлейф после FG:</strong> верните FG OFF и повторите тест. Старые советы о принудительных HUD Fix не применяйте без проверки своей версии. Совместимость обычного OptiScaler на Radeon не гарантирует ту же комбинацию NR + XeFG на RTX 5080.</p><p><strong>После обновления игры:</strong> сравните версии и оригинальные DLL, снова проверьте DLSS → NR → FG → HDR. Для отката используйте Uninstall выбранного установщика либо верните свои резервные копии; не удаляйте штатные файлы игры вслепую.</p></div></div>
+<details class="autopilot-details" id="kcd2-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> Обычный OptiScaler не доказывает NR. При ghosting начните с чистого DLSS Quality и FG OFF; включайте NR затем RR/FG отдельно, сбрасывая цветовые настройки при вспышках.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="kcd2-sources" style="margin-top:18px"><h3>Источники и компоненты</h3><ul>
 <li><a href="https://github.com/optiscaler/OptiScaler/wiki/Kingdom-Come-Deliverance-II" target="_blank" rel="noopener noreferrer">Game-specific wiki: OptiScaler 0.9.4, dxgi.dll, XeFG и HDR</a></li>
 <li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR/releases" target="_blank" rel="noopener noreferrer">OptiScaler_DLSSNR: релизы автора</a></li>
@@ -2388,6 +2550,11 @@ NR Scale 100%</pre>
 <li>Уберите ReShade/другие proxy DLL на время диагностики.</li>
 <li>Поскольку профиль новый, при нестабильном hook используйте DLSS5 Autopilot для сравнения доступных маршрутов.</li></ul>
 </div></div>
+<details class="autopilot-details" id="controlresonant-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> PT/RR/Dynamic MFG могут усиливать ghosting: сначала native PT/RR без NR; NR проверяйте отдельно с PT/RR/FG OFF. Следите за базовым FPS.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="controlresonant-sources" style="margin-top:18px"><h3>Ссылки</h3><ul>
 <li><a href="https://www.nvidia.com/en-us/geforce/news/control-resonant-september-24-dlss-4-5-path-tracing/" target="_blank">NVIDIA — CONTROL Resonant: DLSS 4.5, RR, Path Tracing и Dynamic MFG</a></li>
 <li><a href="https://github.com/optiscaler/OptiScaler/blob/master/OptiScaler/misc/Quirks.h" target="_blank">OptiScaler — quirk для controlresonant.exe</a></li>
@@ -2463,6 +2630,11 @@ FG OFF</pre>
 <li>Не обновляйте Streamline/DLSS DLL вручную до проверки штатной конфигурации.</li>
 <li>Если proxy <code>dxgi.dll</code> занят ReShade, сначала тестируйте OptiScaler без ReShade.</li></ul>
 </div></div>
+<details class="autopilot-details" id="townfall-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> Отделяйте stutter shader compilation после игрового патча от NR. При цветовых артефактах проверьте OptiPatcher/Reflex без NR; input support не подтверждает NR.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="townfall-sources" style="margin-top:18px"><h3>Ссылки</h3><ul>
 <li><a href="https://store.steampowered.com/app/1636440/SILENT_HILL_Townfall/" target="_blank">Steam — SILENT HILL: Townfall</a></li>
 <li><a href="https://github.com/optiscaler/OptiScaler/wiki/Compatibility-List" target="_blank">OptiScaler Compatibility List</a></li>
@@ -2574,6 +2746,11 @@ Alternative FG    OFF</pre>
 </ul>
 </div></div>
 
+<details class="autopilot-details" id="wherewindsmeet-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> При HUD ghosting проверьте игровые quirks <code>DisableDxgiSpoofing</code> и <code>ForceFGRenderSizeMVs</code>. Smooth Motion OFF при native MFG; будущее native DLSS5 проверять без старого proxy.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="wherewindsmeet-sources" style="margin-top:18px">
 <h3>Ссылки</h3><ul>
 <li><a href="https://www.nvidia.com/en-us/geforce/news/gdc-2026-nvidia-geforce-rtx-announcements/" target="_blank">NVIDIA — Where Winds Meet: DLSS 4 / MFG и анонс DLSS 4.5</a></li>
@@ -2624,6 +2801,11 @@ Alternative FG    OFF</pre>
 <li>Не заменяйте DLSS DLL вручную.</li>
 <li>Не используйте этот профиль как инструкцию для обхода RICOCHET.</li></ul>
 </div></div>
+<details class="autopilot-details" id="blackops6-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> Anti-cheat: не внедряйте OptiScaler, Feeder и ReShade в защищённые сессии. Исправляйте артефакты только native DLSS/FG/Reflex/драйвером.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="blackops6-sources" style="margin-top:18px"><h3>Ссылки</h3><ul>
 <li><a href="https://www.callofduty.com/en/store/games/blackops6" target="_blank">Call of Duty — Black Ops 6 / RICOCHET</a></li>
 <li><a href="https://www.nvidia.com/en-us/drivers/details/235774/" target="_blank">NVIDIA Game Ready 566.03 — Black Ops 6 / DLSS 3 support</a></li>
@@ -2703,6 +2885,11 @@ OptiFG        OFF</pre>
 <li>Временно отключите ReShade и другие proxy DLL.</li>
 <li>Не включайте одновременно Native MFG, Smooth Motion и OptiFG.</li></ul>
 </div></div>
+<details class="autopilot-details" id="mortalshell2-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> При артефактах FG и отсутствующем DLSS input перепроверьте OptiPatcher signature после обновления. MFG OFF при первоначальном NR; измерьте native baseline.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="mortalshell2-sources" style="margin-top:18px"><h3>Ссылки</h3><ul>
 <li><a href="https://www.nvidia.com/en-us/geforce/news/mortal-shell-2-sinking-city-2-dlss/" target="_blank">NVIDIA — Mortal Shell II: DLSS 4.5, MFG и Ray Tracing</a></li>
 <li><a href="https://store.steampowered.com/app/2584270/Mortal_Shell_II/" target="_blank">Steam — Mortal Shell II</a></li>
@@ -2804,6 +2991,11 @@ FG               OFF</pre>
 </ul>
 </div></div>
 
+<details class="autopilot-details" id="sleepingdogs-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> DX11: сравнивайте standalone и Feeder на чистой установке. При неверной глубине MSAA OFF, <code>dxgi.dll</code> ReShade, Generic Depth и <code>dlss5-feed.log</code>.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="sleepingdogs-sources" style="margin-top:18px"><h3>Ссылки</h3><ul>
 <li><a href="https://www.pcgamingwiki.com/wiki/Sleeping_Dogs:_Definitive_Edition" target="_blank">PCGamingWiki — Direct3D 11</a></li>
 <li><a href="https://reshade.me/forum/general-discussion/87-compatibility-list?start=192" target="_blank">ReShade compatibility — Definitive Edition / dxgi.dll</a></li>
@@ -2863,6 +3055,11 @@ NR Scale 100%</pre>
 <div class="section step-section" id="hellraiserrevival-diag"><div class="section-title"><div class="step-num">5</div><h3>Диагностика</h3></div><div class="section-body">
 <ul><li>При crash сначала удалите экспериментальный NR-route и проверьте чистую игру.</li><li>Используйте только актуальный OptiPatcher Rolling <code>c3f758a</code> или новее и проверьте в логе, что game-specific patch действительно применился.</li><li>Если OptiScaler proxy не загружается, используйте Autopilot 2.0.9 для проверки фактически загруженных DLL и выбора другого proxy name.</li><li>Результат NR считать рабочим только при подтверждении логом и A/B-сравнением.</li></ul>
 </div></div>
+<details class="autopilot-details" id="hellraiserrevival-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> OptiPatcher поддерживает DLSS/DLSSG input, не подтверждён NR. При flicker сначала native DLSS/FG без DLL; NR отдельно с FG OFF, затем по одному возвращайте настройки.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="hellraiserrevival-sources" style="margin-top:18px"><h3>Ссылки</h3><ul>
 <li><a href="https://store.steampowered.com/app/1551980/Clive_Barkers_Hellraiser_Revival/" target="_blank">Steam — Clive Barker's Hellraiser: Revival</a></li>
 <li><a href="https://www.nvidia.com/en-us/geforce/news/call-of-duty-modern-warfare-4-dlss-4-5-available-october-16/" target="_blank">NVIDIA — Hellraiser: Revival с DLSS</a></li>
@@ -2917,6 +3114,11 @@ NVIDIA Reflex          ON</pre>
 <div class="section step-section" id="gearseday-diag"><div class="section-title"><div class="step-num">4</div><h3>Диагностика</h3></div><div class="section-body">
 <ul><li>При проблемах сначала восстановите игровые файлы и отключите сторонние injectors/overlays.</li><li>Обновите драйвер NVIDIA и NVIDIA App.</li><li>Не используйте OptiScaler/Feeder/ReShade add-ons в anti-cheat protected процессе.</li><li>Не используйте обход Easy Anti-Cheat как часть этого руководства.</li></ul>
 </div></div>
+<details class="autopilot-details" id="gearseday-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> Easy Anti-Cheat: не используйте DLL-injection даже с game-specific OptiPatcher patch. При искажениях только штатные DLSS/RT/MFG/Reflex и настройки драйвера.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="gearseday-sources" style="margin-top:18px"><h3>Ссылки</h3><ul>
 <li><a href="https://www.nvidia.com/en-us/geforce/news/gears-of-war-e-day-dlss-4-5-ray-tracing-rtx-mega-geometry/" target="_blank">NVIDIA — Gears of War: E-Day DLSS 4.5 / RTX</a></li>
 <li><a href="https://store.steampowered.com/app/3010850/Gears_of_War_EDay/" target="_blank">Steam — Gears of War: E-Day / Easy Anti-Cheat</a></li>
@@ -2949,6 +3151,11 @@ OptiPatcher Rolling: ON
 FG: OFF</pre></div></div>
 <div class="section step-section" id="trepang2-fg"><div class="section-title"><div class="step-num">2</div><h3>Frame Generation</h3></div><div class="section-body"><p>Штатного DLSSG patch в OptiPatcher для Trepang2 нет. Любой внешний FG проверяйте отдельно после стабильного NR.</p></div></div>
 <div class="section step-section" id="trepang2-diag"><div class="section-title"><div class="step-num">3</div><h3>Диагностика</h3></div><div class="section-body"><p>Если визуально используется Performance после рестарта, переключите DLSS preset и верните Quality. Не считайте запуск обычного OptiScaler подтверждением NR.</p></div></div>
+<details class="autopilot-details" id="trepang2-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> Известен сброс DLSS preset после запуска: если картинка мыльная, снова выберите Quality вместо Performance. NR сначала без FG; DX11/DX12 сравнивайте отдельно.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="trepang2-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiScaler/wiki/Trepang2" target="_blank">OptiScaler Wiki — Trepang2</a></li><li><a href="https://github.com/optiscaler/OptiPatcher/blob/main/GameSupport.md" target="_blank">OptiPatcher GameSupport</a></li></ul></div>
 </section>
 
@@ -2972,6 +3179,11 @@ Frame Generation OFF
 External injectors OFF</pre><p>После стабильного baseline можно отдельно проверить OptiScaler_DLSSNR + OptiPatcher.</p></div></div>
 <div class="section step-section" id="samson-fg"><div class="section-title"><div class="step-num">2</div><h3>Frame Generation</h3></div><div class="section-body"><p>Native FG включайте после проверки NR либо используйте его без NR как основной production-путь.</p></div></div>
 <div class="section step-section" id="samson-diag"><div class="section-title"><div class="step-num">3</div><h3>Диагностика</h3></div><div class="section-body"><p>Если NR-route нестабилен, вернитесь к native DLSS 4.5 + FG; поддержка OptiPatcher не является гарантией NR.</p></div></div>
+<details class="autopilot-details" id="samson-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> При падении FPS/ghosting сначала native DLSS 4.5, RT High и FG OFF. NR-fork отдельно экспериментален; OptiPatcher input не равен NR.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="samson-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://www.nvidia.com/en-eu/geforce/news/dlss-4-5-rtx-path-tracing-game-announcements-gdc-2026/" target="_blank">NVIDIA — Samson DLSS 4.5 / RT</a></li><li><a href="https://github.com/optiscaler/OptiPatcher/blob/main/GameSupport.md" target="_blank">OptiPatcher GameSupport</a></li></ul></div>
 </section>
 
@@ -2996,6 +3208,11 @@ MFG 4X
 Reflex ON</pre></div></div>
 <div class="section step-section" id="pragmata-fg"><div class="section-title"><div class="step-num">2</div><h3>NR A/B</h3></div><div class="section-body"><p>Для мод-теста установите REFramework, затем OptiScaler через <code>dxgi.dll</code>. Первый запуск NR выполняйте с PT/RR/MFG OFF, затем включайте функции по одной.</p></div></div>
 <div class="section step-section" id="pragmata-diag"><div class="section-title"><div class="step-num">3</div><h3>Диагностика</h3></div><div class="section-body"><ul><li>Если игра обновилась и OptiScaler падает — сначала обновите REFramework.</li><li>Закройте RTSS при startup crash.</li><li>XeFG через REF может давать тяжёлый intermittent stutter; native DLSSG предпочтительнее.</li></ul></div></div>
+<details class="autopilot-details" id="pragmata-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> Если игра падает после патча, обновите REFramework и на тест закройте RTSS. Native PT+RR+MFG отделяйте от экспериментального NR; один <code>dxgi.dll</code> proxy.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="pragmata-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://www.nvidia.com/en-us/geforce/news/pragmata-path-tracing-dlss-ray-reconstruction-multi-frame-gen/" target="_blank">NVIDIA — PRAGMATA PT/RR/MFG</a></li><li><a href="https://github.com/optiscaler/OptiScaler/wiki/PRAGMATA" target="_blank">OptiScaler Wiki — PRAGMATA</a></li></ul></div>
 </section>
 
@@ -3020,6 +3237,11 @@ DLSS Quality
 FG OFF</pre></div></div>
 <div class="section step-section" id="immortalsofaveum-fg"><div class="section-title"><div class="step-num">2</div><h3>Frame Generation</h3></div><div class="section-body"><p>После стабильного NR включайте DLSSG via Streamline. Не используйте Nukem DLSSG для Chapter 12.</p></div></div>
 <div class="section step-section" id="immortalsofaveum-diag"><div class="section-title"><div class="step-num">3</div><h3>Диагностика</h3></div><div class="section-body"><p>После загрузки уровня проверьте, что выбранный upscaler не сбросился. Если OptiScaler не загружается — первым делом проверьте имя proxy <code>d3d12.dll</code>.</p></div></div>
+<details class="autopilot-details" id="immortalsofaveum-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> Подтверждено: нужен <code>d3d12.dll</code> из-за проверки подписи; upscaler может сбрасываться после загрузки уровня. Nukem DLSSG вызывает crash в Chapter 12 — предпочитайте DLSSG via Streamline.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="immortalsofaveum-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiScaler/wiki/Immortals-of-Aveum" target="_blank">OptiScaler Wiki — Immortals of Aveum</a></li><li><a href="https://github.com/optiscaler/OptiPatcher/blob/main/GameSupport.md" target="_blank">OptiPatcher GameSupport</a></li><li><a href="https://www.ea.com/games/immortals-of-aveum/immortals-of-aveum/news/update-1064" target="_blank">EA — FSR3 / HDR update</a></li></ul></div>
 </section>
 
@@ -3042,9 +3264,14 @@ NVIDIA App override по желанию
 External injectors OFF</pre></div></div>
 <div class="section step-section" id="bladesoffire-fg"><div class="section-title"><div class="step-num">2</div><h3>NR / MFG</h3></div><div class="section-body"><p>Для NR используйте OptiScaler_DLSSNR как отдельный эксперимент; затем возвращайте native FG/MFG. Не включайте несколько FG-механизмов одновременно.</p></div></div>
 <div class="section step-section" id="bladesoffire-diag"><div class="section-title"><div class="step-num">3</div><h3>Диагностика</h3></div><div class="section-body"><p>Если overlay открыт, навигацию выполняйте клавиатурой. Обычный OptiScaler success не считайте подтверждением NR.</p></div></div>
+<details class="autopilot-details" id="bladesoffire-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и способы исправления</summary><div class="autopilot-details-body">
+<p><strong>Для этого профиля:</strong> В OptiScaler overlay мышь может не работать — используйте клавиатуру. NR-fork проверяйте отдельно от native FG/MFG; 6× MFG не заменяет базовый FPS.</p>
+<p><strong>Проверка восстановления:</strong> закрыть процесс, сравнить чистую игру без модифицированных DLL, затем отдельно hook/NR OFF и NR ON при FG/RR OFF. Если OFF не восстанавливает FPS, перезапустить процесс и временно убрать proxy. При невоспроизводимой ошибке сохранить логи и сведения о драйвере/сборке.</p>
+<p class="small">Если указана лишь диагностическая проверка, не считайте её game-specific подтверждённым багом или гарантированным исправлением NR+FG.</p>
+</div></details>
 <div class="card source-list" id="bladesoffire-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiScaler/wiki/Compatibility-List" target="_blank">OptiScaler Compatibility List</a></li><li><a href="https://www.nvidia.com/en-us/geforce/news/forza-horizon-6-dlss-4-5-super-resolution-multi-frame-gen/" target="_blank">NVIDIA — Blades of Fire v2.0 DLSS / MFG</a></li></ul></div>
 </section>
-<footer class="footer"><strong>Интерфейс v26:</strong> 42 игровых профиля; <strong>Проверено: 17.10.2026</strong>. Обновлены <strong>DLSS5 Autopilot 2.0.9</strong> (диагностика реального graphics API, RR/bridge, Vulkan layer, standalone/swapchain), <strong>DLSS5-Feeder stable 1.19.0</strong> (NGX/helper/MSAA/OpenGL; beta 1.18.0-beta.2 включена в stable) и <strong>OptiPatcher Rolling c3f758a от 14.10</strong> (Gears E-Day; античит-ограничения сохраняются). Учтено объявление NVIDIA от 13 октября об ускоренной на 2× модели DLSS 5 и снижении VRAM в 4K на 20%: <strong>Hogwarts Legacy</strong> получит штатный DLSS 5 5 ноября, для <strong>Where Winds Meet</strong> дата не подтверждена. Нельзя автоматически переносить эти показатели на сторонний <code>nvngx_dlssnr.dll</code> или считать обычную OptiScaler-совместимость подтверждением NR+FG. Сохранены базовые <strong>OptiScaler 0.9.4</strong>, <strong>OptiScaler_DLSSNR 0.2.0</strong>, <strong>RE_DLSS5_Load_Mod 0.63</strong>, <strong>REFramework 1.5.9.1</strong>, <strong>ReShade 6.8.0</strong>, <strong>NVIDIA DLSS SDK 310.9.1</strong> и <strong>GeForce Game Ready 617.42 WHQL (06.10)</strong>.</footer>
+<footer class="footer"><strong>Интерфейс v27:</strong> 42 игровых профиля; <strong>Проверено: 17.10.2026</strong>. Общий сворачиваемый справочник артефактов NR/RR/FG и восстановления FPS дополнен отдельными разделами диагностики для всех 42 игр. Для 007 First Light учтён регресс OptiScaler #1207: 1440p baseline, NR/PT/RR/FG раздельно, 4K экспериментально, при невосстановлении FPS — полный перезапуск и тест без DLL-hook. Убрана устаревшая рекомендация не использовать FSR3.1 после Path Tracing update. Тесты обычного OptiScaler и OptiPatcher не выдаются за подтверждение NR либо NR+RR+FG. Базовые версии: Autopilot 2.0.9; Feeder stable 1.19.0; OptiPatcher Rolling c3f758a; DLSSNR fork 0.2.0; Game Ready 617.42 WHQL.</footer>
 </div>
 <script>
 const allGames = [
