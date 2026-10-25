@@ -643,13 +643,19 @@ a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{
 <span class="badge"><strong>Проверено:</strong> 25.10.2026</span>
 <span class="badge"><strong>Режим:</strong> Story / Single Player</span>
 </div>
+<details class="autopilot-details" id="rtx-remix-route"><summary>Официальный маршрут <code>rtx-remix</code> — NVIDIA RTX Remix 1.6.1 (23.10.2026)</summary><div class="autopilot-details-body">
+<p>Это <strong>официальный отдельный маршрут</strong> RTX Remix Runtime/Toolkit для совместимых RTX-ремастеров (обычно ранние DX8/DX9 fixed-function игры), а не универсальный способ инжекции NR в современные DX12 игры.</p>
+<p><strong>RTX 5080 / 4K:</strong> установите готовый совместимый Remix-проект с Runtime 1.6.1 и драйвером NVIDIA ≥616.92, откройте настройки <code>Alt + X</code>, затем раздельно проверяйте DLSS 3D-Guided Neural Rendering, Ray Reconstruction и официальные MFG 5×/6×. Сравнивайте FPS, задержку, качество и VRAM. Не смешивайте с OptiScaler/Feeder.</p>
+<p><code>rtx-remix → Remix Runtime → DLSS 3D-Guided Neural Rendering → (при поддержке) RR / MFG</code>. Поддержка DLSS input, OptiPatcher или OptiScaler не подтверждает NR/NR+FG и не делает игру Remix-совместимой.</p>
+<p><a href="https://github.com/NVIDIAGameWorks/rtx-remix/releases/tag/remix-1.6.1" target="_blank" rel="noopener">Официальный релиз</a> · <a href="https://docs.omniverse.nvidia.com/kit/docs/rtx_remix/latest/docs/introduction/intro-compatibility.html" target="_blank" rel="noopener">Совместимость</a></p>
+</div></details>
 <details class="autopilot-details" id="autopilot-note"><summary>DLSS5 Autopilot — когда он нужен?</summary><div class="autopilot-details-body">
 <p><strong>Актуально: DLSS5 Autopilot v2.0.9 (17.10.2026).</strong> Это установщик, диагностический маршрутизатор и инструмент проверки фактически загруженной DLL-цепочки. Для уже настроенных игр сохраняйте game-specific профиль из этого справочника.</p>
 <ul>
 <li><strong>NVIDIA driver:</strong> актуальный Game Ready — <strong>621.01 WHQL (21.10.2026)</strong>; минимальная версия для текущего DLSS5 toolchain остаётся <code>616.56</code>.</li>
 <li><strong>Feeder:</strong> текущий stable — <strong>DLSS5-Feeder 1.19.0 (11.10.2026)</strong>, commit <code>3c09eab</code>. Включает 64-bit helper mode для NGX-проблем, диагностику NGXCore и ошибочного MSAA depth buffer, а также исправление OpenGL через системную <code>opengl32.dll</code>. Обычный D3D11/D3D12 путь остаётся без helper по умолчанию. Автор отмечает: два исправления 1.19.0 не прошли отдельные игровые тесты; поэтому они не доказывают NR/FG совместимость.</li>
 <li><strong>Feeder beta:</strong> <code>1.18.0-beta.2</code> включена в stable <strong>1.19.0</strong> и остаётся архивной troubleshooting-сборкой. Для новых установок используйте stable 1.19.0. Проверяйте первую строку <code>dlss5-feed.log</code>: <code>1.19.0 commit 3c09eab</code>.</li>
-<li><strong>Autopilot 2.0.9:</strong> 17.10 улучшена диагностика фактически загруженного графического API (DX9/OpenGL против DX10/11/12), elevated Vulkan/DXVK ReShade layer, сообщений bridge при активном RR и падений swapchain после NR/FG; также исправлено чтение standalone лога. Базовая route-policy <code>native / neural-upstream / optiscaler / bridge / feeder / standalone-dlssnr</code> существенно не менялась. Дополнительные проверки по отчётам автора не считаются game-specific подтверждением NR.</li>
+<li><strong>Autopilot 2.0.9:</strong> 17.10 улучшена диагностика фактически загруженного графического API (DX9/OpenGL против DX10/11/12), elevated Vulkan/DXVK ReShade layer, сообщений bridge при активном RR и падений swapchain после NR/FG; также исправлено чтение standalone лога. Базовая route-policy <code>native / neural-upstream / optiscaler / bridge / feeder / standalone-dlssnr / rtx-remix</code> существенно не менялась. Дополнительные проверки по отчётам автора не считаются game-specific подтверждением NR.</li>
 <li><strong>OptiScaler:</strong> стабильный mainline остаётся <strong>0.9.4</strong>; DLSSNR fork Dagherbou — <strong>0.2.0</strong>. Подтверждение обычного OptiScaler не следует автоматически считать подтверждением Neural Rendering или конкретной комбинации NR+FG.</li>
 <li><strong>OptiPatcher:</strong> stable <strong>v0.42 (18.10.2026)</strong> и Rolling build <strong>b3f8c1b (23.10.2026)</strong>. Stable обновил Beast, Mortal Shell II и STALKER 2, добавил Resonance, Townfall, Hellraiser и Gears E-Day; Rolling обновил RDR2 patterns и Gears Xbox/Game Pass. Это не разрешение на DLL-injection в защищённую Easy Anti-Cheat игру и не подтверждение работы NR.</li>
 <li><strong>REFramework:</strong> stable 1.5.9.1 и nightly <strong>01433 (21.10.2026)</strong>; без VR используйте лишь совместимый <code>dinput8.dll</code>. <a href="https://github.com/praydog/REFramework-nightly/releases" target="_blank" rel="noopener">Nightly</a>.</li><li><strong>ReShade:</strong> stable <strong>6.8.0 (02.08.2026)</strong>; для Feeder нужен совместимый full add-on build, не применять в защищённом multiplayer. <a href="https://reshade.me/" target="_blank" rel="noopener">Official</a>.</li><li><strong>NVIDIA DLSS SDK:</strong> <strong>310.9.16 (16.10.2026)</strong>; D18 0.5.0 поддерживает NR runtime 310.8/310.9.16 на соответствующих API. Не приравнивайте native DLSS 4.5 и неофициальный DLSS5 NR. <a href="https://github.com/NVIDIA/DLSS/releases/tag/v310.9.16" target="_blank" rel="noopener">SDK release</a>.</li><li><strong>RE_DLSS5_Load_Mod:</strong> текущий официальный релиз остаётся <strong>0.63</strong>; для Onimusha сохраняется ранее отмеченный fallback на 0.59 только если 0.63 не запускается на конкретной системе.</li>
@@ -2780,44 +2786,30 @@ Alternative FG    OFF</pre>
 </section>
 
 <section class="tab-panel" id="mw4">
-<div class="game-head">
-<div class="card">
-<h2>Call of Duty: Modern Warfare 4</h2>
-<p>Релиз 23.10.2026. Официально подтверждены DLSS 4.5, встроенные средства Frame Generation и Ray Tracing. Для RTX 5080 / 4K используйте <strong>native</strong> маршрут — только настройки самой игры и предлагаемые NVIDIA App официальные overrides.</p>
-<div class="callout danger"><strong>RICOCHET Anti-Cheat: сторонние DLSS5-моды не рекомендованы</strong>Совместимость Neural Rendering / NR+FG не подтверждена. Не используйте OptiScaler, OptiPatcher, DLSS5-Feeder, bridge, ReShade add-ons, proxy DLL, ручной DLL swap или инъекцию даже для кампании: отсутствие anti-cheat рисков не установлено.</div>
-<div class="status-strip"><span class="status-pill warn">Native-only</span><span class="status-pill warn">Anti-cheat protected</span><span class="status-pill ok">Проверено: 25.10.2026</span></div>
-</div>
+<div class="game-head"><div class="card"><h2>Call of Duty: Modern Warfare 4</h2>
+<p>Для RTX 5080 / 4K штатный <strong>DLSS 4.5 Quality</strong> остаётся проверяемой базой. Если задача — включить <strong>именно DLSS 5 Neural Rendering</strong>, наиболее подходящий по архитектуре <em>экспериментальный</em> кандидат — <strong>OptiScaler_DLSSNR</strong>, использующий существующий игровой DLSS-вход и <code>nvngx_dlssnr.dll</code>. Game-specific работа NR и NR+FG в Modern Warfare 4 по состоянию на 25.10.2026 <strong>не подтверждена</strong>.</p>
+<div class="callout warn"><strong>Приоритет маршрутов</strong><code>native DLSS → OptiScaler_DLSSNR (отдельный тест)</code>. Для теста Neural Rendering сначала FG OFF, затем сравнение NR OFF/ON с логами загрузки DLL и motion vectors. RTX Remix 1.6.1 не рассчитан на прямую обработку современной DX12-игры.</div>
+<div class="status-strip"><span class="status-pill warn">NR unverified</span><span class="status-pill warn">OptiScaler candidate</span><span class="status-pill ok">Проверено: 25.10.2026</span></div></div>
 <div class="card"><div class="summary-grid">
 <div class="metric"><div class="label">GPU</div><div class="value accent">RTX 5080 / 4K</div></div>
-<div class="metric"><div class="label">Upscaler</div><div class="value good">Native DLSS 4.5</div></div>
+<div class="metric"><div class="label">Native SR</div><div class="value good">DLSS 4.5</div></div>
 <div class="metric"><div class="label">Neural Rendering</div><div class="value">Не подтверждён</div></div>
-<div class="metric"><div class="label">Защита</div><div class="value">RICOCHET</div></div>
-</div></div>
-</div>
-<div class="section recommended-profile" id="mw4-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix">
+<div class="metric"><div class="label">Потенциальный маршрут</div><div class="value">OptiScaler_DLSSNR</div></div></div></div></div>
+<div class="section recommended-profile" id="mw4-settings"><div class="section-title"><div class="step-num">★</div><h3>RTX 5080 / 4K — настройки и методика</h3></div><div class="section-body"><table class="matrix">
 <tr><th>Параметр</th><th>Рекомендация</th></tr>
 <tr><td>Разрешение</td><td>3840×2160</td></tr>
-<tr><td>Upscaler</td><td>Штатный NVIDIA DLSS 4.5 — Quality, затем Balanced при необходимости</td></tr>
-<tr><td>Frame Generation / MFG</td><td>Только штатный режим, если доступен; проверять исходный FPS и задержку</td></tr>
-<tr><td>Ray Tracing</td><td>Настроить с учётом базовой производительности</td></tr>
-<tr><td>Ray Reconstruction</td><td>Только если отдельно присутствует в официальных настройках игры</td></tr>
-<tr><td>Neural Rendering / NR+FG</td><td>Не подтверждены, сторонние способы не использовать</td></tr>
-<tr><td>OptiScaler / OptiPatcher / Feeder / bridge / ReShade</td><td>OFF — не устанавливать</td></tr>
-<tr><td>Proxy DLL / DLL replacement</td><td>Не выполнять в защищённом процессе</td></tr>
-</table><p class="small">Заявленная поддержка DLSS 4.5 и FG не подтверждает совместимость стороннего Neural Rendering. Цифры FPS RTX 5080 / 4K для игры здесь не заявляются.</p></div></div>
-<div class="section step-section" id="mw4-install"><div class="section-title"><div class="step-num">1</div><h3>Установить официальные обновления</h3></div><div class="section-body"><p>Обновите игру и NVIDIA Game Ready Driver; включите в меню NVIDIA DLSS 4.5 Quality. Используйте только официальные NVIDIA App overrides, если они отображаются для Modern Warfare 4.</p></div></div>
-<div class="section step-section" id="mw4-fg"><div class="section-title"><div class="step-num">2</div><h3>Frame Generation</h3></div><div class="section-body"><p>Применяйте только встроенную FG/MFG. Для сетевой игры отдавайте приоритет задержке ввода и высокому базовому FPS; NVIDIA Reflex используйте только при наличии штатной опции. Не внедряйте сторонний FG.</p></div></div>
-<div class="section step-section" id="mw4-diag"><div class="section-title"><div class="step-num">3</div><h3>Диагностика</h3></div><div class="section-body"><ul>
-<li>При артефактах сравните DLSS Quality / Balanced и выключите встроенный FG.</li>
-<li>При падении FPS проверьте RT-настройки, драйвер и отсутствие сторонних DLL.</li>
-<li>При предупреждении RICOCHET восстановите оригинальные файлы, не обходите anti-cheat.</li>
-<li>Поддержка DLSS/DLSSG input не является подтверждением Neural Rendering либо NR+RR+FG.</li>
-</ul></div></div>
-<details class="autopilot-details" id="mw4-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и совместимость</summary><div class="autopilot-details-body"><p>Проверяйте только встроенные SR/FG/RT на одинаковой сцене с оценкой задержки. Не экспериментируйте с proxy DLL и модами в процессе с RICOCHET. Внешний Neural Rendering / standalone-dlssnr / neural-upstream / optiscaler / bridge / feeder для данной игры не подтверждён.</p></div></details>
-<div class="card source-list" id="mw4-sources" style="margin-top:18px"><h3>Ссылки</h3><ul>
-<li><a href="https://www.callofduty.com/blog/2026/05/call-of-duty-modern-warfare-4-announcement" target="_blank">Официальный анонс Modern Warfare 4</a></li>
-<li><a href="https://www.callofduty.com/blog/2026/09/call-of-duty-modern-warfare-4-pc-trailer-tech-specs-features" target="_blank">Официальные DLSS 4.5 / RICOCHET / PC возможности</a></li>
-</ul></div>
+<tr><td>Исходная конфигурация</td><td>Native DLSS Quality; Balanced при дефиците FPS</td></tr>
+<tr><td>Экспериментальный DLSS5 NR</td><td>Опционально OptiScaler_DLSSNR через существующий DLSS input: NR ON, FG OFF на первом тесте</td></tr>
+<tr><td>Frame Generation / MFG</td><td>Сначала отдельно штатный FG без NR; NR+FG пока не подтверждён</td></tr>
+<tr><td>Ray Reconstruction</td><td>Только штатный RR, если доступен; не приравнивать к Neural Rendering</td></tr>
+<tr><td>Proxy DLL</td><td>Один loader согласно точной версии OptiScaler_DLSSNR; подтвердить загрузку по логам; не смешивать DLL-цепочки</td></tr>
+<tr><td>RTX Remix</td><td>Не подходит как прямой DX12-маршрут для MW4</td></tr>
+</table><p class="small">Рекомендация обозначает порядок технической проверки, а не подтверждённый рабочий game-specific профиль DLSS5 NR.</p></div></div>
+<div class="section step-section" id="mw4-install"><div class="section-title"><div class="step-num">1</div><h3>Baseline и тест NR</h3></div><div class="section-body"><p>Запишите параметры чистой игры, FPS и frame times с native DLSS Quality. Сохраните возможность полного отката. В отдельной тестовой копии/среде используйте документацию точной сборки OptiScaler_DLSSNR, чтобы определить, доступен ли нужный DLSS-вход; проверьте корректную загрузку NR runtime и входные motion vectors. Если hook не работает или появляются визуальные дефекты — откатитесь к baseline; проверенного универсального рецепта MW4 пока нет.</p></div></div>
+<div class="section step-section" id="mw4-fg"><div class="section-title"><div class="step-num">2</div><h3>Frame Generation</h3></div><div class="section-body"><p>Сравните native FG ON/OFF при NR OFF; затем при успешном NR проверьте NR ON при FG OFF. Совместный NR+FG/MFG в MW4 не подтверждён; не считайте высокое отображаемое FPS доказательством низкой задержки.</p></div></div>
+<div class="section step-section" id="mw4-diag"><div class="section-title"><div class="step-num">3</div><h3>Диагностика</h3></div><div class="section-body"><ul><li>Проверяйте фактическую DLL-цепочку и версию runtime, не только факт запуска игры.</li><li>Артефакты, ghosting или HUD-ошибки могут быть вызваны неподходящими motion vectors и буферами.</li><li>Поддержка обычного OptiScaler/DLSS input не означает поддержку NR или NR+FG.</li><li>При ошибке возвращайтесь к чистой native-конфигурации и не переносите результаты другой игры на MW4.</li></ul></div></div>
+<details class="autopilot-details" id="mw4-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и A/B-проверки</summary><div class="autopilot-details-body"><p>Матрица сравнений: native DLSS/FG OFF; native DLSS/FG ON; экспериментальный NR ON/FG OFF. Фиксируйте FPS, frame times, latency, DLL logs и визуальные артефакты. Нет опубликованной верификации game-specific NR+FG.</p></div></details>
+<div class="card source-list" id="mw4-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/Dagherbou/OptiScaler_DLSSNR" target="_blank" rel="noopener">OptiScaler_DLSSNR — документация и релизы</a></li><li><a href="https://docs.omniverse.nvidia.com/kit/docs/rtx_remix/latest/docs/introduction/intro-compatibility.html" target="_blank" rel="noopener">RTX Remix — официальный перечень требований</a></li><li><a href="https://www.callofduty.com/modernwarfare4/pc" target="_blank" rel="noopener">Modern Warfare 4 PC</a></li></ul></div>
 </section>
 
 <section class="tab-panel" id="blackops6">
@@ -3331,7 +3323,7 @@ External injectors OFF</pre></div></div>
 </div></details>
 <div class="card source-list" id="bladesoffire-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiScaler/wiki/Compatibility-List" target="_blank">OptiScaler Compatibility List</a></li><li><a href="https://www.nvidia.com/en-us/geforce/news/forza-horizon-6-dlss-4-5-super-resolution-multi-frame-gen/" target="_blank">NVIDIA — Blades of Fire v2.0 DLSS / MFG</a></li></ul></div>
 </section>
-<footer class="footer"><strong>Интерфейс v30:</strong> 43 игровых профиля, проверено <strong>25.10.2026</strong>. Актуализированы Game Ready <strong>621.01</strong> от 21.10, OptiPatcher stable <strong>v0.42</strong> и Rolling <strong>b3f8c1b (23.10)</strong>, REFramework nightly 01433 и ReShade 6.8.0; остальные компоненты без нового релиза (OptiScaler 0.9.4, Dagherbou DLSSNR 0.2.0, D18 0.5.0, Feeder stable 1.19.0 / beta 1.18.0-beta.2, Autopilot 2.0.9, RE_DLSS5_Load_Mod 0.63, NVIDIA SDK 310.9.16). Cyberpunk 2077 v2.5 получил native DLSS 4.5 / Dynamic MFG до 6×; game-specific паттерны уточнены для RDR2, STALKER 2, Beast, Mortal Shell II, Resonance, Townfall, Hellraiser, Gears E-Day. RTX 5080 / 4K: сначала native SR/RR/FG, затем отдельно NR. Поддержка DLSS/DLSSG input не подтверждает Neural Rendering или NR+RR+FG. Добавлен Modern Warfare 4: native DLSS 4.5/FG, RICOCHET, без сторонних NR/proxy DLL. Ранее добавленная диагностика всех игр и инструкция D18 сохранены.</footer>
+<footer class="footer"><strong>Интерфейс v31:</strong> 43 игровых профиля, проверено <strong>25.10.2026</strong>. Актуализированы Game Ready <strong>621.01</strong> от 21.10, OptiPatcher stable <strong>v0.42</strong> и Rolling <strong>b3f8c1b (23.10)</strong>, REFramework nightly 01433 и ReShade 6.8.0; остальные компоненты без нового релиза (OptiScaler 0.9.4, Dagherbou DLSSNR 0.2.0, D18 0.5.0, Feeder stable 1.19.0 / beta 1.18.0-beta.2, Autopilot 2.0.9, RE_DLSS5_Load_Mod 0.63, NVIDIA SDK 310.9.16). Cyberpunk 2077 v2.5 получил native DLSS 4.5 / Dynamic MFG до 6×; game-specific паттерны уточнены для RDR2, STALKER 2, Beast, Mortal Shell II, Resonance, Townfall, Hellraiser, Gears E-Day. RTX 5080 / 4K: сначала native SR/RR/FG, затем отдельно NR. Поддержка DLSS/DLSSG input не подтверждает Neural Rendering или NR+RR+FG. Добавлен официальный маршрут rtx-remix (1.6.1, DX8/DX9 remasters, DLSS 3D-Guided NR, RR, MFG). Modern Warfare 4: отдельный экспериментальный кандидат OptiScaler_DLSSNR через DLSS input, без подтверждения NR/NR+FG. Ранее добавленная диагностика всех игр и инструкция D18 сохранены.</footer>
 </div>
 <script>
 const allGames = [
