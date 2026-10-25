@@ -639,7 +639,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{
 <span aria-hidden="true" class="finder-shortcut">Ctrl K</span>
 </div>
 <div class="game-results" hidden="" id="gameResults" role="listbox"></div>
-</div><div class="meta"><span class="badge"><strong>Игр:</strong> 42</span>
+</div><div class="meta"><span class="badge"><strong>Игр:</strong> 43</span>
 <span class="badge"><strong>Проверено:</strong> 25.10.2026</span>
 <span class="badge"><strong>Режим:</strong> Story / Single Player</span>
 </div>
@@ -2779,6 +2779,47 @@ Alternative FG    OFF</pre>
 </ul></div>
 </section>
 
+<section class="tab-panel" id="mw4">
+<div class="game-head">
+<div class="card">
+<h2>Call of Duty: Modern Warfare 4</h2>
+<p>Релиз 23.10.2026. Официально подтверждены DLSS 4.5, встроенные средства Frame Generation и Ray Tracing. Для RTX 5080 / 4K используйте <strong>native</strong> маршрут — только настройки самой игры и предлагаемые NVIDIA App официальные overrides.</p>
+<div class="callout danger"><strong>RICOCHET Anti-Cheat: сторонние DLSS5-моды не рекомендованы</strong>Совместимость Neural Rendering / NR+FG не подтверждена. Не используйте OptiScaler, OptiPatcher, DLSS5-Feeder, bridge, ReShade add-ons, proxy DLL, ручной DLL swap или инъекцию даже для кампании: отсутствие anti-cheat рисков не установлено.</div>
+<div class="status-strip"><span class="status-pill warn">Native-only</span><span class="status-pill warn">Anti-cheat protected</span><span class="status-pill ok">Проверено: 25.10.2026</span></div>
+</div>
+<div class="card"><div class="summary-grid">
+<div class="metric"><div class="label">GPU</div><div class="value accent">RTX 5080 / 4K</div></div>
+<div class="metric"><div class="label">Upscaler</div><div class="value good">Native DLSS 4.5</div></div>
+<div class="metric"><div class="label">Neural Rendering</div><div class="value">Не подтверждён</div></div>
+<div class="metric"><div class="label">Защита</div><div class="value">RICOCHET</div></div>
+</div></div>
+</div>
+<div class="section recommended-profile" id="mw4-settings"><div class="section-title"><div class="step-num">★</div><h3>Рекомендуемые настройки RTX 5080 / 4K</h3></div><div class="section-body"><table class="matrix">
+<tr><th>Параметр</th><th>Рекомендация</th></tr>
+<tr><td>Разрешение</td><td>3840×2160</td></tr>
+<tr><td>Upscaler</td><td>Штатный NVIDIA DLSS 4.5 — Quality, затем Balanced при необходимости</td></tr>
+<tr><td>Frame Generation / MFG</td><td>Только штатный режим, если доступен; проверять исходный FPS и задержку</td></tr>
+<tr><td>Ray Tracing</td><td>Настроить с учётом базовой производительности</td></tr>
+<tr><td>Ray Reconstruction</td><td>Только если отдельно присутствует в официальных настройках игры</td></tr>
+<tr><td>Neural Rendering / NR+FG</td><td>Не подтверждены, сторонние способы не использовать</td></tr>
+<tr><td>OptiScaler / OptiPatcher / Feeder / bridge / ReShade</td><td>OFF — не устанавливать</td></tr>
+<tr><td>Proxy DLL / DLL replacement</td><td>Не выполнять в защищённом процессе</td></tr>
+</table><p class="small">Заявленная поддержка DLSS 4.5 и FG не подтверждает совместимость стороннего Neural Rendering. Цифры FPS RTX 5080 / 4K для игры здесь не заявляются.</p></div></div>
+<div class="section step-section" id="mw4-install"><div class="section-title"><div class="step-num">1</div><h3>Установить официальные обновления</h3></div><div class="section-body"><p>Обновите игру и NVIDIA Game Ready Driver; включите в меню NVIDIA DLSS 4.5 Quality. Используйте только официальные NVIDIA App overrides, если они отображаются для Modern Warfare 4.</p></div></div>
+<div class="section step-section" id="mw4-fg"><div class="section-title"><div class="step-num">2</div><h3>Frame Generation</h3></div><div class="section-body"><p>Применяйте только встроенную FG/MFG. Для сетевой игры отдавайте приоритет задержке ввода и высокому базовому FPS; NVIDIA Reflex используйте только при наличии штатной опции. Не внедряйте сторонний FG.</p></div></div>
+<div class="section step-section" id="mw4-diag"><div class="section-title"><div class="step-num">3</div><h3>Диагностика</h3></div><div class="section-body"><ul>
+<li>При артефактах сравните DLSS Quality / Balanced и выключите встроенный FG.</li>
+<li>При падении FPS проверьте RT-настройки, драйвер и отсутствие сторонних DLL.</li>
+<li>При предупреждении RICOCHET восстановите оригинальные файлы, не обходите anti-cheat.</li>
+<li>Поддержка DLSS/DLSSG input не является подтверждением Neural Rendering либо NR+RR+FG.</li>
+</ul></div></div>
+<details class="autopilot-details" id="mw4-artifacts" style="max-width:100%;margin-top:16px"><summary>Артефакты, FPS и совместимость</summary><div class="autopilot-details-body"><p>Проверяйте только встроенные SR/FG/RT на одинаковой сцене с оценкой задержки. Не экспериментируйте с proxy DLL и модами в процессе с RICOCHET. Внешний Neural Rendering / standalone-dlssnr / neural-upstream / optiscaler / bridge / feeder для данной игры не подтверждён.</p></div></details>
+<div class="card source-list" id="mw4-sources" style="margin-top:18px"><h3>Ссылки</h3><ul>
+<li><a href="https://www.callofduty.com/blog/2026/05/call-of-duty-modern-warfare-4-announcement" target="_blank">Официальный анонс Modern Warfare 4</a></li>
+<li><a href="https://www.callofduty.com/blog/2026/09/call-of-duty-modern-warfare-4-pc-trailer-tech-specs-features" target="_blank">Официальные DLSS 4.5 / RICOCHET / PC возможности</a></li>
+</ul></div>
+</section>
+
 <section class="tab-panel" id="blackops6">
 <div class="game-head">
 <div class="card">
@@ -3290,7 +3331,7 @@ External injectors OFF</pre></div></div>
 </div></details>
 <div class="card source-list" id="bladesoffire-sources" style="margin-top:18px"><h3>Ссылки</h3><ul><li><a href="https://github.com/optiscaler/OptiScaler/wiki/Compatibility-List" target="_blank">OptiScaler Compatibility List</a></li><li><a href="https://www.nvidia.com/en-us/geforce/news/forza-horizon-6-dlss-4-5-super-resolution-multi-frame-gen/" target="_blank">NVIDIA — Blades of Fire v2.0 DLSS / MFG</a></li></ul></div>
 </section>
-<footer class="footer"><strong>Интерфейс v29:</strong> 42 игровых профиля, проверено <strong>25.10.2026</strong>. Актуализированы Game Ready <strong>621.01</strong> от 21.10, OptiPatcher stable <strong>v0.42</strong> и Rolling <strong>b3f8c1b (23.10)</strong>, REFramework nightly 01433 и ReShade 6.8.0; остальные компоненты без нового релиза (OptiScaler 0.9.4, Dagherbou DLSSNR 0.2.0, D18 0.5.0, Feeder stable 1.19.0 / beta 1.18.0-beta.2, Autopilot 2.0.9, RE_DLSS5_Load_Mod 0.63, NVIDIA SDK 310.9.16). Cyberpunk 2077 v2.5 получил native DLSS 4.5 / Dynamic MFG до 6×; game-specific паттерны уточнены для RDR2, STALKER 2, Beast, Mortal Shell II, Resonance, Townfall, Hellraiser, Gears E-Day. RTX 5080 / 4K: сначала native SR/RR/FG, затем отдельно NR. Поддержка DLSS/DLSSG input не подтверждает Neural Rendering или NR+RR+FG. Ранее добавленная диагностика всех игр и инструкция D18 сохранены.</footer>
+<footer class="footer"><strong>Интерфейс v30:</strong> 43 игровых профиля, проверено <strong>25.10.2026</strong>. Актуализированы Game Ready <strong>621.01</strong> от 21.10, OptiPatcher stable <strong>v0.42</strong> и Rolling <strong>b3f8c1b (23.10)</strong>, REFramework nightly 01433 и ReShade 6.8.0; остальные компоненты без нового релиза (OptiScaler 0.9.4, Dagherbou DLSSNR 0.2.0, D18 0.5.0, Feeder stable 1.19.0 / beta 1.18.0-beta.2, Autopilot 2.0.9, RE_DLSS5_Load_Mod 0.63, NVIDIA SDK 310.9.16). Cyberpunk 2077 v2.5 получил native DLSS 4.5 / Dynamic MFG до 6×; game-specific паттерны уточнены для RDR2, STALKER 2, Beast, Mortal Shell II, Resonance, Townfall, Hellraiser, Gears E-Day. RTX 5080 / 4K: сначала native SR/RR/FG, затем отдельно NR. Поддержка DLSS/DLSSG input не подтверждает Neural Rendering или NR+RR+FG. Добавлен Modern Warfare 4: native DLSS 4.5/FG, RICOCHET, без сторонних NR/proxy DLL. Ранее добавленная диагностика всех игр и инструкция D18 сохранены.</footer>
 </div>
 <script>
 const allGames = [
@@ -3301,6 +3342,7 @@ const allGames = [
   { value: "beast", label: "Beast of Reincarnation" },
   { value: "bladesoffire", label: "Blades of Fire" },
   { value: "blackops6", label: "Call of Duty: Black Ops 6" },
+  { value: "mw4", label: "Call of Duty: Modern Warfare 4", aliases: ["Modern Warfare IV", "MW4", "COD MW4"] },
   { value: "hellraiserrevival", label: "Clive Barker's Hellraiser: Revival" },
   { value: "controlresonant", label: "CONTROL Resonant" },
   { value: "crimson", label: "Crimson Desert" },
