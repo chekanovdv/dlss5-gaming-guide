@@ -7,6 +7,7 @@ on:
       - main
     paths:
       - index.html
+      - favicon.svg
       - .github/workflows/deploy.yml
   workflow_dispatch:
 
@@ -30,6 +31,8 @@ jobs:
           test -s index.html
           grep -qi '<!DOCTYPE html' index.html
           grep -qi '<title>' index.html
+          test -s favicon.svg
+          grep -q '<svg' favicon.svg
 
       - name: Configure SSH
         env:
@@ -49,6 +52,7 @@ jobs:
           SSH_USER: ${{ secrets.SSH_USER }}
         run: |
           printf '%s\n' \
+            'put favicon.svg /home/mainuser/web/gaming.ramsu.ru/public_html/favicon.svg' \
             'put index.html /home/mainuser/web/gaming.ramsu.ru/public_html/index.html.new' \
             'rm /home/mainuser/web/gaming.ramsu.ru/public_html/index.html' \
             'rename /home/mainuser/web/gaming.ramsu.ru/public_html/index.html.new /home/mainuser/web/gaming.ramsu.ru/public_html/index.html' \
@@ -59,6 +63,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dlss5-production-html
-          path: index.html
+          path: |
+            index.html
+            favicon.svg
           if-no-files-found: error
           retention-days: 30
